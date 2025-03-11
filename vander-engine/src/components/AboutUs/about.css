@@ -1,0 +1,38 @@
+:root {
+    --primary-color: #1eb7c6;
+  }
+.about-hero{
+    background: url(/assets/aboutus.webp);
+    height: 300px;
+    position: relative;
+    z-index: 1;
+}
+.about-hero::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.6;
+    z-index: -1;
+}
+.about-head-1{
+    font-size: 3em;
+    font-weight: bold;
+    color: #fff;
+}
+.about-content h3{
+    color:var(--primary-color) ;
+    font-size: 2em;
+    font-weight: bold;
+}
+.about-content h4{
+    font-size: 2em;
+    font-weight: bold;
+}
+.about-content h5{
+    font-size: 2em;
+    font-weight: bold;
+}

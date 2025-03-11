@@ -1,0 +1,158 @@
+:root {
+  --primary-color: #1eb7c6;
+}
+/*---------------------------Contact-hero-----------------------------------*/
+.contact-hero {
+  background: url(/assets/aboutus.webp);
+  height: 300px;
+  position: relative;
+  z-index: 1;
+}
+.contact-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.6;
+  z-index: -1;
+}
+.contact-head-1 {
+  font-size: 3em;
+  font-weight: bold;
+  color: #fff;
+}
+/*---------------------------form-section-----------------------------------*/
+
+.contact-form {
+  /* border: 2px solid var(--primary-color); */
+  position: relative;
+  background-color: transparent;
+  background-image: linear-gradient(
+    253deg,
+    var(--primary-color) 9.69%,
+    #168a95 100%
+  );
+  z-index: 1;
+}
+
+.contact-form::before {
+  content: "";
+  background-image: url(/assets/bg-car-home-3-min.webp);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.2; /* Ensure opacity can be customized */
+  background-size: cover; /* Ensures the image covers the full element */
+  background-position: center; /* Keeps the image centered */
+  background-repeat: no-repeat; /* Prevents repeating of the background image */
+}
+
+/*---------------------------vander-features-box----------------------------------*/
+
+.vander-features-box {
+  background-color: var(--primary-color);
+  padding: 5px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transform: perspective(800px) translateZ(0);
+  color: #fff;
+}
+.vander-features-box:hover {
+  transform: perspective(800px) translateZ(15px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/*---------------------------vander-limited-time-offer-----------------------------------*/
+
+.vander-limited-time-offers {
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+.vander-offer-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  z-index: 1;
+}
+.vander-offer-title {
+  font-size: 1.5rem;
+  color: #007bff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.vander-offer-description {
+  font-size: 1rem;
+  color: #6c757d;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.vander-call-button {
+  background-color: var(--primary-color) !important;
+  border: 1px solid var(--primary-color) !important;
+}
+/*----------------------------------Contact-info----------------------------*/
+.contact-info i {
+  color: var(--primary-color);
+  background-color: #dae2e5;
+  padding: 10px;
+  border-radius: 100%;
+}
+.question-form {
+  padding: 20px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  margin: 0;
+  width: 90%;
+  border-radius: 10px;
+}
+/*-----------------------------Contact-form-2-----------------------------*/
+.contact-form-2 .form-select,
+.contact-form-2 .form-control {
+  border: none;
+  border-bottom: 1px solid var(--primary-color);
+  border-radius: 0;
+}
+.contact-form-2 i {
+  color: var(--primary-color);
+  font-size: 24px;
+}
+.customer-review h4 {
+  font-size: 3em;
+  font-weight: bold;
+}
+.customer-review h5 span {
+  color: var(--primary-color);
+}
+.form-start {
+  padding-left: 3rem;
+}
+.customer-review .card:hover{
+  box-shadow: 3px 3px 10px;
+}
+/*---------------------------Responsive--------------------------*/
+@media (max-width: 576px) {
+  .ms-5 {
+    margin-left: 0 !important;
+  }
+  .question-form {
+    width: 100%;
+  }
+  .form-start {
+    padding-left: 0rem;
+  }
+.form-select,
+.form-control {
+    font-size: 0.81em;
+    padding: 5px;
+  }
+
+}

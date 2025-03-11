@@ -1,0 +1,261 @@
+:root {
+    --primary-color: #1eb7c6;
+  }
+  @font-face {
+    font-family: text-font;
+    src: url(/DM_Sans/DMSans-VariableFont_opsz,wght.ttf);
+  }
+  .home {
+    background-color: rgb(238, 238, 238);
+  }
+  .text-line {
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: dash 5s linear infinite, filling 5s ease-in infinite;
+    font-size: 6vw;
+  }
+  
+  .text-line text {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @keyframes dash {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @keyframes filling {
+    0%,
+    90% {
+      fill: var(--primary-color);
+      fill-opacity: 0;
+    }
+    100% {
+      fill: var(--primary-color);
+      fill-opacity: 1;
+    }
+  }
+  .custom-btn {
+    /* width: 130px; */
+    /* height: 40px; */
+    color: #fff;
+    border-radius: 5px;
+    /* padding: 10px 25px; */
+    font-family: "Lato", sans-serif;
+    font-weight: 500;
+    background: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+      7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+    outline: none;
+  }
+  /* 9 */
+  .btn-9 {
+    border: none;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  .btn-9:after {
+    position: absolute;
+    content: " ";
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1fd1f9;
+    background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
+    transition: all 0.3s ease;
+  }
+  .btn-9:hover {
+    background: #1fd1f9;
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5),
+      -4px -4px 6px 0 rgba(116, 125, 136, 0.2),
+      inset -4px -4px 6px 0 rgba(255, 255, 255, 0.5),
+      inset 4px 4px 6px 0 rgba(116, 125, 136, 0.3);
+    color: #fff;
+  }
+  .btn-9:hover:after {
+    -webkit-transform: scale(2) rotate(180deg);
+    transform: scale(2) rotate(180deg);
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5),
+      -4px -4px 6px 0 rgba(116, 125, 136, 0.2),
+      inset -4px -4px 6px 0 rgba(255, 255, 255, 0.5),
+      inset 4px 4px 6px 0 rgba(116, 125, 136, 0.3);
+  }
+  .main-form {
+    border: 2px dotted var(--primary-color);
+    background-color: #fff;
+  }
+  
+  /* Submit Button Pulse Effect */
+  /* .btn-block {
+    background-color: var(--primary-color);
+    color: #fff;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  } */
+  .main-form .form-select,
+  .main-form .form-control {
+    border: none;
+    border-bottom: 1px solid var(--primary-color);
+    border-radius: 0;
+    /* padding: 0; */
+  }
+  
+  .form-control::placeholder {
+    color: #212529;
+  }
+  .btn-block {
+    background-color: var(--primary-color);
+    color: #fff;
+  }
+  .btn-block:hover {
+    background-color: #312f2f;
+    color: #fff;
+  }
+  /* Hover effect for car image */
+  .car-area img {
+    animation: car-move 3s ease-in-out infinite;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  @keyframes car-move {
+    0% {
+      transform: translateX(-4%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+  
+  /*----------------------------------Shipping-css--------------------------------*/
+  .shipping {
+    background-color: var(--primary-color);
+  }
+  .shipping-col {
+    border-left: 1px solid #fff;
+  }
+  /*----------------------------------CardSecion1--------------------------------*/
+  .cardPro {
+    /* border: 1px solid var(--primary-color); */
+    border-radius: 0;
+    box-shadow: 0px 2px 2px;
+    padding: 10px;
+    position: relative;
+  }
+  .cardPro:hover {
+    box-shadow: 0 0 10px;
+  }
+  .cardPro p {
+    margin-bottom: 0.5rem;
+  }
+  .theme-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 0;
+  }
+  .card-btn {
+    position: absolute;
+    bottom: 10px;
+  }
+  .theme-btn:hover {
+    background-color: #312f2f;
+    color: #fff;
+  }
+  .starArea i {
+    color: rgb(255, 208, 0);
+  }
+  .owl-carousel {
+    display: block;
+  }
+  #HeadPro {
+    color: var(--primary-color);
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #variant {
+    font-size: small;
+  }
+  /*---------------------------------About-Us--------------------------------------*/
+  
+  .aboutus h4 {
+    font-size: 3vw;
+    font-weight: bold;
+  }
+  .aboutus p,
+  .aboutus ul {
+    text-align: justify;
+  }
+  /* home.css */
+  
+  .aboutus .container-fluid {
+    opacity: 0; /* Initially invisible */
+    transform: translateY(100px); /* Start below the normal position */
+    transition: opacity 1s, transform 1s; /* Animation for fade and move */
+  }
+  
+  .aboutus .container-fluid.animate {
+    opacity: 1; /* Final state: visible */
+    transform: translateY(0); /* Scroll into place */
+  }
+  
+  /* Optional: Add a smooth scroll effect to the button */
+  .theme-btn {
+    transition: all 0.3s ease;
+  }
+  
+  .theme-btn:hover {
+    transform: translateY(-3px);
+  }
+  
+  /*-------------------------------------Responsive CSS-----------------------------*/
+  @media screen and (max-width: 768px) {
+    .car-area {
+      order: 2;
+    }
+    .form-area {
+      order: 1;
+    }
+    .shipping-col {
+      border-bottom: 1px solid #fff;
+    }
+    .main-form .form-select,
+    .main-form .form-control {
+      padding: 0;
+    }
+    .ps-5 {
+      padding-left: 10px !important;
+    }
+    .aboutus h4 {
+      font-size: 5vw;
+      font-weight: bold;
+    }
+  }
+  @media (max-width: 350px) {
+    .cardPro .card {
+      margin: 0px !important;
+    }
+  }
+  
