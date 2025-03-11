@@ -41,23 +41,22 @@ export default function variant({
         // router.push("/addtocart")
     };
     const router = useRouter();
-    const { year, make, model, variant } = router.query;
-    const [engineDetails, setEngineDetails] = useState(null);
+    const { category,year, make, model, variant } = router.query;
+    const [productDetails, setProductDetails] = useState(null);
     useEffect(() => {
-        // If all required parameters are available
-        if (year && make && model) {
+        if (category && year && make && model) {
             const fetchProducts = async () => {
                 try {
-                    // Mock data structure to be replaced with actual API call
-                    const transmissionData = await axios.get('https://backend.vanderengines.com/api/engines');
+                    const apiUrl = category === 'engine'
+                        ? 'https://backend.vanderengines.com/api/engines'
+                        : 'https://backend.vanderengines.com/api/transmission';
+
+                    const productData = await axios.get(apiUrl);
 
                     let data = [];
 
                     if (variant === "Display All") {
-                        // If "Display All" is selected, fetch all variants for the selected year, make, and model
-                        Object.entries(
-                            transmissionData.data[year][make][model] || {}
-                        ).forEach(([variantName, product]) => {
+                        Object.entries(productData.data[year][make][model] || {}).forEach(([variantName, product]) => {
                             if (product) {
                                 data.push({
                                     ...product,
@@ -69,8 +68,7 @@ export default function variant({
                             }
                         });
                     } else {
-                        // If a specific variant is selected
-                        const selectedVariantData = transmissionData.data[year][make][model][variant];
+                        const selectedVariantData = productData.data[year][make][model][variant];
                         if (selectedVariantData) {
                             data.push({
                                 ...selectedVariantData,
@@ -82,7 +80,7 @@ export default function variant({
                         }
                     }
 
-                    setEngineDetails(data);
+                    setProductDetails(data);
                 } catch (error) {
                     console.error('Error fetching products:', error);
                 } finally {
@@ -92,25 +90,7 @@ export default function variant({
 
             fetchProducts();
         }
-    }, [year, make, model, variant]);
-    // useEffect(() => {
-    //     if (!year || !make || !model || !variant) return;
-
-    //     const fetchEngineDetails = async () => {
-    //         try {
-    //             const response = await axios.get(
-    //                 `https://backend.vanderengines.com/api/engines/${year}/${make}/${model}/${variant}`
-    //             );
-    //             setEngineDetails(response.data);
-    //             console.log(response.data)
-    //         } catch (error) {
-    //             console.error("Error fetching engine details:", error);
-    //         }
-    //     };
-
-    //     fetchEngineDetails();
-    // }, [year, make, model, variant]);
-
+    }, [category, year, make, model, variant]);
     console.log("Received props:", origin);
 
     const validatePhoneNumber = (number) => {
@@ -146,51 +126,56 @@ export default function variant({
 
         return ""; // Valid number
     };
-
     useEffect(() => {
-        axios
-            .get("https://backend.vanderengines.com/api/engines")
-            .then((response) => {
+        const fetchYears = async () => {
+            try {
+                const apiUrl = category === 'engine'
+                    ? 'https://backend.vanderengines.com/api/engines'
+                    : 'https://backend.vanderengines.com/api/transmission';
+
+                const response = await axios.get(apiUrl);
                 const data = response.data;
                 setTransmissionData(data);
-
                 const uniqueYears = Object.keys(data);
-                setYears(uniqueYears.filter((year) => year).sort());
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-    }, []);
+                setYears(uniqueYears.filter(year => year).sort());
+            } catch (error) {
+                console.error('Error fetching years:', error);
+            }
+        };
+
+        if (category) {
+            fetchYears();
+        }
+    }, [category]);
 
     useEffect(() => {
         if (selectedYear) {
             const yearData = transmissionData[selectedYear];
-            setMakes(Object.keys(yearData || {}).filter((make) => make));
+            setMakes(Object.keys(yearData || {}).filter(make => make));
             setModels([]);
             setVariants([]);
-            setSelectedMake("");
-            setSelectedModel("");
-            setSelectedVariant("");
+            setSelectedMake('');
+            setSelectedModel('');
+            setSelectedVariant('');
         }
     }, [selectedYear, transmissionData]);
 
     useEffect(() => {
         if (selectedYear && selectedMake) {
             const makeData = transmissionData[selectedYear][selectedMake];
-            setModels(Object.keys(makeData || {}).filter((model) => model));
+            setModels(Object.keys(makeData || {}).filter(model => model));
             setVariants([]);
-            setSelectedModel("");
-            setSelectedVariant("");
+            setSelectedModel('');
+            setSelectedVariant('');
         }
     }, [selectedYear, selectedMake, transmissionData]);
 
     useEffect(() => {
         if (selectedYear && selectedMake && selectedModel) {
-            const modelData =
-                transmissionData[selectedYear][selectedMake][selectedModel];
-            const variantOptions = Object.keys(modelData || {}).filter(
-                (variant) => variant
-            );
-            setVariants([...variantOptions, "Display All"]);
-            setSelectedVariant("");
+            const modelData = transmissionData[selectedYear][selectedMake][selectedModel];
+            const variantOptions = Object.keys(modelData || {}).filter(variant => variant);
+            setVariants([...variantOptions, 'Display All']);
+            setSelectedVariant('');
         }
     }, [selectedYear, selectedMake, selectedModel, transmissionData]);
 
@@ -198,24 +183,22 @@ export default function variant({
         e.preventDefault();
 
         if (!selectedYear || !selectedMake || !selectedModel || !selectedVariant) {
-            alert("Please select all fields before searching.");
+            alert('Please select all fields before searching.');
             return;
         }
-        //handlePhoneSubmit();
-        // Skip phone validation if we are already on the product page (or if we are not submitting the form)
-        const path = `/engine/${selectedYear}/${selectedMake}/${selectedModel}/${selectedVariant}`;
 
-        router.push(path); // Navigate to the dynamic route based on selections
-
+        const path = category === 'engine'
+            ? `/engine/${selectedYear}/${selectedMake}/${selectedModel}/${selectedVariant}`
+            : `/transmission/${selectedYear}/${selectedMake}/${selectedModel}/${selectedVariant}`;
+        router.push(path);
     };
 
     const handlePhoneSubmit = async () => {
         const error = validatePhoneNumber(phoneNumber);
         if (error) {
-            alert(error); // Show the validation error directly
+            alert(error); 
             return;
         }
-        // Ensure the variant field is selected as part of the form submission
         if (!selectedVariant) {
 
             return;
@@ -225,12 +208,12 @@ export default function variant({
             setShowModal(false);
             const isPopupHandled = sessionStorage.getItem("hasSeenPopup");
             if (!isPopupHandled && isFirstSubmit) {
-                await submitForm(); // Submit the form only the first time in this session
-                sessionStorage.setItem("hasSeenPopup", "true"); // Mark the popup as handled for this session
-                setIsFirstSubmit(false); // Mark as not the first submission
+                await submitForm();
+                sessionStorage.setItem("hasSeenPopup", "true"); 
+                setIsFirstSubmit(false); 
             }
 
-            performSearch(); // Perform the search\
+            performSearch();
             setForm1SuccessMessage("Form submitted successfully! Thank you.");
         } else {
             alert("Please enter a valid phone number");
