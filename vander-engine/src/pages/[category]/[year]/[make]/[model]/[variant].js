@@ -9,11 +9,12 @@ import "@/components/Engine/EngineForm.css"
 import EngineList from "@/components/Home/EngineList";
 import ReadMore from "@/components/Transmission/ReadMore";
 
-export default function variant({
+export default function Variant({
     showproduct,
     searchParams,
     setSearchParams,
-    origin }) {
+    origin,
+}) {
     const [phoneError, setPhoneError] = useState(""); // Error message for phone
     const [name, setName] = useState("");  // Correct initial state
     const [email, setEmail] = useState(""); // Correct initial state
@@ -41,7 +42,7 @@ export default function variant({
         // router.push("/addtocart")
     };
     const router = useRouter();
-    const { category,year, make, model, variant } = router.query;
+    const { category, year, make, model, variant } = router.query;
     const [productDetails, setProductDetails] = useState(null);
     useEffect(() => {
         if (category && year && make && model) {
@@ -196,7 +197,7 @@ export default function variant({
     const handlePhoneSubmit = async () => {
         const error = validatePhoneNumber(phoneNumber);
         if (error) {
-            alert(error); 
+            alert(error);
             return;
         }
         if (!selectedVariant) {
@@ -209,8 +210,8 @@ export default function variant({
             const isPopupHandled = sessionStorage.getItem("hasSeenPopup");
             if (!isPopupHandled && isFirstSubmit) {
                 await submitForm();
-                sessionStorage.setItem("hasSeenPopup", "true"); 
-                setIsFirstSubmit(false); 
+                sessionStorage.setItem("hasSeenPopup", "true");
+                setIsFirstSubmit(false);
             }
 
             performSearch();
@@ -542,7 +543,6 @@ export default function variant({
                         </div>
                     </form>
                 </div>
-
                 {displayedProducts.length > 0 ? (
                     <div className="product-card-container">
                         {displayedProducts.map((product, index) => (
@@ -591,9 +591,6 @@ export default function variant({
                                         >
                                             Buy Now
                                         </button>
-
-
-
                                         <button
                                             className="add-to-cart-btn btn theme-btn"
                                             onClick={() => {
@@ -625,6 +622,7 @@ export default function variant({
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col-lg-6 text-center">
+
                                 <h4 className="">
                                     Find Your <span>Engine </span>
                                 </h4>

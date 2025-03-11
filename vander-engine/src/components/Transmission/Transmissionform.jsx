@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import "./TransmissionForm.css";
-// import Swal from "sweetalert2";
 import { useRouter } from "next/router";
-// import AchievementTransmission from "../Contact/AchievementTransmission";
-// import FindTransmission2 from "./FindTransmission2";
 import Link from "next/link";
 import FindTransmission2 from "./FindTransmission2";
 import AchievementTransmission from "../Contact/AchievementTransmission";
 import "./TransmissionForm.css"
-// import { useParams } from "react-router-dom";
 export default function Transmissionform({
   handleAddToCart,
-  showproduct,
-  searchParams,
-  setSearchParams,
+  origin
 }) {
-  const [phoneError, setPhoneError] = useState("");
-  const [name, setName] = useState("");  // Correct initial state
-    const [email, setEmail] = useState(""); // Correct initial state
-  
+  const [phoneError, setPhoneError] = useState(""); 
+  const [name, setName] = useState(""); 
+  const [email, setEmail] = useState(""); 
   const [years, setYears] = useState([]);
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
@@ -32,31 +24,25 @@ export default function Transmissionform({
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
-
   const [isFirstSubmit, setIsFirstSubmit] = useState(true);
   const [form1SuccessMessage, setForm1SuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false); // Add loading state
-
+  const [loading, setLoading] = useState(false); // Added loading state
   const router = useRouter();
-  const { year, make, model, variant } = router.query;
+  console.log("Received props:", origin);
   const validatePhoneNumber = (number) => {
-    // Ensure the number always starts with '+1'
     if (!number.startsWith("+1")) {
       return "Phone number must start with +1.";
     }
-
-    const numberWithoutPrefix = number.slice(2); // Remove '+1'
-
-    const isValidLength = numberWithoutPrefix.length === 10; // Check for exactly 10 digits
-    const isDigitsOnly = /^[0-9]+$/.test(numberWithoutPrefix); // Ensure only digits
-    const noRepeatedDigits = /^(?!.*(\d)\1{6}).*$/; // Prevent more than 2 repeated digits
+    const numberWithoutPrefix = number.slice(2); 
+    const isValidLength = numberWithoutPrefix.length === 10; 
+    const isDigitsOnly = /^[0-9]+$/.test(numberWithoutPrefix);
+    const noRepeatedDigits = /^(?!.*(\d)\1{6}).*$/; 
     const dummyNumbers = [
       "1234567890",
       "9876543210",
       "1111111111",
       "2222222222",
     ];
-
     if (!isValidLength) {
       return "Phone number must be exactly 10 digits after +1.";
     }
@@ -69,8 +55,7 @@ export default function Transmissionform({
     if (!noRepeatedDigits.test(numberWithoutPrefix)) {
       return "Phone number cannot have more than 6 consecutive repeated digits.";
     }
-
-    return ""; // Valid number
+    return "";
   };
   useEffect(() => {
     axios
@@ -96,7 +81,6 @@ export default function Transmissionform({
       setSelectedVariant("");
     }
   }, [selectedYear, transmissionData]);
-
   useEffect(() => {
     if (selectedYear && selectedMake) {
       const makeData = transmissionData[selectedYear][selectedMake];
@@ -122,62 +106,48 @@ export default function Transmissionform({
   const handleSearch = (e) => {
     e.preventDefault();
 
-    // Ensure all required fields are selected
     if (!selectedYear || !selectedMake || !selectedModel || !selectedVariant) {
       alert("Please select all fields before searching.");
       return;
     }
-    //handlePhoneSubmit();
-    // Skip phone validation if we are already on the product page (or if we are not submitting the form)
-    const path = `/transmission/${selectedYear}/${selectedMake}/${selectedModel}`;
-   router.push(path);
+    const path = `/transmission/${selectedYear}/${selectedMake}/${selectedModel}/${selectedVariant}`;
+    router.push(path);
   };
-
   const handlePhoneSubmit = async () => {
     const error = validatePhoneNumber(phoneNumber);
     if (error) {
-      alert(error); // Show the validation error directly
+      alert(error); 
       return;
     }
     if (!selectedVariant) {
-
       return;
     }
     if (phoneNumber.trim()) {
       setShowModal(false);
-
-      // Check if the popup has been handled in this session
       const isPopupHandled = sessionStorage.getItem("hasSeenPopup");
       if (!isPopupHandled && isFirstSubmit) {
-        await submitForm(); // Submit the form only the first time in this session
-        sessionStorage.setItem("hasSeenPopup", "true"); // Mark the popup as handled for this session
-        setIsFirstSubmit(false); // Mark as not the first submission
+        await submitForm();
+        sessionStorage.setItem("hasSeenPopup", "true"); 
+        setIsFirstSubmit(false); 
       }
-
-      performSearch(); // Perform the search
+      performSearch(); 
       setForm1SuccessMessage("Form submitted successfully! Thank you.");
     } else {
       alert("Please enter a valid phone number");
     }
   };
-
   const handlePhoneInputChange = (e) => {
     let value = e.target.value;
-
-    // Ensure '+1' is always at the start
     if (!value.startsWith("+1")) {
-      value = "+1" + value.replace(/[^0-9]/g, ""); // Re-add '+1' if missing and remove invalid characters
+      value = "+1" + value.replace(/[^0-9]/g, ""); 
     } else {
-      value = "+1" + value.slice(2).replace(/[^0-9]/g, ""); // Ensure only digits after '+1'
+      value = "+1" + value.slice(2).replace(/[^0-9]/g, ""); 
     }
-
     setPhoneNumber(value);
-    setPhoneError(validatePhoneNumber(value)); // Update phoneError state dynamically
+    setPhoneError(validatePhoneNumber(value)); 
   };
-
   const performSearch = () => {
     let products = [];
-
     if (selectedVariant === "Display All") {
       Object.entries(
         transmissionData[selectedYear][selectedMake][selectedModel] || {}
@@ -205,7 +175,6 @@ export default function Transmissionform({
           variant: selectedVariant,
         });
     }
-
     products = products.map((product) => ({
       name: product.name || "N/A",
       Stock: product.Stock || "N/A",
@@ -220,25 +189,23 @@ export default function Transmissionform({
       make: product.make || "N/A",
       model: product.model || "N/A",
     }));
-
     setDisplayedProducts(products);
   };
-
   const submitForm = async () => {
     const formData = {
-      part: "MyformTransmission",
+      part: "MyformEngine",
       year: selectedYear,
       make: selectedMake,
       model: selectedModel,
       variant: selectedVariant,
       phone: phoneNumber,
     };
-
     try {
       const response = await axios.post(
         "https://backend.vanderengines.com/api/leads",
         formData
       );
+      console.log(formData)
       console.log(response.data);
       setForm1SuccessMessage("Form submitted successfully! Thank you.");
       setSelectedYear("");
@@ -248,43 +215,19 @@ export default function Transmissionform({
       setPhoneNumber("");
     } catch (error) {
       console.error("There was an error submitting the form!", error);
-      // Swal.fire("Error", "There was an error submitting the form!", "error");
     }
   };
-
   const handleYearChange = (e) => {
-    // const { name, value, type, checked } = e.target;
-
-    // if (name === "phone") {
-    //   let updatedValue = value;
-
-    //   // Ensure '+1' is always present
-    //   if (!updatedValue.startsWith("+1")) {
-    //     updatedValue = "+1" + updatedValue.replace(/[^0-9]/g, ""); // Re-add '+1' if missing and remove invalid characters
-    //   }
-
-    //   // Validate the phone number
-    //   const error = validatePhoneNumber(updatedValue);
-    //   setPhoneError(error); // Set the error message
-
-    //   setFormData((prev) => ({
-    //     ...prev,
-    //     phone: updatedValue, // Update with the corrected value
-    //   }));
-
-    //   return; // Exit here to avoid further processing for phone
-    // }
-
     const year = e.target.value;
     setSelectedYear(year);
-    setSelectedMake("");
-    setSelectedModel("");
-    setSelectedVariant("");
-    setMakes([]);
+    setSelectedMake(""); 
+    setSelectedModel(""); 
+    setSelectedVariant(""); 
+    setMakes([]); 
     setModels([]);
     setVariants([]);
   };
-  //--------------------------------------------
+  //-------------------------------------------------
   useEffect(() => {
     const initCarousel = () => {
       if (window.$ && window.$.fn && window.$.fn.owlCarousel) {
@@ -303,15 +246,10 @@ export default function Transmissionform({
         console.error("OwlCarousel or jQuery not available");
       }
     };
-
-    // Delay the init to make sure scripts are loaded
     setTimeout(initCarousel, 500);
   }, []);
-
   const handleSubmite = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-  
-    // Perform form validation
+    e.preventDefault();
     if (
       !selectedYear ||
       !selectedMake ||
@@ -321,15 +259,14 @@ export default function Transmissionform({
       !name ||
       !email
     ) {
-      // You can show an error message or alert if any required field is empty
       alert("Please fill out all fields before submitting.");
-      return; // Stop further execution if validation fails
+      return; 
     }
-  
-    setLoading(true); // Start loading
+
+    setLoading(true); 
     try {
       const formData = {
-        part: "Transmission",
+        part: "Engine",
         year: selectedYear,
         make: selectedMake,
         model: selectedModel,
@@ -337,18 +274,15 @@ export default function Transmissionform({
         phone: phoneNumber,
         name: name,
         email: email,
-        message: "",  // You can add a message if needed
-        agreed: "Homepage1", // Adjust accordingly
+        message: "", 
+        agreed: "Homepage1", 
       };
-  
       const response = await axios.post(
         "https://backend.vanderengines.com/api/leads",
         formData
       );
       console.log(response.data);
-      router.push('/thankyou'); // Navigate to thank you page after successful submission
-  
-      // Reset form fields after successful submission
+      router.push('/thankyou'); 
       setSelectedYear("");
       setSelectedMake("");
       setSelectedModel("");
@@ -356,25 +290,21 @@ export default function Transmissionform({
       setPhoneNumber("");
       setName("");
       setEmail("");
-      setPhoneError(""); // Reset phone error state
+      setPhoneError(""); 
     } catch (error) {
       console.error("There was an error submitting the form!", error);
       alert("There was an error submitting the form!");
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false); 
     }
   };
-  
   const handleSubmitButtonClick = (e) => {
-    e.preventDefault(); // Prevent any default behavior (in case you're inside a form)
-    
-    // Call the handleSubmit function when the button is clicked
+    e.preventDefault();
     handleSubmite(e);
   };
   return (
     <div className="container">
-
-<div className="transmission-form text-white container mb-5 mt-4" id="trans-form">
+      <div className="transmission-form text-white container mb-5 mt-4" id="trans-form">
         <div className="row">
           <div className="col-lg-6">
             <span className="me-3">Search Your Transmission Here</span>
@@ -488,9 +418,8 @@ export default function Transmissionform({
           </div>
         </form>
       </div>
-
-     {/* Product Cards */}
-     {displayedProducts.length > 0 ? (
+      {/* Product Cards */}
+      {displayedProducts.length > 0 ? (
         <div className="product-card-container">
           {displayedProducts.map((product, index) => (
             <div className="col-lg-3 mb-4" key={index}>
@@ -531,7 +460,7 @@ export default function Transmissionform({
                         stockNumber: product.Stock,
                         variant: product.variant,
                         imageURL: product.image,
-                        quantity: 1,  
+                        quantity: 1,
                       });
                       router.push("/addtocart");
                     }}
@@ -570,8 +499,6 @@ export default function Transmissionform({
       ) : (
         <p></p>
       )}
-
- 
       {/* Modal for Phone Number */}
       {showModal && (
         <div

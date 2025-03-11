@@ -1,26 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import Swal from "sweetalert2";
 import { useRouter } from "next/router";
-// import Achievement from "../Contact/Achievement";
-// import FindTransmission2 from "../Transmission/FindTransmission2";
 import Link from "next/link";
 import "../Transmission/transmission.css"
 import FindTransmission2 from "../Transmission/FindTransmission2";
 import Achievement from "../Contact/Achievement";
-// import { useParams } from "react-router-dom";
-
 export default function EngineForm({
   handleAddToCart,
-  showproduct,
-  searchParams,
-  setSearchParams,
   origin
 }) {
-  const [phoneError, setPhoneError] = useState(""); // Error message for phone
-  const [name, setName] = useState("");  // Correct initial state
-  const [email, setEmail] = useState(""); // Correct initial state
-
+  const [phoneError, setPhoneError] = useState("");
   const [years, setYears] = useState([]);
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
@@ -34,32 +23,24 @@ export default function EngineForm({
   const [showModal, setShowModal] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isFirstSubmit, setIsFirstSubmit] = useState(true);
-
   const [form1SuccessMessage, setForm1SuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false); // Added loading state
-
   const router = useRouter();
-  const { year, make, model, variant } = router.query;
   console.log("Received props:", origin);
 
   const validatePhoneNumber = (number) => {
-    // Ensure the number always starts with '+1'
     if (!number.startsWith("+1")) {
       return "Phone number must start with +1.";
     }
-
-    const numberWithoutPrefix = number.slice(2); // Remove '+1'
-
-    const isValidLength = numberWithoutPrefix.length === 10; // Check for exactly 10 digits
-    const isDigitsOnly = /^[0-9]+$/.test(numberWithoutPrefix); // Ensure only digits
-    const noRepeatedDigits = /^(?!.*(\d)\1{6}).*$/; // Prevent more than 2 repeated digits
+    const numberWithoutPrefix = number.slice(2);
+    const isValidLength = numberWithoutPrefix.length === 10;
+    const isDigitsOnly = /^[0-9]+$/.test(numberWithoutPrefix);
+    const noRepeatedDigits = /^(?!.*(\d)\1{6}).*$/;
     const dummyNumbers = [
       "1234567890",
       "9876543210",
       "1111111111",
       "2222222222",
     ];
-
     if (!isValidLength) {
       return "Phone number must be exactly 10 digits after +1.";
     }
@@ -72,8 +53,7 @@ export default function EngineForm({
     if (!noRepeatedDigits.test(numberWithoutPrefix)) {
       return "Phone number cannot have more than 6 consecutive repeated digits.";
     }
-
-    return ""; // Valid number
+    return "";
   };
 
   useEffect(() => {
@@ -130,61 +110,46 @@ export default function EngineForm({
       alert("Please select all fields before searching.");
       return;
     }
-    //handlePhoneSubmit();
-    // Skip phone validation if we are already on the product page (or if we are not submitting the form)
-const path = `/engine/${selectedYear}/${selectedMake}/${selectedModel}/${selectedVariant}`; 
-
-router.push(path); // Navigate to the dynamic route based on selections
-
+    const path = `/engine/${selectedYear}/${selectedMake}/${selectedModel}/${selectedVariant}`;
+    router.push(path);
   };
 
   const handlePhoneSubmit = async () => {
     const error = validatePhoneNumber(phoneNumber);
     if (error) {
-      alert(error); // Show the validation error directly
+      alert(error);
       return;
     }
-    // Ensure the variant field is selected as part of the form submission
     if (!selectedVariant) {
-
       return;
     }
-
     if (phoneNumber.trim()) {
       setShowModal(false);
-
-      // Check if the popup has been handled in this session
       const isPopupHandled = sessionStorage.getItem("hasSeenPopup");
       if (!isPopupHandled && isFirstSubmit) {
-        await submitForm(); // Submit the form only the first time in this session
-        sessionStorage.setItem("hasSeenPopup", "true"); // Mark the popup as handled for this session
-        setIsFirstSubmit(false); // Mark as not the first submission
+        await submitForm();
+        sessionStorage.setItem("hasSeenPopup", "true");
+        setIsFirstSubmit(false);
       }
-
-      performSearch(); // Perform the search\
+      await submitForm();
+      performSearch();
       setForm1SuccessMessage("Form submitted successfully! Thank you.");
     } else {
       alert("Please enter a valid phone number");
     }
   };
-
   const handlePhoneInputChange = (e) => {
     let value = e.target.value;
-
-    // Ensure '+1' is always at the start
     if (!value.startsWith("+1")) {
-      value = "+1" + value.replace(/[^0-9]/g, ""); // Re-add '+1' if missing and remove invalid characters
+      value = "+1" + value.replace(/[^0-9]/g, "");
     } else {
-      value = "+1" + value.slice(2).replace(/[^0-9]/g, ""); // Ensure only digits after '+1'
+      value = "+1" + value.slice(2).replace(/[^0-9]/g, "");
     }
-
     setPhoneNumber(value);
-    setPhoneError(validatePhoneNumber(value)); // Update phoneError state dynamically
+    setPhoneError(validatePhoneNumber(value));
   };
-
   const performSearch = () => {
     let products = [];
-
     if (selectedVariant === "Display All") {
       Object.entries(
         transmissionData[selectedYear][selectedMake][selectedModel] || {}
@@ -259,10 +224,8 @@ router.push(path); // Navigate to the dynamic route based on selections
       // Swal.fire("Error", "There was an error submitting the form!", "error");
     }
   };
-
   const handleYearChange = (e) => {
     const year = e.target.value;
-
     setSelectedYear(year); // Update selected year
     setSelectedMake(""); // Reset make
     setSelectedModel(""); // Reset model
@@ -271,7 +234,6 @@ router.push(path); // Navigate to the dynamic route based on selections
     setModels([]); // Clear models
     setVariants([]); // Clear variants
   };
-
   //-------------------------------------------------
   useEffect(() => {
     const initCarousel = () => {
@@ -291,73 +253,9 @@ router.push(path); // Navigate to the dynamic route based on selections
         console.error("OwlCarousel or jQuery not available");
       }
     };
-
-    // Delay the init to make sure scripts are loaded
     setTimeout(initCarousel, 500);
   }, []);
-  const handleSubmite = async (e) => {
-    e.preventDefault(); // Prevent default form submission
 
-    // Perform form validation
-    if (
-      !selectedYear ||
-      !selectedMake ||
-      !selectedModel ||
-      !selectedVariant ||
-      !phoneNumber ||
-      !name ||
-      !email
-    ) {
-      // You can show an error message or alert if any required field is empty
-      alert("Please fill out all fields before submitting.");
-      return; // Stop further execution if validation fails
-    }
-
-    setLoading(true); // Start loading
-    try {
-      const formData = {
-        part: "Engine",
-        year: selectedYear,
-        make: selectedMake,
-        model: selectedModel,
-        variant: selectedVariant,
-        phone: phoneNumber,
-        name: name,
-        email: email,
-        message: "",  // You can add a message if needed
-        agreed: "Homepage1", // Adjust accordingly
-      };
-
-      const response = await axios.post(
-        "https://backend.vanderengines.com/api/leads",
-        formData
-      );
-      console.log(response.data);
-      router.push('/thankyou'); // Navigate to thank you page after successful submission
-
-      // Reset form fields after successful submission
-      setSelectedYear("");
-      setSelectedMake("");
-      setSelectedModel("");
-      setSelectedVariant("");
-      setPhoneNumber("");
-      setName("");
-      setEmail("");
-      setPhoneError(""); // Reset phone error state
-    } catch (error) {
-      console.error("There was an error submitting the form!", error);
-      alert("There was an error submitting the form!");
-    } finally {
-      setLoading(false); // Stop loading
-    }
-  };
-
-  const handleSubmitButtonClick = (e) => {
-    e.preventDefault(); // Prevent any default behavior (in case you're inside a form)
-
-    // Call the handleSubmit function when the button is clicked
-    handleSubmite(e);
-  };
   return (
     <>
       <div className="container">
@@ -463,7 +361,9 @@ router.push(path); // Navigate to the dynamic route based on selections
                 <button
                   type="submit"
                   className="btn btn-block transmission-btn w-100 mt-4 text-white"
-                  onClick={handlePhoneSubmit}
+                  onClick={
+                    handlePhoneSubmit
+                    }
                 >
                   Search
                 </button>
@@ -518,7 +418,7 @@ router.push(path); // Navigate to the dynamic route based on selections
                           imageURL: product.image,
                           quantity: 1,
                         });
-                      router.push("/addtocart");
+                        router.push("/addtocart");
                       }}
                     >
                       Buy Now
@@ -755,7 +655,7 @@ router.push(path); // Navigate to the dynamic route based on selections
           </div>
         )}{" "}
 
-      
+
       </div >
     </>
   );
