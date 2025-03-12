@@ -57,6 +57,7 @@ export default function Header() {
                 { href: "https://vanderengines.com/blog/", label: "Blogs" },
                 { href: "/contact", label: "Contact" },
                 { href: "/Policies", label: "Our Policies" },
+                { href: "/financing", label: "Financing" },
               ].map(({ href, label }) => (
                 <li className="nav-item" key={href}>
                   <Link href={href} className="nav-link" onClick={closeNavbar}>
