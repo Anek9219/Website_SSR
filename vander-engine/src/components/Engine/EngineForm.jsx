@@ -5,6 +5,8 @@ import Link from "next/link";
 import "../Transmission/transmission.css"
 import FindTransmission2 from "../Transmission/FindTransmission2";
 import Achievement from "../Contact/Achievement";
+import UsedEngine from "./UsedEngine";
+import FindEngine from "@/components/Engine/FindEngine";
 export default function EngineForm({
   handleAddToCart,
   origin
@@ -363,7 +365,7 @@ export default function EngineForm({
                   className="btn btn-block transmission-btn w-100 mt-4 text-white"
                   onClick={
                     handlePhoneSubmit
-                    }
+                  }
                 >
                   Search
                 </button>
@@ -495,100 +497,13 @@ export default function EngineForm({
           </div>
         )}
         {/*-------------------------Engine Transmission------------------------*/}
-        <div className="find-transmission">
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col-lg-6 text-center">
-                <h4 className="">
-                  Find Your <span>Engine </span>
-                </h4>
-                <FindTransmission2 />
-              </div>
-              <div className="col-lg-6">
-                <img
-                  src="/assets/engine-page-2.jpg"
-                  alt=""
-                  className=" mb-4"
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-easing="ease-out-cubic"
-                  style={{ width: "75%" }}
-                />
-                <div className="col-lg-12">
-                  <div className="card">
-                    <a
-                      href="tel:+18448931760"
-                      target="_self"
-                      aria-label="call us now"
-                    >
-                      <i class="fa-solid fa-phone"></i>
-                    </a>
-                    <div className="card-body">
-                      <div className="card-title">
-                        <h6>SPEAK WITH A SPECIALIST NOW</h6>
-
-                        <h6 className="fs-4 text-center">+1 8448931760</h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <FindEngine />
         {/*-------------------------Achievements------------------------*/}
         <Achievement />
         {/*-------------------------About used Engine------------------------*/}
         {/* Show the introductory text first */}
         {displayedProducts.length === 0 ? (
-          <div className="find-transmission-head mt-3 head1">
-            <h3 className="text-center">
-              About Our Used
-              <span> Engine</span>
-            </h3>
-            <div className="find-engine">
-              <div className="container">
-                <div className="row align-items-center">
-                  <div className="col-lg-6">
-                    <div className="find-engine__content">
-                      <p>
-                        Vander Engines Transmissions provides you the high
-                        quality used & remanufactured Engines. Vander Engines
-                        Transmissions is one of the most trusted supplier of the
-                        used engines in the United States and around the world.
-                        We have wide range of second hand engines at our yards,
-                        you can find second hand motors for every make and
-                        model. Our engines are highly tested and inspected
-                        before we deliver it to you. Vander engines
-                        transmissions provide you used engines at an affordable
-                        price. We also offer you upto 5 years warranty on our
-                        used engines. Our range includes remanufactured engines
-                        for brands like BMW, Ford, GMC, Nissan, Acura, Audi,
-                        Dodge, Hyundai, Honda, Kia, Jeep, Bentley, and many
-                        more.
-                      </p>
-                    </div>
-                    <Link href="/engine">
-                      <button className="btn theme-btn my-3">
-                        Discover More &#8594;
-                      </button>
-                    </Link>
-                  </div>
-                  <div className="col-lg-6">
-                    <div
-                      className="find-engine__img owl-carousel"
-                      id="findengine"
-                    >
-                      <img src="/assets/find-engine-1.jpg" alt="" />
-                      <img src="/assets/find-engine-2.jpg" alt="" />
-                      <img src="/assets/find-engine-3.jpg" alt="" />
-                      <img src="/assets/find-engine-4.jpg" alt="" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <UsedEngine />
         ) : (
           <div className="find-transmission mt-3">
             <h4 className="text-center">

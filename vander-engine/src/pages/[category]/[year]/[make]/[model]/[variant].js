@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
 import "@/components/Engine/Engine.css"
 import Achievement from '@/components/Contact/Achievement';
-import FindTransmission2 from '@/components/Transmission/FindTransmission2';
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import axios from "axios";
 import "@/components/Engine/EngineForm.css"
 import EngineList from "@/components/Home/EngineList";
-import ReadMore from "@/components/Transmission/ReadMore";
-
+import TransmissionList from "@/components/Home/TransmissionList";
+import EngineContent from "@/components/Engine/EngineContent";
+import TransmissionContent from "@/components/Transmission/TransmissionContent";
+import FindTransission from "@/components/Transmission/FindTransission";
+import AchievementTransmission from "@/components/Contact/AchievementTransmission";
+import FindEngine from "@/components/Engine/FindEngine";
+import UsedEngine from "@/components/Engine/UsedEngine";
+import UsedEngineSlide from "@/components/Engine/UsedEngineSlide";
+import UsedTransmission from "@/components/Transmission/UsedTransmission";
+import UsedTransmissionSlider from "@/components/Transmission/UsedTransmissionSlider";
 export default function Variant({
-    showproduct,
-    searchParams,
-    setSearchParams,
     origin,
 }) {
     const [phoneError, setPhoneError] = useState(""); // Error message for phone
-    const [name, setName] = useState("");  // Correct initial state
-    const [email, setEmail] = useState(""); // Correct initial state
-
     const [years, setYears] = useState([]);
     const [makes, setMakes] = useState([]);
     const [models, setModels] = useState([]);
@@ -30,68 +31,86 @@ export default function Variant({
     const [transmissionData, setTransmissionData] = useState({});
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const [showModal, setShowModal] = useState(false);
+
     const [phoneNumber, setPhoneNumber] = useState("");
     const [isFirstSubmit, setIsFirstSubmit] = useState(true);
-
+    const [product, setProduct] = useState(null);
     const [form1SuccessMessage, setForm1SuccessMessage] = useState("");
     const [loading, setLoading] = useState(false); // Added loading state
 
-    const handleAddToCart = (product) => {
-        // Logic to add the product to the cart
-        console.log(product);
-        // router.push("/addtocart")
-    };
     const router = useRouter();
     const { category, year, make, model, variant } = router.query;
-    const [productDetails, setProductDetails] = useState(null);
     useEffect(() => {
-        if (category && year && make && model) {
-            const fetchProducts = async () => {
-                try {
-                    const apiUrl = category === 'engine'
-                        ? 'https://backend.vanderengines.com/api/engines'
-                        : 'https://backend.vanderengines.com/api/transmission';
-
-                    const productData = await axios.get(apiUrl);
-
-                    let data = [];
-
-                    if (variant === "Display All") {
-                        Object.entries(productData.data[year][make][model] || {}).forEach(([variantName, product]) => {
-                            if (product) {
-                                data.push({
-                                    ...product,
-                                    variant: variantName,
-                                    year,
-                                    make,
-                                    model,
-                                });
-                            }
-                        });
-                    } else {
-                        const selectedVariantData = productData.data[year][make][model][variant];
-                        if (selectedVariantData) {
-                            data.push({
-                                ...selectedVariantData,
-                                variant,
-                                year,
-                                make,
-                                model,
-                            });
-                        }
-                    }
-
-                    setProductDetails(data);
-                } catch (error) {
-                    console.error('Error fetching products:', error);
-                } finally {
+        if (category && year && make && model && (variant || variant == 'Display All')) {
+            const apiUrl =
+                category === 'engine'
+                    ? 'https://backend.vanderengines.com/api/engines'
+                    : 'https://backend.vanderengines.com/api/transmission';
+    
+            // Always encode variant properly for URL
+    
+            axios
+                .get(`${apiUrl}/${year}/${make}/${model}/${variant}`)
+                .then((response) => {
+                    setProduct(response.data);
                     setLoading(false);
-                }
-            };
-
-            fetchProducts();
+                })
+                .catch((error) => {
+                    console.error(`Error fetching ${category} data:`, error);
+                    setLoading(false);
+                });
         }
     }, [category, year, make, model, variant]);
+
+    // useEffect(() => {
+    //     if (category && year && make && model) {
+    //         const fetchProducts = async () => {
+    //             setLoading(true);
+    //             try {
+    //                 const apiUrl = category === 'engine'
+    //                     ? 'https://backend.vanderengines.com/api/engines'
+    //                     : 'https://backend.vanderengines.com/api/transmission';
+
+    //                 const productData = await axios.get(apiUrl);
+    //                 let data = [];
+
+    //                 if (variant === "Display All") {
+    //                     Object.entries(productData.data[year][make][model] || {}).forEach(([variantName, product]) => {
+    //                         if (product) {
+    //                             data.push({
+    //                                 ...product,
+    //                                 variant: variantName,
+    //                                 year,
+    //                                 make,
+    //                                 model,
+    //                             });
+    //                         }
+    //                     });
+    //                 } else {
+    //                     const selectedVariantData = productData.data[year][make][model][variant];
+    //                     if (selectedVariantData) {
+    //                         data.push({
+    //                             ...selectedVariantData,
+    //                             variant,
+    //                             year,
+    //                             make,
+    //                             model,
+    //                         });
+    //                     }
+    //                 }
+
+    //                 setProduct(data);
+    //             } catch (error) {
+    //                 console.error('Error fetching products:', error);
+    //             } finally {
+    //                 setLoading(false);
+    //             }
+    //         };
+
+    //         fetchProducts();
+    //     }
+    // }, [category, year, make, model, variant]);
+
     console.log("Received props:", origin);
 
     const validatePhoneNumber = (number) => {
@@ -99,7 +118,6 @@ export default function Variant({
         if (!number.startsWith("+1")) {
             return "Phone number must start with +1.";
         }
-
         const numberWithoutPrefix = number.slice(2); // Remove '+1'
 
         const isValidLength = numberWithoutPrefix.length === 10; // Check for exactly 10 digits
@@ -111,7 +129,6 @@ export default function Variant({
             "1111111111",
             "2222222222",
         ];
-
         if (!isValidLength) {
             return "Phone number must be exactly 10 digits after +1.";
         }
@@ -124,7 +141,6 @@ export default function Variant({
         if (!noRepeatedDigits.test(numberWithoutPrefix)) {
             return "Phone number cannot have more than 6 consecutive repeated digits.";
         }
-
         return ""; // Valid number
     };
     useEffect(() => {
@@ -223,8 +239,6 @@ export default function Variant({
 
     const handlePhoneInputChange = (e) => {
         let value = e.target.value;
-
-        // Ensure '+1' is always at the start
         if (!value.startsWith("+1")) {
             value = "+1" + value.replace(/[^0-9]/g, ""); // Re-add '+1' if missing and remove invalid characters
         } else {
@@ -267,8 +281,6 @@ export default function Variant({
                 });
             }
         }
-
-        // Map through the products to ensure proper values even if some are missing
         products = products.map((product) => ({
             name: product.name || "N/A",
             Stock: product.Stock || "N/A",
@@ -328,225 +340,161 @@ export default function Variant({
         setModels([]); // Clear models
         setVariants([]); // Clear variants
     };
+    const addToCart = (product) => {
+        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        const existingProduct = cartItems.find(item => item.id === product.id);
 
-    //-------------------------------------------------
-    useEffect(() => {
-        const initCarousel = () => {
-            if (window.$ && window.$.fn && window.$.fn.owlCarousel) {
-                $("#findengine").owlCarousel({
-                    loop: true,
-                    autoplay: true,
-                    autoplayTimeout: 1000,
-                    autoplayHoverPause: true,
-                    items: 1,
-                    dots: false,
-                    nav: false,
-                    animateOut: "fadeOut",
-                    animateIn: "fadeIn",
-                });
-            } else {
-                console.error("OwlCarousel or jQuery not available");
-            }
+        if (existingProduct) {
+            existingProduct.quantity += 1;
+        } else {
+            cartItems.push(product);
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+        alert('Product added to cart!');
+    };
+
+    const handleAddToCart = () => {
+        const productToAdd = {
+            id: product.Stock,
+            name: `${year} ${make} ${model} Engine`,
+            price: product.pricing,
+            variant: product.variant,
+            stockNumber: product.Stock,
+            imageURL: product.image,
+            quantity: 1,
         };
 
-        // Delay the init to make sure scripts are loaded
-        setTimeout(initCarousel, 500);
-    }, []);
-    const handleSubmite = async (e) => {
-        e.preventDefault(); // Prevent default form submission
-
-        // Perform form validation
-        if (
-            !selectedYear ||
-            !selectedMake ||
-            !selectedModel ||
-            !selectedVariant ||
-            !phoneNumber ||
-            !name ||
-            !email
-        ) {
-            // You can show an error message or alert if any required field is empty
-            alert("Please fill out all fields before submitting.");
-            return; // Stop further execution if validation fails
-        }
-
-        setLoading(true); // Start loading
-        try {
-            const formData = {
-                part: "Engine",
-                year: selectedYear,
-                make: selectedMake,
-                model: selectedModel,
-                variant: selectedVariant,
-                phone: phoneNumber,
-                name: name,
-                email: email,
-                message: "",  // You can add a message if needed
-                agreed: "Homepage1", // Adjust accordingly
-            };
-
-            const response = await axios.post(
-                "https://backend.vanderengines.com/api/leads",
-                formData
-            );
-            console.log(response.data);
-            router.push('/thankyou'); // Navigate to thank you page after successful submission
-
-            // Reset form fields after successful submission
-            setSelectedYear("");
-            setSelectedMake("");
-            setSelectedModel("");
-            setSelectedVariant("");
-            setPhoneNumber("");
-            setName("");
-            setEmail("");
-            setPhoneError(""); // Reset phone error state
-        } catch (error) {
-            console.error("There was an error submitting the form!", error);
-            alert("There was an error submitting the form!");
-        } finally {
-            setLoading(false); // Stop loading
-        }
+        addToCart(productToAdd);
+        router.push('/addtocart');
     };
-
-    const handleSubmitButtonClick = (e) => {
-        e.preventDefault(); // Prevent any default behavior (in case you're inside a form)
-
-        // Call the handleSubmit function when the button is clicked
-        handleSubmite(e);
-    };
-    const content1 =
-        "Vander Engines offers top-quality used engines across the United States. We collaborate with junkyards and salvage yards nationwide to ensure a wide selection of parts. When a customer requests an engine, our mechanical team carefully inspects all available options to find the perfect match, delivering the best deals, highest warranties, affordable prices, and quality engines. Vander Engines also frequently provides free shipping, helping you save between $100 and $250 on each part you need.";
-    const content2 =
-        "Our system also reviews post-delivery terms and conditions to ensure that if any part is defective or damaged, you have the option for returns and refunds. At Vander Engines, we ensure that you find the best-used engine with just a click, taking advantage of the best available offers. Don’t delay—fill out the form and receive a quote in your email instantly.";
-    const content3 =
-        "The engine is the core of your vehicle and essential for its longevity. Proper maintenance is crucial to keep it running smoothly. While high-quality engines can be costly, we offer a solution through our online support in the USA. At Vander Engines, you can explore a wide range of premium engines to suit any budget.";
-    const content4 =
-        "Rather than spending a fortune on a new engine, you can save both time and money by purchasing a used engine online. Vander Engines is a leading online seller of used engines, providing customized products at some of the most competitive prices in the industry.";
-    return (
-        <div>
-            <title>Vander Engines | Quality Used & Remanufactured Engines </title>
-            <div className="engine-upper d-flex flex-column">
-                <div className="engine-hero "></div>
-            </div>
-            <div className="container">
-                <div className="transmission-form text-white container mt-4" id="engine-form">
-                    <div className="row">
-                        <div className="col-lg-6">
-                            <span className="me-3">Search Your Engine Here</span>
-                        </div>
-                    </div>
-                    <form onSubmit={handleSearch} >
+    //-------------------------------------------------
+    if (category == "engine") {
+        return (
+            <div>
+                <title>Vander Engines | Quality Used & Remanufactured Engines </title>
+                <div className="engine-upper d-flex flex-column">
+                    <div className="engine-hero "></div>
+                </div>
+                <div className="container">
+                    <div className="transmission-form text-white container mt-4" id="engine-form">
                         <div className="row">
-                            <div className="col-md-3 col-6 mb-3">
-                                <select
-                                    className="form-select"
-                                    value={selectedYear}
-                                    onChange={handleYearChange}
-                                    required
-                                >
-                                    <option value="" disabled>
-                                        Select a year
-                                    </option>
-                                    {years.map((year) => (
-                                        <option key={year} value={year}>
-                                            {year}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="col-md-3 col-6 mb-3">
-                                <select
-                                    className="form-select"
-                                    value={selectedMake}
-                                    onChange={(e) => setSelectedMake(e.target.value)}
-                                    required
-                                >
-                                    <option value="" disabled>
-                                        Select a make
-                                    </option>
-                                    {makes.map((make) => (
-                                        <option key={make} value={make}>
-                                            {make}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="col-md-3 col-6 mb-3">
-                                <select
-                                    className="form-select"
-                                    value={selectedModel}
-                                    onChange={(e) => setSelectedModel(e.target.value)}
-                                    required
-                                >
-                                    <option value="" disabled>
-                                        Select a model
-                                    </option>
-                                    {models.map((model) => (
-                                        <option key={model} value={model}>
-                                            {model}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="col-md-3 col-6 mb-3">
-                                <select
-                                    className="form-select "
-                                    value={selectedVariant}
-                                    onChange={(e) => setSelectedVariant(e.target.value)}
-                                    required
-                                >
-                                    <option value="" disabled>
-                                        Select a variant
-                                    </option>
-                                    {variants.map((variant) => (
-                                        <option key={variant} value={variant}>
-                                            {variant}
-                                        </option>
-                                    ))}
-                                </select>
+                            <div className="col-lg-6">
+                                <span className="me-3">Search Your Engine Here</span>
                             </div>
                         </div>
-                        <div className="row align-items-center">
-                            <div className="modal-body col-md-6 px-3">
-                                <p className="modal-title" style={{ color: "black" }}>
-                                    Enter your Phone Number
-                                </p>
-                                <input
-                                    type="tel"
-                                    className={`form-control ${phoneError ? "is-invalid" : ""}`}
-                                    placeholder="Enter your phone number"
-                                    value={phoneNumber || "+1"} // Default to '+1'
-                                    onChange={handlePhoneInputChange}
-                                    required
-                                    maxLength="12" // Include '+1' in the length
-                                    style={{
-                                        border: "none",
-                                        borderRadius: "0",
-                                        borderBottom: "1px solid #cccdd1",
-                                    }}
-                                />
-                                {phoneError && <div className="text-danger">{phoneError}</div>}
-                            </div>
-                            <div className="col-md-4">
-                                <button
-                                    type="submit"
-                                    className="btn btn-block transmission-btn w-100 mt-4 text-white"
-                                    onClick={handlePhoneSubmit}
-                                >
-                                    Search
-                                </button>
-                                <div>
-                                    {form1SuccessMessage && <p className="text-success">{form1SuccessMessage}</p>}
+                        <form onSubmit={handleSearch} >
+                            <div className="row">
+                                <div className="col-md-3 col-6 mb-3">
+                                    <select
+                                        className="form-select"
+                                        value={selectedYear}
+                                        onChange={handleYearChange}
+                                        required
+                                    >
+                                        <option value="" disabled>
+                                            Select a year
+                                        </option>
+                                        {years.map((year) => (
+                                            <option key={year} value={year}>
+                                                {year}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="col-md-3 col-6 mb-3">
+                                    <select
+                                        className="form-select"
+                                        value={selectedMake}
+                                        onChange={(e) => setSelectedMake(e.target.value)}
+                                        required
+                                    >
+                                        <option value="" disabled>
+                                            Select a make
+                                        </option>
+                                        {makes.map((make) => (
+                                            <option key={make} value={make}>
+                                                {make}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="col-md-3 col-6 mb-3">
+                                    <select
+                                        className="form-select"
+                                        value={selectedModel}
+                                        onChange={(e) => setSelectedModel(e.target.value)}
+                                        required
+                                    >
+                                        <option value="" disabled>
+                                            Select a model
+                                        </option>
+                                        {models.map((model) => (
+                                            <option key={model} value={model}>
+                                                {model}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="col-md-3 col-6 mb-3">
+                                    <select
+                                        className="form-select "
+                                        value={selectedVariant}
+                                        onChange={(e) => setSelectedVariant(e.target.value)}
+                                        required
+                                    >
+                                        <option value="" disabled>
+                                            Select a variant
+                                        </option>
+                                        {variants.map((variant) => (
+                                            <option key={variant} value={variant}>
+                                                {variant}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-                {displayedProducts.length > 0 ? (
-                    <div className="product-card-container">
-                        {displayedProducts.map((product, index) => (
-                            <div className="col-lg-3 mb-4" key={index}>
+                            <div className="row align-items-center">
+                                <div className="modal-body col-md-6 px-3">
+                                    <p className="modal-title" style={{ color: "black" }}>
+                                        Enter your Phone Number
+                                    </p>
+                                    <input
+                                        type="tel"
+                                        className={`form-control ${phoneError ? "is-invalid" : ""}`}
+                                        placeholder="Enter your phone number"
+                                        value={phoneNumber || "+1"} // Default to '+1'
+                                        onChange={handlePhoneInputChange}
+                                        required
+                                        maxLength="12" // Include '+1' in the length
+                                        style={{
+                                            border: "none",
+                                            borderRadius: "0",
+                                            borderBottom: "1px solid #cccdd1",
+                                        }}
+                                    />
+                                    {phoneError && <div className="text-danger">{phoneError}</div>}
+                                </div>
+                                <div className="col-md-4">
+                                    <button
+                                        type="submit"
+                                        className="btn btn-block transmission-btn w-100 mt-4 text-white bg-dark"
+                                        onClick={handlePhoneSubmit}
+                                    >
+                                        Search
+                                    </button>
+                                    <div>
+                                        {form1SuccessMessage && <p className="text-success">{form1SuccessMessage}</p>}
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : product ? (
+                        <div className="product-card-container">
+                            <div className="col-lg-3 mb-4">
                                 <div className="card product-card mx-2">
                                     <img
                                         src={product.image}
@@ -556,10 +504,10 @@ export default function Variant({
                                     />
                                     <div className="card-info">
                                         <h4>
-                                            {product.year} {product.make} {product.model} Engine
+                                            {year} {make} {model} Engine
                                         </h4>
                                         <p>
-                                            <strong>Variant:</strong> {product.variant}
+                                            <strong>Variant:</strong> {variant}
                                         </p>
                                         <p>
                                             <strong>Stock:</strong> {product.Stock}
@@ -578,7 +526,7 @@ export default function Variant({
                                             onClick={() => {
                                                 handleAddToCart({
                                                     id: product.Stock,
-                                                    name: `${product.year} ${product.make} ${product.model} Engine`,
+                                                    name: `${year} ${make} ${model} Engine`,
                                                     price: product.pricing,
                                                     model: product.model,
                                                     stockNumber: product.Stock,
@@ -593,236 +541,373 @@ export default function Variant({
                                         </button>
                                         <button
                                             className="add-to-cart-btn btn theme-btn"
-                                            onClick={() => {
-
-                                                handleAddToCart({
-                                                    id: product.Stock,
-                                                    name: `${product.year} ${product.make} ${product.model} Engine`,
-                                                    price: product.pricing,
-                                                    variant: product.variant,
-                                                    stockNumber: product.Stock,
-                                                    imageURL: product.image,
-                                                    quantity: 1,
-                                                });
-                                            }}
+                                            onClick={handleAddToCart}
                                         >
                                             Add To Cart
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p></p>
-                )}
+                        </div>
+                    ) : (
+                        <p>Engine details not found.</p>
+                    )}
 
-                {/*-------------------------Engine Transmission------------------------*/}
-                <div className="find-transmission">
-                    <div className="container">
-                        <div className="row align-items-center">
-                            <div className="col-lg-6 text-center">
 
-                                <h4 className="">
-                                    Find Your <span>Engine </span>
-                                </h4>
-                                <FindTransmission2 />
+                    {/*-------------------------Engine Transmission------------------------*/}
+                    <FindEngine />
+                    {/*-------------------------Achievements------------------------*/}
+                    <Achievement />
+                    {/*-------------------------About used Engine------------------------*/}
+                    {/* Show the introductory text first */}
+                    {product === 0 ? (
+                        <>
+                            <UsedEngine />
+                        </>
+                    ) : (
+                        <div className="find-transmission mt-3">
+                            <h4 className="text-center">
+                                About Our Used {year}{" "}
+                                {make} <span>Engine</span>
+                            </h4>
+
+                            <div className="find-engine">
+                                <div className="container">
+                                    <div className="row align-items-center">
+                                        <div className="col-lg-6">
+                                            <div className="find-engine__content">
+                                                <p>
+                                                    Find high quality
+                                                    <span className="text-black fw-bold">
+                                                        {" "}
+                                                        {year}{" "}
+                                                        {make}{" "}
+                                                        {model} Engine{" "}
+                                                    </span>
+                                                    AT Vander Engines Transmissions we have top quality used{" "}
+                                                    <span className="text-black fw-bold">
+                                                        {" "}
+                                                        {make}{" "}
+                                                        {model} Engine for{" "}
+                                                        {year} variants
+                                                    </span>{" "}
+                                                    All the used engines that we sell are highly tested and
+                                                    inspected before we deliver it to you. At Vander Engines
+                                                    Transmissions we also offer you 1 year warranty at no
+                                                    extra cost. Vander Engines Transmissions team offer you
+                                                    24x7 support. We make sure to provide you with high
+                                                    performing engines for
+                                                    <span className="text-black fw-bold">
+                                                        {" "}
+                                                        {make}{" "}
+                                                        {model}{" "}
+                                                        {year} .
+                                                    </span>
+                                                    We take pride in improving your online buying experience
+                                                    at Vander Engines Transmissions.
+                                                </p>
+                                            </div>
+                                            <Link href="/engine">
+                                                <button className="btn theme-btn my-3">
+                                                    Discover More &#8594;
+                                                </button>
+                                            </Link>
+                                        </div>
+                                        <div className="col-lg-6">
+                                            <UsedEngineSlide />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="col-lg-6">
-                                <img
-                                    src="/assets/engine-page-2.jpg"
-                                    alt=""
-                                    className=" mb-4"
-                                    data-aos="fade-up"
-                                    data-aos-duration="1000"
-                                    data-aos-easing="ease-out-cubic"
-                                    style={{ width: "75%" }}
-                                />
-                                <div className="col-lg-12">
-                                    <div className="card">
-                                        <a
-                                            href="tel:+18448931760"
-                                            target="_self"
-                                            aria-label="call us now"
-                                        >
-                                            <i class="fa-solid fa-phone"></i>
-                                        </a>
-                                        <div className="card-body">
-                                            <div className="card-title">
-                                                <h6>SPEAK WITH A SPECIALIST NOW</h6>
+                        </div>
+                    )}{" "}
 
-                                                <h6 className="fs-4 text-center">+1 8448931760</h6>
+
+                </div >
+                {/*-------------------------Content of Engine-----------------------*/}
+                <EngineContent />
+                {/*-------------------------Search Engine------------------------*/}
+                <div className="search-transmission my-5 head1">
+                    <h3 className="text-center mb-3">
+                        Search Your <span>Engine</span>
+                    </h3>
+                    <EngineList />
+                </div>
+            </div>
+        )
+    }
+    else if (category === "transmission") {
+        return (
+            <>
+                <div>
+                    <title>
+                        Vander Engines | Quality Used & Remanufactured Transmissions
+                    </title>
+                    <div className="transmission-upper d-flex flex-column">
+                        <div className="transmission-hero"></div>
+                    </div>
+                    <div className="container">
+                        <div className="transmission-form text-white container mb-5 mt-4" id="trans-form">
+                            <div className="row">
+                                <div className="col-lg-6">
+                                    <span className="me-3">Search Your Transmission Here</span>
+                                </div>
+                            </div>
+                            <form onSubmit={handleSearch}>
+                                <div className="row">
+                                    {/* Form Inputs */}
+                                    <div className="col-md-3 col-6 mb-3">
+                                        <select
+                                            className="form-select"
+                                            value={selectedYear}
+                                            onChange={handleYearChange} // Use the new handler here
+                                            required
+                                        >
+                                            <option value="" disabled>
+                                                Select a year
+                                            </option>
+                                            {years.map((year) => (
+                                                <option key={year} value={year}>
+                                                    {year}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="col-md-3 col-6 mb-3">
+                                        <select
+                                            className="form-select"
+                                            value={selectedMake}
+                                            onChange={(e) => setSelectedMake(e.target.value)}
+                                            required
+                                        >
+                                            <option value="" disabled>
+                                                Select a make
+                                            </option>
+                                            {makes.map((make) => (
+                                                <option key={make} value={make}>
+                                                    {make}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="col-md-3 col-6 mb-3">
+                                        <select
+                                            className="form-select"
+                                            value={selectedModel}
+                                            onChange={(e) => setSelectedModel(e.target.value)}
+                                            required
+                                        >
+                                            <option value="" disabled>
+                                                Select a model
+                                            </option>
+                                            {models.map((model) => (
+                                                <option key={model} value={model}>
+                                                    {model}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="col-md-3 col-6 mb-3">
+                                        <select
+                                            className="form-select"
+                                            value={selectedVariant}
+                                            onChange={(e) => setSelectedVariant(e.target.value)}
+                                            required
+                                        >
+                                            <option value="" disabled>
+                                                Select a variant
+                                            </option>
+                                            {variants.map((variant) => (
+                                                <option key={variant} value={variant}>
+                                                    {variant}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="row align-items-center">
+                                    <div className="modal-body col-md-6 px-3">
+                                        <p className="modal-title" style={{ color: "black" }}>
+                                            Enter your Phone Number
+                                        </p>
+                                        <input
+                                            type="tel"
+                                            className={`form-control ${phoneError ? "is-invalid" : ""}`}
+                                            placeholder="Enter your phone number"
+                                            value={phoneNumber || "+1"} // Default to '+1'
+                                            onChange={handlePhoneInputChange}
+                                            required
+                                            maxLength="12" // Include '+1' in the length
+                                            style={{
+                                                border: "none",
+                                                borderRadius: "0",
+                                                borderBottom: "1px solid #cccdd1",
+                                            }}
+                                        />
+                                        {phoneError && <div className="text-danger">{phoneError}</div>}
+                                    </div>
+                                    <div className="col-md-4">
+                                        <button
+                                            type="submit"
+                                            className="btn btn-block transmission-btn w-100 mt-4 text-white bg-dark"
+                                            onClick={handlePhoneSubmit}
+                                        >
+                                            Search
+                                        </button>
+                                        <div>
+                                            {form1SuccessMessage && <p className="text-success">{form1SuccessMessage}</p>}
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        {loading ? (
+                            <p>Loading...</p>
+                        ) : product ? (
+                            <div className="product-card-container">
+                                <div className="col-lg-3 mb-4">
+                                    <div className="card product-card mx-2">
+                                        <img
+                                            src={product.image}
+                                            alt="Product"
+                                            className="img-fluid"
+                                            style={{ height: "200px" }}
+                                        />
+                                        <div className="card-info">
+                                            <h4>
+                                                {year} {make} {model} Engine
+                                            </h4>
+                                            <p>
+                                                <strong>Variant:</strong> {variant}
+                                            </p>
+                                            <p>
+                                                <strong>Stock:</strong> {product.Stock}
+                                            </p>
+                                            <p>
+                                                <strong>Warranty:</strong> {product.warranty}
+                                            </p>
+                                            <p>
+                                                <strong>Price:</strong> {product.pricing}
+                                            </p>
+                                            <p>
+                                                <strong>Miles:</strong> {product.miles}
+                                            </p>
+                                            <button
+                                                className="btn buy-now-btn"
+                                                onClick={() => {
+                                                    handleAddToCart({
+                                                        id: product.Stock,
+                                                        name: `${product.year} ${product.make} ${product.model} Engine`,
+                                                        price: product.pricing,
+                                                        model: product.model,
+                                                        stockNumber: product.Stock,
+                                                        variant: product.variant,
+                                                        imageURL: product.image,
+                                                        quantity: 1,
+                                                    });
+                                                    router.push("/addtocart");
+                                                }}
+                                            >
+                                                Buy Now
+                                            </button>
+                                            <button
+                                                className="add-to-cart-btn btn theme-btn"
+                                                onClick={() => {
+
+                                                    handleAddToCart({
+                                                        id: product.Stock,
+                                                        name: `${product.year} ${product.make} ${product.model} Engine`,
+                                                        price: product.pricing,
+                                                        variant: product.variant,
+                                                        stockNumber: product.Stock,
+                                                        imageURL: product.image,
+                                                        quantity: 1,
+                                                    });
+                                                }}
+                                            >
+                                                Add To Cart
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <p>Engine details not found.</p>
+                        )}
+
+                        {/*-------------------------Engine Transmission------------------------*/}
+                        <FindTransission />
+                        {/*-------------------------Achievements------------------------*/}
+                        <AchievementTransmission />
+                        {/*-------------------------About used Engine------------------------*/}
+                        {/* Show the introductory text first */}
+                        {product === 0 ? (
+                            <UsedTransmission />
+                        ) : (
+                            <div className="find-transmission mt-3">
+                                <h4 className="text-center">
+                                    About Our Used {year}{" "}
+                                    {make} <span> Transmission</span>
+                                </h4>
+                                <div className="find-transmission ">
+                                    <div className="container">
+                                        <div className="row align-items-center">
+                                            <div className="col-lg-6">
+                                                <div className="find-transmission__content">
+                                                    <p>
+                                                        Find high quality
+                                                        <span className="text-black fw-bold">
+                                                            {" "}
+                                                            {year} {make}{" "}
+                                                            {model} Transmission{" "}
+                                                        </span>
+                                                        AT Vander Engines Transmissions we have top quality used{" "}
+                                                        <span className="text-black fw-bold">
+                                                            {" "}
+                                                            {make} {model}{" "}
+                                                            transmission for {year} variants
+                                                        </span>{" "}
+                                                        All the used transmissions that we sell are highly tested
+                                                        and inspected before we deliver it to you. At Vander
+                                                        Engines Transmissions we also offer you 1 year warranty at
+                                                        no extra cost. Vander Engines Transmissions team offer you
+                                                        24x7 support. We make sure to provide you with high
+                                                        performing transmissions for
+                                                        <span className="text-black fw-bold">
+                                                            {" "}
+                                                            {make} {model}{" "}
+                                                            {year} .
+                                                        </span>
+                                                        We take pride in improving your online buying experience
+                                                        at Vander Engines Transmissions.
+                                                    </p>
+                                                </div>
+                                                <Link href="/engine">
+                                                    <button className="btn theme-btn my-3">
+                                                        Discover More &#8594;
+                                                    </button>
+                                                </Link>
+                                            </div>
+                                            <div className="col-lg-6">
+                                                <UsedTransmissionSlider />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                {/*-------------------------Achievements------------------------*/}
-                <Achievement />
-                {/*-------------------------About used Engine------------------------*/}
-                {/* Show the introductory text first */}
-                {displayedProducts.length === 0 ? (
-                    <div className="find-transmission-head mt-3 head1">
-                        <h3 className="text-center">
-                            About Our Used
-                            <span> Engine</span>
+                        )}{" "}
+                    </div >
+                    {/*-------------------------Content of Engine-----------------------*/}
+                    <TransmissionContent />
+                    {/*-------------------------Search Engine------------------------*/}
+                    <div className="search-transmission my-5 head1">
+                        <h3 className="text-center mb-3">
+                            Search Your <span>Transmission</span>
                         </h3>
-                        <div className="find-engine">
-                            <div className="container">
-                                <div className="row align-items-center">
-                                    <div className="col-lg-6">
-                                        <div className="find-engine__content">
-                                            <p>
-                                                Vander Engines Transmissions provides you the high
-                                                quality used & remanufactured Engines. Vander Engines
-                                                Transmissions is one of the most trusted supplier of the
-                                                used engines in the United States and around the world.
-                                                We have wide range of second hand engines at our yards,
-                                                you can find second hand motors for every make and
-                                                model. Our engines are highly tested and inspected
-                                                before we deliver it to you. Vander engines
-                                                transmissions provide you used engines at an affordable
-                                                price. We also offer you upto 5 years warranty on our
-                                                used engines. Our range includes remanufactured engines
-                                                for brands like BMW, Ford, GMC, Nissan, Acura, Audi,
-                                                Dodge, Hyundai, Honda, Kia, Jeep, Bentley, and many
-                                                more.
-                                            </p>
-                                        </div>
-                                        <Link href="/engine">
-                                            <button className="btn theme-btn my-3">
-                                                Discover More &#8594;
-                                            </button>
-                                        </Link>
-                                    </div>
-                                    <div className="col-lg-6">
-                                        <div
-                                            className="find-engine__img owl-carousel"
-                                            id="findengine"
-                                        >
-                                            <img src="/assets/find-engine-1.jpg" alt="" />
-                                            <img src="/assets/find-engine-2.jpg" alt="" />
-                                            <img src="/assets/find-engine-3.jpg" alt="" />
-                                            <img src="/assets/find-engine-4.jpg" alt="" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="find-transmission mt-3">
-                        <h4 className="text-center">
-                            About Our Used {displayedProducts[0].year}{" "}
-                            {displayedProducts[0].make} <span>Engine</span>
-                        </h4>
-
-                        <div className="find-engine">
-                            <div className="container">
-                                <div className="row align-items-center">
-                                    <div className="col-lg-6">
-                                        <div className="find-engine__content">
-                                            <p>
-                                                Find high quality
-                                                <span className="text-black fw-bold">
-                                                    {" "}
-                                                    {displayedProducts[0].year}{" "}
-                                                    {displayedProducts[0].make}{" "}
-                                                    {displayedProducts[0].model} Engine{" "}
-                                                </span>
-                                                AT Vander Engines Transmissions we have top quality used{" "}
-                                                <span className="text-black fw-bold">
-                                                    {" "}
-                                                    {displayedProducts[0].make}{" "}
-                                                    {displayedProducts[0].model} Engine for{" "}
-                                                    {displayedProducts[0].year} variants
-                                                </span>{" "}
-                                                All the used engines that we sell are highly tested and
-                                                inspected before we deliver it to you. At Vander Engines
-                                                Transmissions we also offer you 1 year warranty at no
-                                                extra cost. Vander Engines Transmissions team offer you
-                                                24x7 support. We make sure to provide you with high
-                                                performing engines for
-                                                <span className="text-black fw-bold">
-                                                    {" "}
-                                                    {displayedProducts[0].make}{" "}
-                                                    {displayedProducts[0].model}{" "}
-                                                    {displayedProducts[0].year} .
-                                                </span>
-                                                We take pride in improving your online buying experience
-                                                at Vander Engines Transmissions.
-                                            </p>
-                                        </div>
-                                        <Link href="/engine">
-                                            <button className="btn theme-btn my-3">
-                                                Discover More &#8594;
-                                            </button>
-                                        </Link>
-                                    </div>
-                                    <div className="col-lg-6">
-                                        <div
-                                            className="find-engine__img owl-carousel"
-                                            id="findengine"
-                                        >
-                                            <img src="/assets/find-engine-1.jpg" alt="" />
-                                            <img src="/assets/find-engine-2.jpg" alt="" />
-                                            <img src="/assets/find-engine-3.jpg" alt="" />
-                                            <img src="/assets/find-engine-4.jpg" alt="" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}{" "}
-
-
-            </div >
-            {/*-------------------------Content of Engine-----------------------*/}
-            <div className="transmission-content mt-5">
-                <div className="container h-100 d-flex align-items-center justify-content-center">
-                    <h5>
-                        Used Engines for Sale: Your Go-To Source for Quality Auto Parts
-                    </h5>
-                </div>
-            </div>
-            <div className="transmission-para my-5">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-lg-3 mb-3">
-                            <div className="card p-3 h-100">
-                                <ReadMore text={content1} />
-                            </div>
-                        </div>
-                        <div className="col-lg-3 mb-3">
-                            <div className="card p-3 h-100">
-                                <ReadMore text={content2} />
-                            </div>
-                        </div>
-                        <div className="col-lg-3 mb-3">
-                            <div className="card p-3 h-100">
-                                <ReadMore text={content3} />
-                            </div>
-                        </div>
-                        <div className="col-lg-3 mb-3">
-                            <div className="card p-3 h-100">
-                                <ReadMore text={content4} />
-                            </div>
-                        </div>
+                        <TransmissionList />
                     </div>
                 </div>
-            </div>
-
-            {/*-------------------------Search Engine------------------------*/}
-            <div className="search-transmission my-5 head1">
-                <h3 className="text-center mb-3">
-                    Search Your <span>Engine</span>
-                </h3>
-                <EngineList />
-            </div>
-        </div>
-    )
+            </>
+        )
+    }
 }

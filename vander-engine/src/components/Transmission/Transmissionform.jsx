@@ -5,6 +5,7 @@ import Link from "next/link";
 import FindTransmission2 from "./FindTransmission2";
 import AchievementTransmission from "../Contact/AchievementTransmission";
 import "./TransmissionForm.css"
+import FindTransission from "./FindTransission";
 export default function Transmissionform({
   handleAddToCart,
   origin
@@ -110,7 +111,7 @@ export default function Transmissionform({
       alert("Please select all fields before searching.");
       return;
     }
-    const path = `/transmission/${selectedYear}/${selectedMake}/${selectedModel}/${selectedVariant}`;
+    const path = `/transmission/${selectedYear}/${selectedMake}/${selectedModel}/${encodeURIComponent(selectedVariant)}`;
     router.push(path);
   };
   const handlePhoneSubmit = async () => {
@@ -537,45 +538,7 @@ export default function Transmissionform({
         </div>
       )}
       {/*-------------------------Find Transmission------------------------*/}
-      <div className="find-transmission">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-6 text-center ">
-              <h4 className="">
-                Find Your <span>Transmission </span>
-              </h4>
-              <FindTransmission2 />
-            </div>
-            <div className="col-lg-6">
-              <img
-                src="/assets/trans-2.jpg"
-                alt=""
-                className="img-fluid"
-                data-aos="fade-up"
-                data-aos-duration="1000"
-                data-aos-easing="ease-out-cubic"
-              />
-              <div className="col-lg-12">
-                <div className="card">
-                  <a
-                    href="tel:+18448931760"
-                    target="_self"
-                    aria-label="call us now"
-                  >
-                    <i class="fa-solid fa-phone"></i>
-                  </a>
-                  <div className="card-body">
-                    <div className="card-title">
-                      <h6>SPEAK WITH A SPECIALIST NOW</h6>
-                      <h6 className="fs-4 text-center">+1 8448931760</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+   <FindTransission/>
       {/*-------------------------Achievements------------------------*/}
       <AchievementTransmission />
       {/*-------------------------About used Transmission------------------------*/}

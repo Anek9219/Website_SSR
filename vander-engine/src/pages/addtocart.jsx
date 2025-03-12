@@ -4,22 +4,31 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CheckoutForm from "@/components/CheckoutForm";
+
 // Initialize Stripe with your Publishable Key
 const stripePromise = loadStripe("pk_live_51MxL10AxiAiP83VXYINCN4TzswI4MHZqC8dzy8XzkHP4aKiySGDaFzOhmgAtBacFqSpyvxh9JIKegYpPdLG52hzo00OjVoDeU5");
 
-export default function addtocart({ cartItems, handleRemoveFromCart }) {
+export default function addtocart() {
+    const [cartItems, setCartItems] = useState([]);
+
+    useEffect(() => {
+        const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+        setCartItems(storedCart);
+    }, []);
 
     useEffect(() => {
         console.log("Cart Items:", cartItems);
-        if (Array.isArray(cartItems)){
+        if (Array.isArray(cartItems)) {
             cartItems.forEach((item) => console.log("Item Details:", item));
+        } else {
+            console.warn("cartItems is not an array or is undefined:", cartItems);
         }
-      else{
-        console.warn("cartItems is not an array or is undefined:", cartItems);
-      }
     }, [cartItems]);
-
-    // Safely parse price strings
+    const handleRemoveFromCart = (stockNumber) => {
+        const updatedCart = cartItems.filter(item => item.stockNumber !== stockNumber);
+        setCartItems(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+    };
     const parsePrice = (priceString) => {
         if (typeof priceString !== "string" || !priceString) {
             console.warn("Invalid price format:", priceString);
@@ -28,8 +37,7 @@ export default function addtocart({ cartItems, handleRemoveFromCart }) {
         return parseFloat(priceString.replace(/[$,]/g, ""));
     };
 
-
-    const totalPrice = (cartItems || []).reduce((total, item) => {
+    const totalPrice = cartItems.reduce((total, item) => {
         if (!item.price || isNaN(parsePrice(item.price))) {
             console.warn("Invalid item price detected:", item);
             return total;
@@ -38,10 +46,11 @@ export default function addtocart({ cartItems, handleRemoveFromCart }) {
         return total + itemPrice * item.quantity;
     }, 0);
 
-    const totalQuantity = (cartItems || []).reduce((total, item) => total + item.quantity, 0);
+    const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
     const tax = totalPrice * 0.06;
     const totalAmount = totalPrice + tax;
-    const isCartEmpty = !cartItems || cartItems.length === 0;
+    const isCartEmpty = cartItems.length === 0;
+
     return (
         <div className="container my-5">
             <div className="text-center mb-4">
@@ -55,9 +64,7 @@ export default function addtocart({ cartItems, handleRemoveFromCart }) {
             </div>
 
             <div className="row">
-                {/* Left Column */}
                 <div className="col-lg-8 col-md-7">
-                    
                     {isCartEmpty ? (
                         <div className="text-center">
                             <h2>Your Cart is empty now.</h2>
@@ -68,9 +75,9 @@ export default function addtocart({ cartItems, handleRemoveFromCart }) {
                             <div key={item.id} className="card mb-3">
                                 <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-center">
                                     <img
-                                        src={item.imageURL || "https://via.placeholder.com/80"} // Placeholder image if imageURL is not provided
+                                        src={item.imageURL || "https://via.placeholder.com/80"}
                                         alt={item.name}
-                                        className="mb-3 mb-md-0 ml-md-3 "
+                                        className="mb-3 mb-md-0 ml-md-3"
                                         id="cart-img-1"
                                         style={{ width: "230px", height: "190px" }}
                                     />
@@ -81,7 +88,6 @@ export default function addtocart({ cartItems, handleRemoveFromCart }) {
                                         <p className="card-text">Price : {item.price}</p>
                                         <p className="card-text">Quantity : {item.quantity}</p>
                                         <div className="d-flex justify-content-between">
-
                                             <button
                                                 className="btn btn-outline-danger mt-2"
                                                 onClick={() => handleRemoveFromCart(item.stockNumber)}
@@ -96,7 +102,6 @@ export default function addtocart({ cartItems, handleRemoveFromCart }) {
                     )}
                 </div>
 
-                {/* Right Column */}
                 <div className="col-lg-4 col-md-5">
                     <div className="border p-3 bg-white rounded">
                         <h3 className="text-center">Your Items Detail</h3>
@@ -118,7 +123,6 @@ export default function addtocart({ cartItems, handleRemoveFromCart }) {
                                 <p>$ {totalAmount.toFixed(2)}</p>
                             </div>
 
-                            {/* PayPal Integration */}
                             <PayPalScriptProvider options={{ "client-id": "AepuhUj9dLNS71lknDmEVYzoOD9GNHjTn5Y23jCbcatvC37wwz5gRtxCVTH7xKZZ0APHCi51d7oUKX9l" }}>
                                 <h4 className="mt-4">Pay with PayPal</h4>
                                 <PayPalButtons
@@ -139,7 +143,6 @@ export default function addtocart({ cartItems, handleRemoveFromCart }) {
                                 />
                             </PayPalScriptProvider>
 
-                            {/* Stripe Integration */}
                             <Elements stripe={stripePromise}>
                                 <h4 className="mt-4">Pay with Card</h4>
                                 <CheckoutForm amount={totalAmount.toFixed(2)} />
