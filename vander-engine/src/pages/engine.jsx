@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "../components/Engine/Engine.css"
-import axios from "axios"; 
+import axios from "axios";
 import AOS from "aos";
 import { useRouter } from "next/router";
 import EngineForm from "@/components/Engine/EngineForm";
 import ReadMore from "@/components/Transmission/ReadMore";
 import EngineList from "@/components/Home/EngineList";
-import Variant from "./[category]/[year]/[make]/[model]/[variant]";
 import EngineContent from "@/components/Engine/EngineContent";
+import Head from "next/head";
 export default function Engine({ handleAddToCart, showproduct }) {
   const [years, setYears] = useState([]);
   const [makes, setMakes] = useState([]);
   const [data, setData] = useState(null);
   const router = useRouter();
+  const canonicalUrl = `https://vanderengines.com${router.pathname}`;
   const [searchParams, setSearchParams] = useState({});
   useEffect(() => {
     AOS.init();
@@ -47,7 +48,7 @@ export default function Engine({ handleAddToCart, showproduct }) {
             });
           });
           setMakes([...allMakes]);
-          setYears(Object.keys(response.data)); 
+          setYears(Object.keys(response.data));
         })
         .catch((error) => console.error("Error fetching data:", error));
     }
@@ -69,35 +70,42 @@ export default function Engine({ handleAddToCart, showproduct }) {
       fetchData();
     }
   }, [year, make, model]);
- 
+
 
   return (
     <>
+      <Head>
         <title>Vander Engines | Quality Used & Remanufactured Engines </title>
-      <div className="engine-upper d-flex flex-column">
-        <div className="engine-hero "></div>
+        <link rel="canonical" href={canonicalUrl} />
+      </Head>
+      <main>
+        <div className="engine-upper d-flex flex-column">
+          <div className="engine-hero "></div>
         </div>
-      {/*-------------------------Engine Hero Section-----------------------*/}
+        {/*-------------------------Engine Hero Section-----------------------*/}
 
-      <div className=" d-flex flex-column h-100 justify-content-end">
-        <EngineForm
-          searchParams={searchParams}
-          setSearchParams={setSearchParams}
-          handleAddToCart={handleAddToCart}
-          showproduct={showproduct}
-          origin="Engine"
-        />
-      </div>
-      {/*-------------------------Content of Engine-----------------------*/}
-     <EngineContent/>
+        <div className=" d-flex flex-column h-100 justify-content-end">
+          <EngineForm
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+            handleAddToCart={handleAddToCart}
+            showproduct={showproduct}
+            origin="Engine"
+          />
+        </div>
+        {/*-------------------------Content of Engine-----------------------*/}
+        <EngineContent />
 
-      {/*-------------------------Search Engine------------------------*/}
-      <div className="search-transmission my-5 head1">
-        <h3 className="text-center mb-3">
-          Search Your <span>Engine</span>
-        </h3>
-        <EngineList />
-      </div>
+        {/*-------------------------Search Engine------------------------*/}
+        <div className="search-transmission my-5 head1">
+          <h3 className="text-center mb-3">
+            Search Your <span>Engine</span>
+          </h3>
+          <EngineList />
+        </div>
+
+      </main>
+
     </>
   );
 }

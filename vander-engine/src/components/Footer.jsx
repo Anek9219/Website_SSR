@@ -1,36 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import Script from "next/script";
 
-// import { useEffect } from "react";
 export default function Footer() {
 
-//   useEffect(() => {
-//     const noscriptTag = document.createElement("noscript");
-//     noscriptTag.innerHTML = `
-//       <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NRT4R6J" 
-//         height="0" width="0" style="display:none;visibility:hidden"></iframe>
-//     `;
-//     document.body.appendChild(noscriptTag);
-  
-//     return () => {
-//       document.body.removeChild(noscriptTag);
-//     };
-//   }, []);
-  
-
-//   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-//   (function(){
-//   var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-//   s1.async=true;
-//   s1.src='https://embed.tawk.to/672e984c4304e3196adf7e51/1ic705qrg';
-//   s1.charset='UTF-8';
-//   s1.setAttribute('crossorigin','*');
-//   s0.parentNode.insertBefore(s1,s0);
-//   })();
 
   return (
     <>
       {/* <ScrollText /> */}
+      {/* Load Tawk.to script using Next.js Script component */}
+      <Script
+        src="https://embed.tawk.to/672ecce34304e3196adf8831/default"
+        strategy="afterInteractive"
+      />
       <a
         href="tel:+18448931760"
         className="float"
@@ -122,35 +104,40 @@ export default function Footer() {
                     About Us
                   </Link>
                 </p>
-                <p>
-                  <Link href="/contact" className="text-reset">
-                    Contact Us
-                  </Link>
-                </p>
+
                 {/* <p>
                   <Link href="/search" className="text-reset">
                     Search Car Parts
                   </Link>
                 </p> */}
 
-                <Link href="/blog" className="text-reset">
-                  blog
-                </Link>
+
               </div>
 
               <div className="col-md-3 col-lg-2 col-xl-3 mx-auto mb-4">
                 <h6 className="text-uppercase fw-bold mb-4">Useful links</h6>
                 <p>
-                  <Link href="/return" className="text-reset">
-                    Return And Cancel Policy
+                  <Link href="/contact" className="text-reset">
+                    Contact Us
                   </Link>
                 </p>
                 <p>
-                  <Link href="/warranty" className="text-reset">
-                    Warranty Policy
+                  <Link href="https://vanderengines.com/blog/" className="text-reset">
+                    blog
+                  </Link>
+                </p>
+
+                <p>
+                  <Link href="/Policies" className="text-reset">
+                    Privacy Policy
                   </Link>
                 </p>
                 <p>
+                  <Link href="/financing" className="text-reset">
+                    Financing
+                  </Link>
+                </p>
+                {/* <p>
                   <Link href="/termsofservice" className="text-reset">
                     Term of Services
                   </Link>
@@ -164,7 +151,7 @@ export default function Footer() {
                   <Link href="/shipping" className="text-reset">
                     Shipping Policy
                   </Link>
-                </p>
+                </p> */}
               </div>
 
               <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">

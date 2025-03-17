@@ -1,6 +1,9 @@
 import React from 'react'
-
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 export default function Policies() {
+    const router = useRouter();
+    const canonicalUrl = `https://vanderengines.com${router.pathname}`;
     const data = [
         {
             head: "Shipping Policy",
@@ -456,35 +459,40 @@ export default function Policies() {
     ];
     return (
         <>
-            <title>
-                Vander Engines |Privacy Policies
-            </title>
-            {data.map((item, index) => (
-                <div className="shipping my-4" key={index}>
-                    <div className="container">
-                        <div className="shipping-head pt-2 text-center fw-bolder text-white">
-                            <h2 className="fs-1 fw-bold">{item.head}</h2>
-                        </div>
-                        <div className="shipping-content pb-3">
-                            <p>{item.list1}</p>
-                            <p>{item.list2}</p>
-                            <p>{item.list3}</p>
-                            <p>{item.list4}</p>
-                            <p>{item.para1}</p>
-                            <p>{item.para2}</p>
-                            <p>{item.para3}</p>
-                            <p>{item.para4}</p>
-                            <p>{item.para5}</p>
-                            <p>{item.para6}</p>
-                            <p>{item.para7}</p>
-                            <p>{item.para8}</p>
-                            <p>{item.para9}</p>
-                            <p>{item.para10}</p>
+            <Head>
+                <title>
+                    Vander Engines |Privacy Policies
+                </title>
+                <link rel="canonical" href={canonicalUrl} />
+            </Head>
+            <main>
+                {data.map((item, index) => (
+                    <div className="shipping my-4" key={index}>
+                        <div className="container">
+                            <div className="shipping-head pt-2 text-center fw-bolder text-white">
+                                <h2 className="fs-1 fw-bold">{item.head}</h2>
+                            </div>
+                            <div className="shipping-content pb-3">
+                                <p>{item.list1}</p>
+                                <p>{item.list2}</p>
+                                <p>{item.list3}</p>
+                                <p>{item.list4}</p>
+                                <p>{item.para1}</p>
+                                <p>{item.para2}</p>
+                                <p>{item.para3}</p>
+                                <p>{item.para4}</p>
+                                <p>{item.para5}</p>
+                                <p>{item.para6}</p>
+                                <p>{item.para7}</p>
+                                <p>{item.para8}</p>
+                                <p>{item.para9}</p>
+                                <p>{item.para10}</p>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </main>
         </>
     )
 }

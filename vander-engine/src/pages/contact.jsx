@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import Faq from "@/components/Home/Faq";
 import Sale from "@/components/Home/Sale";
 import Achievement from "@/components/Contact/Achievement";
+import Head from "next/head";
 export default function Contact() {
   useEffect(() => {
     AOS.init();
@@ -30,6 +31,7 @@ export default function Contact() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false); 
   const router = useRouter();
+  const canonicalUrl = `https://vanderengines.com${router.pathname}`;
   const [form1SuccessMessage, setForm1SuccessMessage] = useState("");
 const [form2SuccessMessage, setForm2SuccessMessage] = useState("");
 const [form3SuccessMessage, setForm3SuccessMessage] = useState("");
@@ -141,6 +143,7 @@ const [form3SuccessMessage, setForm3SuccessMessage] = useState("");
         formData
       );
       console.log(response.data);
+      router.push("/thankyou")
       if (formIdentifier === "form1") {
         setForm1SuccessMessage("Form submitted successfully! Thank you.");
       } else if (formIdentifier === "form2") {
@@ -198,7 +201,11 @@ const [form3SuccessMessage, setForm3SuccessMessage] = useState("");
   
   return (
     <>
-      <title>Vander Engines | Contact Us</title>
+    <Head>
+    <title>Vander Engines | Contact Us</title>
+    <link rel="canonical" href={canonicalUrl} />
+    </Head>
+      <main>
       {/*---------------------------Contact-hero-----------------------------------*/}
       <div class="contact-hero d-flex align-items-center justify-content-center mb-5">
         <div class="container">
@@ -789,6 +796,7 @@ const [form3SuccessMessage, setForm3SuccessMessage] = useState("");
         </div>
       </div>
       <Faq />
+      </main>
     </>
   );
 } 

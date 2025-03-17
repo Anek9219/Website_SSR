@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
-
+import { useRouter } from "next/navigation";
 import "slick-carousel/slick/slick-theme.css";
 
 
-export default function Cardsection1({ showproduct, handleAddToCart }) {
+export default function Cardsection1() {
   const [engines, setEngines] = useState([]);
   const [transmissions, setTransmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadedProducts, setLoadedProducts] = useState(5);
+  const router = useRouter();
 
   const formatData = (data) => {
     const formattedProducts = [];
@@ -84,6 +85,28 @@ export default function Cardsection1({ showproduct, handleAddToCart }) {
   if (loading || products.length === 0) {
     return <div>Loading...</div>;
   }
+  const handleAddToCart = (item) => {
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingProduct = cartItems.find(cartItem => cartItem.id === item.id);
+
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    } else {
+      cartItems.push({
+        id: item.id,
+        name: `${item.year} ${item.model} ${item.variant}`,
+        price: item.price,
+        variant: item.variant,
+        stockNumber: item.stock,
+        imageURL: item.image || "assets/img/default.jpg",
+        quantity: 1,
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+    alert("Product added to cart!");
+  };
+
 
   return (
     <div className="cardsection1 my-5" style={{ overflow: "hidden" }}>
@@ -113,25 +136,15 @@ export default function Cardsection1({ showproduct, handleAddToCart }) {
                   </div>
                   <div className="btnPrice">
                     <button
-                      className="theme-btn btn card-btn"
-                      type="submit"
+                      className="add-to-cart-btn btn theme-btn"
                       onClick={() => {
-                        handleAddToCart({
-                          id: product.Stock,
-                          name: `${product.year} ${product.name}`,
-                          price: product.price,
-                          stockNumber: product.stock,
-                          model: product.model,
-                          year: product.year,
-                          variant: product.variant,
-                          imageURL: product.image,
-                          quantity: 1,
-                        });
-                        navigate("/addtocart");
+                        handleAddToCart(product); // Change item to product
+                        router.push("/addtocart");
                       }}
                     >
                       Buy Now
                     </button>
+
                   </div>
                 </div>
               </div>

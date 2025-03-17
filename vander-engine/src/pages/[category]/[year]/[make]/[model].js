@@ -16,7 +16,7 @@ import UsedEngine from "@/components/Engine/UsedEngine";
 import UsedEngineSlide from "@/components/Engine/UsedEngineSlide";
 import UsedTransmission from "@/components/Transmission/UsedTransmission";
 import UsedTransmissionSlider from "@/components/Transmission/UsedTransmissionSlider";
-export default function Variant({
+export default function Model({
     origin,
 }) {
     const [phoneError, setPhoneError] = useState(""); // Error message for phone
@@ -37,23 +37,26 @@ export default function Variant({
     const [product, setProduct] = useState(null);
     const [form1SuccessMessage, setForm1SuccessMessage] = useState("");
     const [loading, setLoading] = useState(false); // Added loading state
-
+    const [variant, setVariant] = useState([]);
     const router = useRouter();
-    const { category, year, make, model, variant } = router.query;
+    const { category, year, make, model } = router.query;
     useEffect(() => {
-        if (category && year && make && model && (variant || variant == 'Display All')) {
+        if (category && year && make && model && variant) {
             const apiUrl =
-                category === 'engine'
-                    ? 'https://backend.vanderengines.com/api/engines'
-                    : 'https://backend.vanderengines.com/api/transmission';
-    
-            // Always encode variant properly for URL
-    
+                category === "engine"
+                    ? "https://backend.vanderengines.com/api/engines"
+                    : "https://backend.vanderengines.com/api/transmission";
+
+            let requestUrl = `${apiUrl}/${year}/${make}/${model}`;
+
+            // Append variant only if it's not "Display All"
+
             axios
-                .get(`${apiUrl}/${year}/${make}/${model}/${variant}`)
+                .get(requestUrl)
                 .then((response) => {
                     setProduct(response.data);
                     setLoading(false);
+                    console.log(response.data)
                 })
                 .catch((error) => {
                     console.error(`Error fetching ${category} data:`, error);
@@ -61,55 +64,6 @@ export default function Variant({
                 });
         }
     }, [category, year, make, model, variant]);
-
-    // useEffect(() => {
-    //     if (category && year && make && model) {
-    //         const fetchProducts = async () => {
-    //             setLoading(true);
-    //             try {
-    //                 const apiUrl = category === 'engine'
-    //                     ? 'https://backend.vanderengines.com/api/engines'
-    //                     : 'https://backend.vanderengines.com/api/transmission';
-
-    //                 const productData = await axios.get(apiUrl);
-    //                 let data = [];
-
-    //                 if (variant === "Display All") {
-    //                     Object.entries(productData.data[year][make][model] || {}).forEach(([variantName, product]) => {
-    //                         if (product) {
-    //                             data.push({
-    //                                 ...product,
-    //                                 variant: variantName,
-    //                                 year,
-    //                                 make,
-    //                                 model,
-    //                             });
-    //                         }
-    //                     });
-    //                 } else {
-    //                     const selectedVariantData = productData.data[year][make][model][variant];
-    //                     if (selectedVariantData) {
-    //                         data.push({
-    //                             ...selectedVariantData,
-    //                             variant,
-    //                             year,
-    //                             make,
-    //                             model,
-    //                         });
-    //                     }
-    //                 }
-
-    //                 setProduct(data);
-    //             } catch (error) {
-    //                 console.error('Error fetching products:', error);
-    //             } finally {
-    //                 setLoading(false);
-    //             }
-    //         };
-
-    //         fetchProducts();
-    //     }
-    // }, [category, year, make, model, variant]);
 
     console.log("Received props:", origin);
 
@@ -205,8 +159,8 @@ export default function Variant({
         }
 
         const path = category === 'engine'
-            ? `/engine/${selectedYear}/${selectedMake}/${selectedModel}/${selectedVariant}`
-            : `/transmission/${selectedYear}/${selectedMake}/${selectedModel}/${selectedVariant}`;
+            ? `/engine/${selectedYear}/${selectedMake}/${selectedModel}`
+            : `/transmission/${selectedYear}/${selectedMake}/${selectedModel}`;
         router.push(path);
     };
 
@@ -220,7 +174,6 @@ export default function Variant({
 
             return;
         }
-
         if (phoneNumber.trim()) {
             setShowModal(false);
             const isPopupHandled = sessionStorage.getItem("hasSeenPopup");
@@ -250,7 +203,6 @@ export default function Variant({
     };
     const performSearch = () => {
         let products = [];
-
         // Check if we are in "Display All" mode
         if (selectedVariant === "Display All") {
             // Iterate over all variants for the selected year, make, and model
@@ -339,37 +291,32 @@ export default function Variant({
         setMakes([]); // Clear makes
         setModels([]); // Clear models
         setVariants([]); // Clear variants
-    };
-    const addToCart = (product) => {
-        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-        const existingProduct = cartItems.find(item => item.id === product.id);
-
-        if (existingProduct) {
-            existingProduct.quantity += 1;
-        } else {
-            cartItems.push(product);
-        }
-
-        localStorage.setItem('cart', JSON.stringify(cartItems));
-        alert('Product added to cart!');
-    };
-
-    const handleAddToCart = () => {
-        const productToAdd = {
-            id: product.Stock,
-            name: `${year} ${make} ${model} Engine`,
-            price: product.pricing,
-            variant: product.variant,
-            stockNumber: product.Stock,
-            imageURL: product.image,
-            quantity: 1,
-        };
-
-        addToCart(productToAdd);
-        router.push('/addtocart');
-    };
+    };   
     //-------------------------------------------------
     if (category == "engine") {
+         const handleAddToCart = (item) => {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingProduct = cartItems.find(cartItem => cartItem.id === item.Stock);
+            
+            console.log(item);
+    
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cartItems.push({
+                    id: item.Stock,
+                    name: `${year} ${item.make} ${item.model} Engine`,
+                    price: item.pricing,
+                    variant: item.variant,
+                    stockNumber: item.Stock,
+                    imageURL: item.image || "assets/img/default.jpg",
+                    quantity: 1,
+                });
+            }
+    
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+            alert('Product added to cart!');
+        };
         return (
             <div>
                 <title>Vander Engines | Quality Used & Remanufactured Engines </title>
@@ -478,8 +425,9 @@ export default function Variant({
                                 <div className="col-md-4">
                                     <button
                                         type="submit"
-                                        className="btn btn-block transmission-btn w-100 mt-4 text-white bg-dark"
+                                        className="btn btn-block  w-100 mt-4 text-white bg-dark"
                                         onClick={handlePhoneSubmit}
+                                        style={{ background: "black !important" }}
                                     >
                                         Search
                                     </button>
@@ -492,68 +440,63 @@ export default function Variant({
                     </div>
                     {loading ? (
                         <p>Loading...</p>
-                    ) : product ? (
+                    ) : product && product.length > 0 ? (
                         <div className="product-card-container">
-                            <div className="col-lg-3 mb-4">
-                                <div className="card product-card mx-2">
-                                    <img
-                                        src={product.image}
-                                        alt="Product"
-                                        className="img-fluid"
-                                        style={{ height: "200px" }}
-                                    />
-                                    <div className="card-info">
-                                        <h4>
-                                            {year} {make} {model} Engine
-                                        </h4>
-                                        <p>
-                                            <strong>Variant:</strong> {variant}
-                                        </p>
-                                        <p>
-                                            <strong>Stock:</strong> {product.Stock}
-                                        </p>
-                                        <p>
-                                            <strong>Warranty:</strong> {product.warranty}
-                                        </p>
-                                        <p>
-                                            <strong>Price:</strong> {product.pricing}
-                                        </p>
-                                        <p>
-                                            <strong>Miles:</strong> {product.miles}
-                                        </p>
-                                        <button
-                                            className="btn buy-now-btn"
-                                            onClick={() => {
-                                                handleAddToCart({
-                                                    id: product.Stock,
-                                                    name: `${year} ${make} ${model} Engine`,
-                                                    price: product.pricing,
-                                                    model: product.model,
-                                                    stockNumber: product.Stock,
-                                                    variant: product.variant,
-                                                    imageURL: product.image,
-                                                    quantity: 1,
-                                                });
-                                                router.push("/addtocart");
-                                            }}
-                                        >
-                                            Buy Now
-                                        </button>
-                                        <button
-                                            className="add-to-cart-btn btn theme-btn"
-                                            onClick={handleAddToCart}
-                                        >
-                                            Add To Cart
-                                        </button>
+                            {product.map((item) => (
+                                <div className="col-lg-3 mb-4" key={item.Stock}>
+                                    <div className="card product-card mx-2 h-100">
+                                        <img
+                                            src={item.image || "assets/img/default.jpg"}
+                                            alt="Product"
+                                            className="img-fluid"
+                                            style={{ height: "200px" }}
+                                        />
+                                        <div className="card-info">
+                                            <h4>
+                                                {year} {item.make} {item.model} Engine
+                                            </h4>
+                                            <p>
+                                                <strong>Variant:</strong> {item.variant || "N/A"}
+                                            </p>
+                                            <p>
+                                                <strong>Stock:</strong> {item.Stock}
+                                            </p>
+                                            <p>
+                                                <strong>Warranty:</strong> {item.warranty}
+                                            </p>
+                                            <p>
+                                                <strong>Price:</strong> {item.pricing}
+                                            </p>
+                                            <p>
+                                                <strong>Miles:</strong> {item.miles || "N/A"}
+                                            </p>
+                                            <button
+                                                className="btn buy-now-btn"
+                                                onClick={() => {
+                                                    handleAddToCart(item);
+                                                    router.push("/addtocart");
+                                                }}
+                                            >
+                                                Buy Now
+                                            </button>
+                                            <button
+                                                className="add-to-cart-btn btn theme-btn"
+                                                onClick={() => {
+                                                    handleAddToCart(item)
+                                                    router.push("/addtocart");
+                                                }
+                                                }
+                                            >
+                                                Add To Cart
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            ))}
                         </div>
                     ) : (
                         <p>Engine details not found.</p>
                     )}
-
-
                     {/*-------------------------Engine Transmission------------------------*/}
                     <FindEngine />
                     {/*-------------------------Achievements------------------------*/}
@@ -637,6 +580,29 @@ export default function Variant({
         )
     }
     else if (category === "transmission") {
+        const handleAddToCart = (item) => {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingProduct = cartItems.find(cartItem => cartItem.id === item.Stock);
+            
+            console.log(item);
+    
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cartItems.push({
+                    id: item.Stock,
+                    name: `${year} ${item.make} ${item.model} Transmission`,
+                    price: item.pricing,
+                    variant: item.variant,
+                    stockNumber: item.Stock,
+                    imageURL: item.image || "assets/img/default.jpg",
+                    quantity: 1,
+                });
+            }
+    
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+            alert('Product added to cart!');
+        };
         return (
             <>
                 <div>
@@ -763,77 +729,67 @@ export default function Variant({
                         </div>
                         {loading ? (
                             <p>Loading...</p>
-                        ) : product ? (
+                        ) : product && product.length > 0 ? (
                             <div className="product-card-container">
-                                <div className="col-lg-3 mb-4">
-                                    <div className="card product-card mx-2">
-                                        <img
-                                            src={product.image}
-                                            alt="Product"
-                                            className="img-fluid"
-                                            style={{ height: "200px" }}
-                                        />
-                                        <div className="card-info">
-                                            <h4>
-                                                {year} {make} {model} Engine
-                                            </h4>
-                                            <p>
-                                                <strong>Variant:</strong> {variant}
-                                            </p>
-                                            <p>
-                                                <strong>Stock:</strong> {product.Stock}
-                                            </p>
-                                            <p>
-                                                <strong>Warranty:</strong> {product.warranty}
-                                            </p>
-                                            <p>
-                                                <strong>Price:</strong> {product.pricing}
-                                            </p>
-                                            <p>
-                                                <strong>Miles:</strong> {product.miles}
-                                            </p>
-                                            <button
-                                                className="btn buy-now-btn"
-                                                onClick={() => {
-                                                    handleAddToCart({
-                                                        id: product.Stock,
-                                                        name: `${product.year} ${product.make} ${product.model} Engine`,
-                                                        price: product.pricing,
-                                                        model: product.model,
-                                                        stockNumber: product.Stock,
-                                                        variant: product.variant,
-                                                        imageURL: product.image,
-                                                        quantity: 1,
-                                                    });
-                                                    router.push("/addtocart");
-                                                }}
-                                            >
-                                                Buy Now
-                                            </button>
-                                            <button
-                                                className="add-to-cart-btn btn theme-btn"
-                                                onClick={() => {
+                                {product.map((item) => (
+                                    <div className="col-lg-3 mb-4" key={item.Stock}>
+                                        <div className="card product-card mx-2">
+                                            <img
+                                                src={item.image || "assets/img/default.jpg"}
+                                                alt="Product"
+                                                className="img-fluid"
+                                                style={{ height: "200px" }}
+                                            />
+                                            <div className="card-info">
+                                                <h4>
+                                                    {year} {item.make} {item.model} Transmission
+                                                </h4>
+                                                <p>
+                                                    <strong>Variant:</strong> {item.variant || "N/A"}
+                                                </p>
+                                                <p>
+                                                    <strong>Stock:</strong> {item.Stock}
+                                                </p>
+                                                <p>
+                                                    <strong>Warranty:</strong> {item.warranty}
+                                                </p>
+                                                <p>
+                                                    <strong>Price:</strong> {item.pricing}
+                                                </p>
+                                                <p>
+                                                    <strong>Miles:</strong> {item.miles || "N/A"}
+                                                </p>
+                                                <button
+                                                    className="btn buy-now-btn"
+                                                    onClick={() => {
+                                                        handleAddToCart(item);
+                                                        router.push("/addtocart");
+                                                    }}
+                                                >
+                                                    Buy Now
+                                                </button>
+                                                <button
+                                                    className="add-to-cart-btn btn theme-btn"
+                                                    onClick={() => {
+                                                        handleAddToCart(item)
+                                                        router.push("/addtocart");
+                                                    }
+                                                    }
 
-                                                    handleAddToCart({
-                                                        id: product.Stock,
-                                                        name: `${product.year} ${product.make} ${product.model} Engine`,
-                                                        price: product.pricing,
-                                                        variant: product.variant,
-                                                        stockNumber: product.Stock,
-                                                        imageURL: product.image,
-                                                        quantity: 1,
-                                                    });
-                                                }}
-                                            >
-                                                Add To Cart
-                                            </button>
+                                                >
+                                                    Add To Cart
+                                                </button>
+
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                ))}
                             </div>
                         ) : (
-                            <p>Engine details not found.</p>
+                            <p>Transmission details not found.</p>
                         )}
+
+
 
                         {/*-------------------------Engine Transmission------------------------*/}
                         <FindTransission />

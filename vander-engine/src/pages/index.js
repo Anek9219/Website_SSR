@@ -16,10 +16,11 @@ import Brands from "@/components/Home/Brands";
 import Sale from "@/components/Home/Sale";
 import Cardsection1 from "@/components/Home/Cardsection1";
 import axios from "axios";
-
+import Head from "next/head";
 // import { Helmet } from "react-helmet";
 export default function Home({ handleAddToCart, showproduct }) {
   const router = useRouter();
+  const canonicalUrl = `https://vanderengines.com${router.pathname}`;
   const [formData, setFormData] = useState({
     part: "",
     make: "",
@@ -207,7 +208,7 @@ export default function Home({ handleAddToCart, showproduct }) {
       setLoading(false); // Stop loading
     }
   };
- // Handle form submission
+  // Handle form submission
   const handleSubmite = async (e) => {
     e.preventDefault();
 
@@ -228,8 +229,8 @@ export default function Home({ handleAddToCart, showproduct }) {
         formData
       );
       console.log(response.data);
-    
-      setSubmissionMessage2("Form submitted successfully! Thank you.");
+router.push("/thankyou")
+      // setSubmissionMessage2("Form submitted successfully! Thank you.");
       setFormData({
         part: "",
         make: "",
@@ -257,23 +258,31 @@ export default function Home({ handleAddToCart, showproduct }) {
   const Homeform2 = () => {
     setFormData({ ...formData, agreed: "Homepage2" });
   };
+
   return (
     <>
       {/* <Helmet> */}
-        <title>Vander Engines | High-Performance Engines & Transmissions</title>
-        {/* <meta name="description" content="This is a description of my page." /> */}
+      {/* <meta name="description" content="This is a description of my page." /> */}
       {/* </Helmet> */}
-      <div className="home pt-2 pb-4">
-        <div className="container-fluid">
-          <div className="home-upper d-flex align-items-center justify-content-around">
-            <svg
-              height="90"
-              stroke="#1eb7c6"
-              stroke-width="1.2"
-              class="text-line"
-              width="71%"
-            >
-              {/* <text
+
+      <Head>
+        <title>Vander Engines | High-Performance Engines & Transmissions</title>
+        <link rel="canonical" href={canonicalUrl} />
+      </Head>
+      <main>
+
+
+        <div className="home pt-2 pb-4">
+          <div className="container-fluid">
+            <div className="home-upper d-flex align-items-center justify-content-around">
+              <svg
+                height="90"
+                stroke="#1eb7c6"
+                stroke-width="1.2"
+                class="text-line"
+                width="71%"
+              >
+                {/* <text
                 x="50%"
                 dominant-baseline="middle"
                 text-anchor="middle"
@@ -281,26 +290,213 @@ export default function Home({ handleAddToCart, showproduct }) {
               >
                 Finance Option Available
               </text> */}
-            </svg>
-            <button
-              className="btn  custom-btn btn-9"
-              style={{ height: "40px" }}
-            >
-              <a
-                href="tel:+18448931760"
-                className="text-decoration-none text-white "
+              </svg>
+              <button
+                className="btn  custom-btn btn-9"
+                style={{ height: "40px" }}
               >
-                Call Now
-              </a>
-            </button>
-          </div>
+                <a
+                  href="tel:+18448931760"
+                  className="text-decoration-none text-white "
+                >
+                  Call Now
+                </a>
+              </button>
+            </div>
 
-          <div className="row align-items-center">
-            <div className="col-lg-4 form-area">
-              <div className="main-form p-3 py-5">
-                <form onSubmit={handleSubmit}>
-                  <div className="row mb-3">
-                    <div className="col-6">
+            <div className="row align-items-center">
+              <div className="col-lg-4 form-area">
+                <div className="main-form p-3 py-5">
+                  <form onSubmit={handleSubmit}>
+                    <div className="row mb-3">
+                      <div className="col-6">
+                        <select
+                          className="form-select"
+                          name="part"
+                          value={formData.part}
+                          onChange={handleChange}
+                          required
+                        >
+                          <option value="" disabled>
+                            Select part
+                          </option>
+                          <option value="Engine">Engine</option>
+                          <option value="Transmission">Transmission</option>
+                          <option value="Engine">Remanufactured Engines</option>
+                          <option value="Transmission">
+                            Remanufactured Transmission
+                          </option>
+                        </select>
+                      </div>
+                      <div className="col-6">
+                        <select
+                          className="form-select"
+                          name="year"
+                          value={formData.year}
+                          onChange={handleChange}
+                          disabled={!years.length}
+                          required
+                        >
+                          <option value="" disabled>
+                            Select year
+                          </option>
+                          {years.map((year) => (
+                            <option key={year} value={year}>
+                              {year}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-6">
+                        <select
+                          className="form-select"
+                          name="make"
+                          value={formData.make}
+                          onChange={handleChange}
+                          disabled={!makes.length}
+                          required
+                        >
+                          <option value="" disabled>
+                            Select make
+                          </option>
+                          {makes.map((make) => (
+                            <option key={make} value={make}>
+                              {make}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="col-6">
+                        <select
+                          className="form-select"
+                          name="model"
+                          value={formData.model}
+                          onChange={handleChange}
+                          disabled={!models.length}
+                          required
+                        >
+                          <option value="" disabled>
+                            Select a model
+                          </option>
+                          {models.map((model) => (
+                            <option key={model} value={model}>
+                              {model}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-6">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          placeholder="Enter Name"
+                          required
+                        />
+                      </div>
+                      <div className="col-6">
+                        <input
+                          type="tel"
+                          className={`form-control ${phoneError ? "is-invalid" : ""
+                            }`}
+                          id="mobile"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          placeholder="Enter Mobile"
+                          maxLength="12"
+                          required
+                        />
+                        {phoneError && (
+                          <div className="text-danger">{phoneError}</div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-12">
+                        <input
+                          type="email"
+                          className="form-control"
+                          id="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          placeholder="Enter Email"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="d-grid">
+                      <button
+                        type="submit"
+                        className="btn btn-block"
+                        disabled={loading}
+                        onClick={Homeform1}
+                      >
+                        {loading ? "Submitting..." : "Submit"}
+                      </button>
+                    </div>
+                    {submissionMessage && (
+                      <div
+                        className={` ${submissionMessage.includes("successfully")
+                          ? "text-success fw-bold mt-2 "
+                          : "text-danger"
+                          }`}
+                        role="alert"
+                      >
+                        {submissionMessage}
+                      </div>
+                    )}
+                  </form>
+                </div>
+              </div>
+              <div className="col-lg-8 car-area">
+                <img
+                  src="https://autoart.beplusthemes.com/wp-content/uploads/2024/04/car-hero-min.png"
+                  alt=""
+                  className="img-fluid"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <Shipping />
+        <Cardsection1 />
+
+        <AboutUs />
+        <EngineTransmission />
+        <div>
+          <div className="find-engine-head head1">
+            <h3 className="text-center">
+              Find Your <span>Engine</span>{" "}
+            </h3>
+          </div>
+          <FindEngine />
+        </div>
+
+        {/*---------------------------------contact-form-2----------------------------------*/}
+        <div className="contact-form-2 my-5">
+          <div className="container">
+            <div
+              className="row align-items-center justify-content-between p-3"
+              style={{ border: "1px solid #1eb7c6" }}
+            >
+              <div className="col-lg-12">
+                <form className="form-start" onSubmit={handleSubmite}>
+                  <h3 className="fw-bold mb-3">Search Live Inventory</h3>
+                  <div class="row mb-3">
+                    <div class="col-6">
+                      <label for="part" class="form-label">
+                        <i class="fa-regular fa-handshake me-3"></i> Part
+                      </label>
+
                       <select
                         className="form-select"
                         name="part"
@@ -313,13 +509,13 @@ export default function Home({ handleAddToCart, showproduct }) {
                         </option>
                         <option value="Engine">Engine</option>
                         <option value="Transmission">Transmission</option>
-                        <option value="Engine">Remanufactured Engines</option>
-                        <option value="Transmission">
-                          Remanufactured Transmission
-                        </option>
                       </select>
                     </div>
-                    <div className="col-6">
+                    <div class="col-6">
+                      <label for="year" class="form-label">
+                        <i class="fa-regular fa-calendar-days me-3"></i>
+                        Year
+                      </label>
                       <select
                         className="form-select"
                         name="year"
@@ -339,8 +535,12 @@ export default function Home({ handleAddToCart, showproduct }) {
                       </select>
                     </div>
                   </div>
-                  <div className="row mb-3">
-                    <div className="col-6">
+                  <div class="row mb-3">
+                    <div class="col-6">
+                      <label for="make" class="form-label">
+                        <i class="fa-brands fa-magento me-3"></i>
+                        Make
+                      </label>
                       <select
                         className="form-select"
                         name="make"
@@ -359,7 +559,11 @@ export default function Home({ handleAddToCart, showproduct }) {
                         ))}
                       </select>
                     </div>
-                    <div className="col-6">
+                    <div class="col-6">
+                      <label for="model" class="form-label">
+                        <i class="fa-brands fa-bandcamp me-3"></i>
+                        Model
+                      </label>
                       <select
                         className="form-select"
                         name="model"
@@ -369,7 +573,7 @@ export default function Home({ handleAddToCart, showproduct }) {
                         required
                       >
                         <option value="" disabled>
-                          Select a model
+                          Select model
                         </option>
                         {models.map((model) => (
                           <option key={model} value={model}>
@@ -379,8 +583,12 @@ export default function Home({ handleAddToCart, showproduct }) {
                       </select>
                     </div>
                   </div>
-                  <div className="row mb-3">
-                    <div className="col-6">
+                  <div class="row mb-3">
+                    <div class="col-6">
+                      <label for="name" class="form-label">
+                        <i class="fa-regular fa-user me-3"></i>
+                        Name
+                      </label>
                       <input
                         type="text"
                         className="form-control"
@@ -392,12 +600,15 @@ export default function Home({ handleAddToCart, showproduct }) {
                         required
                       />
                     </div>
-                    <div className="col-6">
+                    <div class="col-6">
+                      <label for="mobile" class="form-label">
+                        <i class="fa-solid fa-phone-volume me-3"></i>
+                        Mobile
+                      </label>
                       <input
                         type="tel"
-                        className={`form-control ${
-                          phoneError ? "is-invalid" : ""
-                        }`}
+                        className={`form-control ${phoneError ? "is-invalid" : ""
+                          }`}
                         id="mobile"
                         name="phone"
                         value={formData.phone}
@@ -411,8 +622,12 @@ export default function Home({ handleAddToCart, showproduct }) {
                       )}
                     </div>
                   </div>
-                  <div className="row mb-3">
-                    <div className="col-12">
+                  <div class="row mb-3">
+                    <div class="col-12">
+                      <label for="email" class="form-label">
+                        <i class="fa-solid fa-envelope-open-text me-3"></i>
+                        Email
+                      </label>
                       <input
                         type="email"
                         className="form-control"
@@ -428,357 +643,141 @@ export default function Home({ handleAddToCart, showproduct }) {
                   <div className="d-grid">
                     <button
                       type="submit"
-                      className="btn btn-block"
-                      disabled={loading}
+                      class="btn btn-block "
                       onClick={Homeform1}
                     >
-                      {loading ? "Submitting..." : "Submit"}
+                      Submit
                     </button>
                   </div>
-                  {submissionMessage && (
-                    <div
-                      className={` ${
-                        submissionMessage.includes("successfully")
-                          ? "text-success fw-bold mt-2 "
-                          : "text-danger"
-                      }`}
-                      role="alert"
-                    >
-                      {submissionMessage}
-                    </div>
-                  )}
+                  <div>
+                    {submissionMessage2 && (
+                      <p className="text-success">{submissionMessage2}</p>
+                    )}
+                  </div>
                 </form>
               </div>
             </div>
-            <div className="col-lg-8 car-area">
-              <img
-                src="https://autoart.beplusthemes.com/wp-content/uploads/2024/04/car-hero-min.png"
-                alt=""
-                className="img-fluid"
-              />
-            </div>
           </div>
         </div>
-      </div>
-      <Shipping />
-      <Cardsection1
-        handleAddToCart={handleAddToCart}
-        showproduct={showproduct}
-      />
-
-      <AboutUs />
-      <EngineTransmission />
-      <div>
-        <div className="find-engine-head head1">
-          <h3 className="text-center">
-            Find Your <span>Engine</span>{" "}
-          </h3>
+        {/*---------------------------------contact-form-2----------------------------------*/}
+        <EngineList />
+        <div>
+          <div className="find-transmission-head mt-5 head1">
+            <h3 className="text-center">
+              Find Your <span>Transmission</span>{" "}
+            </h3>
+          </div>
+          <FindTransmission />
         </div>
-        <FindEngine />
-      </div>
-
-         {/*---------------------------------contact-form-2----------------------------------*/}
-         <div className="contact-form-2 my-5">
-        <div className="container">
-          <div
-            className="row align-items-center justify-content-between p-3"
-            style={{ border: "1px solid #1eb7c6" }}
-          >
-            <div className="col-lg-12">
-              <form className="form-start" onSubmit={handleSubmite}>
-                <h3 className="fw-bold mb-3">Search Live Inventory</h3>
-                <div class="row mb-3">
-                  <div class="col-6">
-                    <label for="part" class="form-label">
-                      <i class="fa-regular fa-handshake me-3"></i> Part
-                    </label>
-
-                    <select
-                      className="form-select"
-                      name="part"
-                      value={formData.part}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="" disabled>
-                        Select part
-                      </option>
-                      <option value="Engine">Engine</option>
-                      <option value="Transmission">Transmission</option>
-                    </select>
-                  </div>
-                  <div class="col-6">
-                    <label for="year" class="form-label">
-                      <i class="fa-regular fa-calendar-days me-3"></i>
-                      Year
-                    </label>
-                    <select
-                      className="form-select"
-                      name="year"
-                      value={formData.year}
-                      onChange={handleChange}
-                      disabled={!years.length}
-                      required
-                    >
-                      <option value="" disabled>
-                        Select year
-                      </option>
-                      {years.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-6">
-                    <label for="make" class="form-label">
-                      <i class="fa-brands fa-magento me-3"></i>
-                      Make
-                    </label>
-                    <select
-                      className="form-select"
-                      name="make"
-                      value={formData.make}
-                      onChange={handleChange}
-                      disabled={!makes.length}
-                      required
-                    >
-                      <option value="" disabled>
-                        Select make
-                      </option>
-                      {makes.map((make) => (
-                        <option key={make} value={make}>
-                          {make}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="col-6">
-                    <label for="model" class="form-label">
-                      <i class="fa-brands fa-bandcamp me-3"></i>
-                      Model
-                    </label>
-                    <select
-                      className="form-select"
-                      name="model"
-                      value={formData.model}
-                      onChange={handleChange}
-                      disabled={!models.length}
-                      required
-                    >
-                      <option value="" disabled>
-                        Select model
-                      </option>
-                      {models.map((model) => (
-                        <option key={model} value={model}>
-                          {model}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-6">
-                    <label for="name" class="form-label">
-                      <i class="fa-regular fa-user me-3"></i>
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Enter Name"
-                      required
-                    />
-                  </div>
-                  <div class="col-6">
-                    <label for="mobile" class="form-label">
-                      <i class="fa-solid fa-phone-volume me-3"></i>
-                      Mobile
-                    </label>
-                    <input
-                      type="tel"
-                      className={`form-control ${
-                        phoneError ? "is-invalid" : ""
-                      }`}
-                      id="mobile"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="Enter Mobile"
-                      maxLength="12"
-                      required
-                    />
-                    {phoneError && (
-                      <div className="text-danger">{phoneError}</div>
-                    )}
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-12">
-                    <label for="email" class="form-label">
-                      <i class="fa-solid fa-envelope-open-text me-3"></i>
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Enter Email"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="d-grid">
-                  <button
-                    type="submit"
-                    class="btn btn-block "
-                    onClick={Homeform1}
+        <TransmissionList />
+        <Process />
+        <WhyChoose />
+        <CustomerReview />
+        <div className="AskQuestion my-3">
+          <div className="container">
+            <h3 className="question-title fs-1" style={{ color: "#1eb7c6" }}>
+              Ask A Question?
+            </h3>
+            <p>Are You Looking for Used Engines for Your Cars or Trucks?</p>
+            <form onSubmit={handleSubmit}>
+              <div class="row mb-3 ">
+                <div class="col-6">
+                  <label for="part" class="form-label">
+                    Part
+                  </label>
+                  <select
+                    className="form-select"
+                    name="part"
+                    value={formData.part}
+                    onChange={handleChange}
+                    required
                   >
-                    Submit
-                  </button>
+                    <option value="" disabled>
+                      Select part
+                    </option>
+                    <option value="Engine">Engine</option>
+                    <option value="Transmission">Transmission</option>
+                  </select>
                 </div>
-                <div>
-                  {submissionMessage2 && (
-                    <p className="text-success">{submissionMessage2}</p>
-                  )}
+                <div class="col-6">
+                  <label for="name" class="form-label">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Enter Name"
+                    required
+                  />
                 </div>
-              </form>
-            </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-6">
+                  <label for="email" class="form-label">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter Email"
+                    required
+                  />
+                </div>
+                <div class="col-6">
+                  <label for="mobile" class="form-label">
+                    Mobile
+                  </label>
+                  <input
+                    type="tel"
+                    className={`form-control ${phoneError ? "is-invalid" : ""}`}
+                    id="mobile"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Enter Mobile"
+                    maxLength="12"
+                    required
+                  />
+                  {phoneError && <div className="text-danger">{phoneError}</div>}
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label for="vander-message" class="form-label">
+                    Write Your Message
+                  </label>
+                  <textarea
+                    className="form-control"
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Enter Your Message"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="d-grid">
+                <button type="submit" class="btn btn-block" onClick={Homeform2}>
+                  Submit
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      </div>
-      {/*---------------------------------contact-form-2----------------------------------*/}
-
-
-      <EngineList />
-
-      <div>
-        <div className="find-transmission-head mt-5 head1">
-          <h3 className="text-center">
-            Find Your <span>Transmission</span>{" "}
-          </h3>
-        </div>
-        <FindTransmission />
-      </div>
-
-      <TransmissionList />
-      <Process />
-      <WhyChoose />
-      <CustomerReview />
-      <div className="AskQuestion my-3">
-        <div className="container">
-          <h3 className="question-title fs-1" style={{ color: "#1eb7c6" }}>
-            Ask A Question?
-          </h3>
-          <p>Are You Looking for Used Engines for Your Cars or Trucks?</p>
-          <form onSubmit={handleSubmit}>
-            <div class="row mb-3 ">
-              <div class="col-6">
-                <label for="part" class="form-label">
-                  Part
-                </label>
-                <select
-                  className="form-select"
-                  name="part"
-                  value={formData.part}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="" disabled>
-                    Select part
-                  </option>
-                  <option value="Engine">Engine</option>
-                  <option value="Transmission">Transmission</option>
-                </select>
-              </div>
-              <div class="col-6">
-                <label for="name" class="form-label">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter Name"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="row mb-3">
-              <div class="col-6">
-                <label for="email" class="form-label">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter Email"
-                  required
-                />
-              </div>
-              <div class="col-6">
-                <label for="mobile" class="form-label">
-                  Mobile
-                </label>
-                <input
-                  type="tel"
-                  className={`form-control ${phoneError ? "is-invalid" : ""}`}
-                  id="mobile"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Enter Mobile"
-                  maxLength="12"
-                  required
-                />
-                {phoneError && <div className="text-danger">{phoneError}</div>}
-              </div>
-            </div>
-            <div class="row mb-3">
-              <div class="col-12">
-                <label for="vander-message" class="form-label">
-                  Write Your Message
-                </label>
-                <textarea
-                  className="form-control"
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Enter Your Message"
-                  required
-                />
-              </div>
-            </div>
-            <div className="d-grid">
-              <button type="submit" class="btn btn-block" onClick={Homeform2}>
-                Submit
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <Faq />
-      <Brands />
-      <Sale />
+        <Faq />
+        <Brands />
+        <Sale />
+      </main>
     </>
   );
 }

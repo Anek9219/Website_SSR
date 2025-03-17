@@ -10,9 +10,7 @@ export default function Transmissionform({
   handleAddToCart,
   origin
 }) {
-  const [phoneError, setPhoneError] = useState(""); 
-  const [name, setName] = useState(""); 
-  const [email, setEmail] = useState(""); 
+  const [phoneError, setPhoneError] = useState("");
   const [years, setYears] = useState([]);
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
@@ -27,17 +25,17 @@ export default function Transmissionform({
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isFirstSubmit, setIsFirstSubmit] = useState(true);
   const [form1SuccessMessage, setForm1SuccessMessage] = useState("");
-  const [loading, setLoading] = useState(false); // Added loading state
   const router = useRouter();
   console.log("Received props:", origin);
+
   const validatePhoneNumber = (number) => {
     if (!number.startsWith("+1")) {
       return "Phone number must start with +1.";
     }
-    const numberWithoutPrefix = number.slice(2); 
-    const isValidLength = numberWithoutPrefix.length === 10; 
+    const numberWithoutPrefix = number.slice(2);
+    const isValidLength = numberWithoutPrefix.length === 10;
     const isDigitsOnly = /^[0-9]+$/.test(numberWithoutPrefix);
-    const noRepeatedDigits = /^(?!.*(\d)\1{6}).*$/; 
+    const noRepeatedDigits = /^(?!.*(\d)\1{6}).*$/;
     const dummyNumbers = [
       "1234567890",
       "9876543210",
@@ -58,6 +56,7 @@ export default function Transmissionform({
     }
     return "";
   };
+
   useEffect(() => {
     axios
       .get("https://backend.vanderengines.com/api/transmission")
@@ -82,6 +81,7 @@ export default function Transmissionform({
       setSelectedVariant("");
     }
   }, [selectedYear, transmissionData]);
+
   useEffect(() => {
     if (selectedYear && selectedMake) {
       const makeData = transmissionData[selectedYear][selectedMake];
@@ -111,13 +111,14 @@ export default function Transmissionform({
       alert("Please select all fields before searching.");
       return;
     }
-    const path = `/transmission/${selectedYear}/${selectedMake}/${selectedModel}/${encodeURIComponent(selectedVariant)}`;
+    const path = `/transmission/${selectedYear}/${selectedMake}/${selectedModel}`;
     router.push(path);
   };
+
   const handlePhoneSubmit = async () => {
     const error = validatePhoneNumber(phoneNumber);
     if (error) {
-      alert(error); 
+      alert(error);
       return;
     }
     if (!selectedVariant) {
@@ -128,10 +129,11 @@ export default function Transmissionform({
       const isPopupHandled = sessionStorage.getItem("hasSeenPopup");
       if (!isPopupHandled && isFirstSubmit) {
         await submitForm();
-        sessionStorage.setItem("hasSeenPopup", "true"); 
-        setIsFirstSubmit(false); 
+        sessionStorage.setItem("hasSeenPopup", "true");
+        setIsFirstSubmit(false);
       }
-      performSearch(); 
+      await submitForm();
+      performSearch();
       setForm1SuccessMessage("Form submitted successfully! Thank you.");
     } else {
       alert("Please enter a valid phone number");
@@ -140,12 +142,12 @@ export default function Transmissionform({
   const handlePhoneInputChange = (e) => {
     let value = e.target.value;
     if (!value.startsWith("+1")) {
-      value = "+1" + value.replace(/[^0-9]/g, ""); 
+      value = "+1" + value.replace(/[^0-9]/g, "");
     } else {
-      value = "+1" + value.slice(2).replace(/[^0-9]/g, ""); 
+      value = "+1" + value.slice(2).replace(/[^0-9]/g, "");
     }
     setPhoneNumber(value);
-    setPhoneError(validatePhoneNumber(value)); 
+    setPhoneError(validatePhoneNumber(value));
   };
   const performSearch = () => {
     let products = [];
@@ -176,6 +178,7 @@ export default function Transmissionform({
           variant: selectedVariant,
         });
     }
+
     products = products.map((product) => ({
       name: product.name || "N/A",
       Stock: product.Stock || "N/A",
@@ -190,8 +193,10 @@ export default function Transmissionform({
       make: product.make || "N/A",
       model: product.model || "N/A",
     }));
+
     setDisplayedProducts(products);
   };
+
   const submitForm = async () => {
     const formData = {
       part: "MyformEngine",
@@ -201,6 +206,7 @@ export default function Transmissionform({
       variant: selectedVariant,
       phone: phoneNumber,
     };
+
     try {
       const response = await axios.post(
         "https://backend.vanderengines.com/api/leads",
@@ -216,17 +222,18 @@ export default function Transmissionform({
       setPhoneNumber("");
     } catch (error) {
       console.error("There was an error submitting the form!", error);
+      // Swal.fire("Error", "There was an error submitting the form!", "error");
     }
   };
   const handleYearChange = (e) => {
     const year = e.target.value;
-    setSelectedYear(year);
-    setSelectedMake(""); 
-    setSelectedModel(""); 
-    setSelectedVariant(""); 
-    setMakes([]); 
-    setModels([]);
-    setVariants([]);
+    setSelectedYear(year); // Update selected year
+    setSelectedMake(""); // Reset make
+    setSelectedModel(""); // Reset model
+    setSelectedVariant(""); // Reset variant
+    setMakes([]); // Clear makes
+    setModels([]); // Clear models
+    setVariants([]); // Clear variants
   };
   //-------------------------------------------------
   useEffect(() => {
@@ -249,60 +256,7 @@ export default function Transmissionform({
     };
     setTimeout(initCarousel, 500);
   }, []);
-  const handleSubmite = async (e) => {
-    e.preventDefault();
-    if (
-      !selectedYear ||
-      !selectedMake ||
-      !selectedModel ||
-      !selectedVariant ||
-      !phoneNumber ||
-      !name ||
-      !email
-    ) {
-      alert("Please fill out all fields before submitting.");
-      return; 
-    }
 
-    setLoading(true); 
-    try {
-      const formData = {
-        part: "Engine",
-        year: selectedYear,
-        make: selectedMake,
-        model: selectedModel,
-        variant: selectedVariant,
-        phone: phoneNumber,
-        name: name,
-        email: email,
-        message: "", 
-        agreed: "Homepage1", 
-      };
-      const response = await axios.post(
-        "https://backend.vanderengines.com/api/leads",
-        formData
-      );
-      console.log(response.data);
-      router.push('/thankyou'); 
-      setSelectedYear("");
-      setSelectedMake("");
-      setSelectedModel("");
-      setSelectedVariant("");
-      setPhoneNumber("");
-      setName("");
-      setEmail("");
-      setPhoneError(""); 
-    } catch (error) {
-      console.error("There was an error submitting the form!", error);
-      alert("There was an error submitting the form!");
-    } finally {
-      setLoading(false); 
-    }
-  };
-  const handleSubmitButtonClick = (e) => {
-    e.preventDefault();
-    handleSubmite(e);
-  };
   return (
     <div className="container">
       <div className="transmission-form text-white container mb-5 mt-4" id="trans-form">

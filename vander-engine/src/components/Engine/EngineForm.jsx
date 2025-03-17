@@ -112,7 +112,7 @@ export default function EngineForm({
       alert("Please select all fields before searching.");
       return;
     }
-    const path = `/engine/${selectedYear}/${selectedMake}/${selectedModel}/${selectedVariant}`;
+    const path = `/engine/${selectedYear}/${selectedMake}/${selectedModel}`;
     router.push(path);
   };
 
@@ -362,7 +362,7 @@ export default function EngineForm({
               <div className="col-md-4">
                 <button
                   type="submit"
-                  className="btn btn-block transmission-btn w-100 mt-4 text-white"
+                  className="btn btn-block transmission-btn w-100 mt-4 text-white bg-dark"
                   onClick={
                     handlePhoneSubmit
                   }
