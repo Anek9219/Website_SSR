@@ -18,7 +18,7 @@ import Cardsection1 from "@/components/Home/Cardsection1";
 import axios from "axios";
 import Head from "next/head";
 // import { Helmet } from "react-helmet";
-export default function Home({ handleAddToCart, showproduct }) {
+export default function Home() {
   const router = useRouter();
   const canonicalUrl = `https://vanderengines.com${router.pathname}`;
   const [formData, setFormData] = useState({
@@ -458,11 +458,12 @@ router.push("/thankyou")
                 </div>
               </div>
               <div className="col-lg-8 car-area">
-                <img
-                  src="https://autoart.beplusthemes.com/wp-content/uploads/2024/04/car-hero-min.png"
-                  alt=""
-                  className="img-fluid"
-                />
+<img
+  src="/assets/car-hero-min.webp"
+  alt=""
+  className="img-fluid"
+/>
+
               </div>
             </div>
           </div>
@@ -772,7 +773,6 @@ router.push("/thankyou")
                 </button>
               </div>
             </form>
-          </div>
         </div>
         <Faq />
         <Brands />

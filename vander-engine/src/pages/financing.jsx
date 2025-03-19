@@ -11,6 +11,7 @@ export default function Financing() {
     <>
       <Head>
         <title>Vander Engines | Financing</title>
+        <meta name="description" content="Get financing options for quality used and rebuilt engines." />
         <link rel="canonical" href={canonicalUrl} />
       </Head>
       <main>
