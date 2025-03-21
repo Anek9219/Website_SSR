@@ -16,6 +16,7 @@ import UsedEngine from "@/components/Engine/UsedEngine";
 import UsedEngineSlide from "@/components/Engine/UsedEngineSlide";
 import UsedTransmission from "@/components/Transmission/UsedTransmission";
 import UsedTransmissionSlider from "@/components/Transmission/UsedTransmissionSlider";
+import OrderEngine from "@/components/Engine/OrderEngine";
 export default function Model({
     origin,
 }) {
@@ -291,15 +292,15 @@ export default function Model({
         setMakes([]); // Clear makes
         setModels([]); // Clear models
         setVariants([]); // Clear variants
-    };   
+    };
     //-------------------------------------------------
     if (category == "engine") {
-         const handleAddToCart = (item) => {
+        const handleAddToCart = (item) => {
             const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
             const existingProduct = cartItems.find(cartItem => cartItem.id === item.Stock);
-            
+
             console.log(item);
-    
+
             if (existingProduct) {
                 existingProduct.quantity += 1;
             } else {
@@ -313,7 +314,7 @@ export default function Model({
                     quantity: 1,
                 });
             }
-    
+
             localStorage.setItem('cart', JSON.stringify(cartItems));
             alert('Product added to cart!');
         };
@@ -519,6 +520,7 @@ export default function Model({
                                     <div className="row align-items-center">
                                         <div className="col-lg-6">
                                             <div className="find-engine__content">
+
                                                 <p>
                                                     Find high quality
                                                     <span className="text-black fw-bold">
@@ -527,27 +529,21 @@ export default function Model({
                                                         {make}{" "}
                                                         {model} Engine{" "}
                                                     </span>
-                                                    AT Vander Engines Transmissions we have top quality used{" "}
+                                                    At VanderEngines, we specialize in offering used{" "}
                                                     <span className="text-black fw-bold">
                                                         {" "}
                                                         {make}{" "}
                                                         {model} Engine for{" "}
                                                         {year} variants
                                                     </span>{" "}
-                                                    All the used engines that we sell are highly tested and
-                                                    inspected before we deliver it to you. At Vander Engines
-                                                    Transmissions we also offer you 1 year warranty at no
-                                                    extra cost. Vander Engines Transmissions team offer you
-                                                    24x7 support. We make sure to provide you with high
-                                                    performing engines for
+                                                    that are thoroughly inspected and tested for reliability. Our engine motors for sale come from trusted sources, ensuring high performance and longevity. We provide engines for
                                                     <span className="text-black fw-bold">
                                                         {" "}
                                                         {make}{" "}
                                                         {model}{" "}
-                                                        {year} .
+                                                        {year} , 
                                                     </span>
-                                                    We take pride in improving your online buying experience
-                                                    at Vander Engines Transmissions.
+                                                     we have the perfect match for your vehicle.
                                                 </p>
                                             </div>
                                             <Link href="/engine">
@@ -570,12 +566,13 @@ export default function Model({
                 {/*-------------------------Content of Engine-----------------------*/}
                 <EngineContent />
                 {/*-------------------------Search Engine------------------------*/}
-                <div className="search-transmission my-5 head1">
+                <div className="search-transmission my-4 head1">
                     <h3 className="text-center mb-3">
                         Search Your <span>Engine</span>
                     </h3>
                     <EngineList />
                 </div>
+                <OrderEngine />
             </div>
         )
     }
@@ -583,9 +580,9 @@ export default function Model({
         const handleAddToCart = (item) => {
             const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
             const existingProduct = cartItems.find(cartItem => cartItem.id === item.Stock);
-            
+
             console.log(item);
-    
+
             if (existingProduct) {
                 existingProduct.quantity += 1;
             } else {
@@ -599,7 +596,7 @@ export default function Model({
                     quantity: 1,
                 });
             }
-    
+
             localStorage.setItem('cart', JSON.stringify(cartItems));
             alert('Product added to cart!');
         };
@@ -817,7 +814,7 @@ export default function Model({
                                                             {year} {make}{" "}
                                                             {model} Transmission{" "}
                                                         </span>
-                                                        AT Vander Engines Transmissions we have top quality used{" "}
+                                                        AT Vander Engines we have top quality used{" "}
                                                         <span className="text-black fw-bold">
                                                             {" "}
                                                             {make} {model}{" "}
@@ -825,8 +822,8 @@ export default function Model({
                                                         </span>{" "}
                                                         All the used transmissions that we sell are highly tested
                                                         and inspected before we deliver it to you. At Vander
-                                                        Engines Transmissions we also offer you 1 year warranty at
-                                                        no extra cost. Vander Engines Transmissions team offer you
+                                                        Engines we also offer you 1 year warranty at
+                                                        no extra cost. Vander Engines team offer you
                                                         24x7 support. We make sure to provide you with high
                                                         performing transmissions for
                                                         <span className="text-black fw-bold">
@@ -835,7 +832,7 @@ export default function Model({
                                                             {year} .
                                                         </span>
                                                         We take pride in improving your online buying experience
-                                                        at Vander Engines Transmissions.
+                                                        at Vander Engines.
                                                     </p>
                                                 </div>
                                                 <Link href="/engine">

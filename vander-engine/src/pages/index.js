@@ -774,6 +774,7 @@ router.push("/thankyou")
               </div>
             </form>
         </div>
+        </div>
         <Faq />
         <Brands />
         <Sale />

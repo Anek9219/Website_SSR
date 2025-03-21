@@ -508,9 +508,8 @@ export default function EngineForm({
           <div className="find-transmission mt-3">
             <h4 className="text-center">
               About Our Used {displayedProducts[0].year}{" "}
-              {displayedProducts[0].make} <span>Engine</span>
+              {displayedProducts[0].make} <span>Engines</span>
             </h4>
-
             <div className="find-engine">
               <div className="container">
                 <div className="row align-items-center">
@@ -524,7 +523,7 @@ export default function EngineForm({
                           {displayedProducts[0].make}{" "}
                           {displayedProducts[0].model} Engine{" "}
                         </span>
-                        AT Vander Engines Transmissions we have top quality used{" "}
+                        At VanderEngines we have top quality used{" "}
                         <span className="text-black fw-bold">
                           {" "}
                           {displayedProducts[0].make}{" "}
@@ -533,8 +532,8 @@ export default function EngineForm({
                         </span>{" "}
                         All the used engines that we sell are highly tested and
                         inspected before we deliver it to you. At Vander Engines
-                        Transmissions we also offer you 1 year warranty at no
-                        extra cost. Vander Engines Transmissions team offer you
+                        we also offer you 1 year warranty at no
+                        extra cost. Vander Engines team offer you
                         24x7 support. We make sure to provide you with high
                         performing engines for
                         <span className="text-black fw-bold">
@@ -544,7 +543,7 @@ export default function EngineForm({
                           {displayedProducts[0].year} .
                         </span>
                         We take pride in improving your online buying experience
-                        at Vander Engines Transmissions.
+                        at Vander Engines.
                       </p>
                     </div>
                     <Link href="/engine">
