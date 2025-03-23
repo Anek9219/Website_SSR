@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Transmissionform from "@/components/Transmission/Transmissionform";
 import TransmissionContent from "@/components/Transmission/TransmissionContent";
 import Head from "next/head";
+import OrderTransmission from "@/components/Transmission/OrderTransmission";
 export default function Transmission({ handleAddToCart, showproduct }) {
     const [years, setYears] = useState([]);
     const [makes, setMakes] = useState([]);
@@ -101,6 +102,7 @@ export default function Transmission({ handleAddToCart, showproduct }) {
                     </h3>
                     <TransmissionList />
                 </div>
+                <OrderTransmission />
             </main>
 
         </>

@@ -492,7 +492,7 @@ export default function Transmissionform({
         </div>
       )}
       {/*-------------------------Find Transmission------------------------*/}
-   <FindTransission/>
+      <FindTransission />
       {/*-------------------------Achievements------------------------*/}
       <AchievementTransmission />
       {/*-------------------------About used Transmission------------------------*/}
@@ -508,20 +508,7 @@ export default function Transmissionform({
               <div className="row align-items-center">
                 <div className="col-lg-6">
                   <div className="find-transmission__content">
-                    Vander Engines Transmissions provides you the high quality
-                    used & remanufactured Transmissions. Vander Engines
-                    Transmissions is one of the most trusted supplier of the
-                    used transmissions in the United States and around the
-                    world. We have wide range of second hand transmissions at
-                    our yards, you can find second hand motors for every make
-                    and model. Our transmissions are highly tested and inspected
-                    before we deliver it to you. Vander engines transmissions
-                    provide you used transmissions at an affordable price. We
-                    also offer you upto 5 years warranty on our used
-                    transmissions. Our range includes remanufactured
-                    transmissions for brands like BMW, Ford, GMC, Nissan, Acura,
-                    Audi, Dodge, Hyundai, Honda, Kia, Jeep, Bentley, and many
-                    more.
+                    At VanderEngines, we specialize in offering used transmissions that are thoroughly inspected and tested for durability. Our transmission for sale options include automatic and manual transmissions for all major brands, including Ford, Chevrolet, Honda, Toyota, BMW, Mercedes, and more. Whether you need a car transmission for sale or transmission sales near me, we have a solution tailored to your needs.
                   </div>
                   <Link href="/transmission">
                     <button className="btn theme-btn my-3">
@@ -550,7 +537,6 @@ export default function Transmissionform({
             About Our Used {displayedProducts[0].year}{" "}
             {displayedProducts[0].make} <span> Transmission</span>
           </h4>
-
           <div className="find-transmission ">
             <div className="container">
               <div className="row align-items-center">
@@ -563,25 +549,19 @@ export default function Transmissionform({
                         {displayedProducts[0].year} {displayedProducts[0].make}{" "}
                         {displayedProducts[0].model} Transmission{" "}
                       </span>
-                      AT Vander Engines Transmissions we have top quality used{" "}
+                      At VanderEngines, we specialize in offering used{" "}
                       <span className="text-black fw-bold">
                         {" "}
                         {displayedProducts[0].make} {displayedProducts[0].model}{" "}
                         transmission for {displayedProducts[0].year} variants
                       </span>{" "}
-                      All the used transmissions that we sell are highly tested
-                      and inspected before we deliver it to you. At Vander
-                      Engines Transmissions we also offer you 1 year warranty at
-                      no extra cost. Vander Engines Transmissions team offer you
-                      24x7 support. We make sure to provide you with high
-                      performing transmissions for
+                      that are thoroughly inspected and tested for durability. Our transmission for sale options include automatic and manual transmissions for
                       <span className="text-black fw-bold">
                         {" "}
                         {displayedProducts[0].make} {displayedProducts[0].model}{" "}
                         {displayedProducts[0].year} .
                       </span>
-                      We take pride in improving your online buying experience
-                      at Vander Engines Transmissions.
+                      we have a solution tailored to your needs.
                     </p>
                   </div>
                   <Link href="/engine">
@@ -598,22 +578,22 @@ export default function Transmissionform({
                     <img
                       src="/assets/find-transmission-1.png"
                       alt=""
-                      style={{ width: "80%" }}
+                      style={{ width: "60%" }}
                     />
                     <img
                       src="/assets/find-transmission-2.jpg"
                       alt=""
-                      style={{ width: "80%" }}
+                      style={{ width: "60%" }}
                     />
                     <img
                       src="/assets/find-transmission-3.jpg"
                       alt=""
-                      style={{ width: "80%" }}
+                      style={{ width: "60%" }}
                     />
                     <img
                       src="/assets/find-transmission-4.jpg"
                       alt=""
-                      style={{ width: "80%" }}
+                      style={{ width: "60%" }}
                     />
                   </div>
                 </div>

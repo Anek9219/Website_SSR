@@ -8,10 +8,12 @@ export default function FindTransission() {
             <div className="find-transmission">
                 <div className="container">
                     <div className="row align-items-center">
+                        <h4 className="text-center">
+                            Buy High-Quality Used Transmissions for Sale <span>– Affordable & Reliable
+                            </span>
+                        </h4>
+                        <p className='text-center'>Looking for used transmissions for sale? At VanderEngines, we provide top-quality low mileage used transmissions at affordable prices. Whether you need a cheap transmission or a premium option, we have a vast inventory to meet your needs. We supply transmissions for every make and model, ensuring you get the perfect fit for your vehicle.</p>
                         <div className="col-lg-6 text-center ">
-                            <h4 className="">
-                                Find Your <span>Transmission </span>
-                            </h4>
                             <FindTransmission2 />
                         </div>
                         <div className="col-lg-6">

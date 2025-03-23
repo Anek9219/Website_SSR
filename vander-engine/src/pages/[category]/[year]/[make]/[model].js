@@ -1,9 +1,39 @@
+import { useRouter } from "next/router";
+import Head from "next/head";
+import axios from "axios";
+
+export async function getServerSideProps({ params }) {
+    const { category, year, make, model } = params;
+
+    // Construct the canonical URL
+    const canonicalUrl = `https://vanderengines.com/${category}/${year}/${make}/${model}`;
+
+    // Fetch product data from API
+    let product = null;
+    try {
+        const apiUrl =
+            category === "engine"
+                ? "https://backend.vanderengines.com/api/engines"
+                : "https://backend.vanderengines.com/api/transmission";
+
+        const response = await axios.get(`${apiUrl}/${year}/${make}/${model}`);
+        product = response.data;
+    } catch (error) {
+        console.error(`Error fetching ${category} data:`, error);
+    }
+
+    return {
+        props: { canonicalUrl, category, year, make, model, product },
+    };
+}
+
+
 import { useEffect, useState } from "react";
 import "@/components/Engine/Engine.css"
 import Achievement from '@/components/Contact/Achievement';
 import Link from 'next/link';
-import { useRouter } from "next/router";
-import axios from "axios";
+// import { useRouter } from "next/router";
+// import axios from "axios";
 import "@/components/Engine/EngineForm.css"
 import EngineList from "@/components/Home/EngineList";
 import TransmissionList from "@/components/Home/TransmissionList";
@@ -17,9 +47,9 @@ import UsedEngineSlide from "@/components/Engine/UsedEngineSlide";
 import UsedTransmission from "@/components/Transmission/UsedTransmission";
 import UsedTransmissionSlider from "@/components/Transmission/UsedTransmissionSlider";
 import OrderEngine from "@/components/Engine/OrderEngine";
-export default function Model({
-    origin,
-}) {
+import OrderTransmission from "@/components/Transmission/OrderTransmission";
+// import Head from "next/head";
+export default function Model({ origin, canonicalUrl, category, year, make, model }) {
     const [phoneError, setPhoneError] = useState(""); // Error message for phone
     const [years, setYears] = useState([]);
     const [makes, setMakes] = useState([]);
@@ -40,7 +70,9 @@ export default function Model({
     const [loading, setLoading] = useState(false); // Added loading state
     const [variant, setVariant] = useState([]);
     const router = useRouter();
-    const { category, year, make, model } = router.query;
+    // const { category, year, make, model } = router.query;
+
+
     useEffect(() => {
         if (category && year && make && model && variant) {
             const apiUrl =
@@ -320,7 +352,10 @@ export default function Model({
         };
         return (
             <div>
-                <title>Vander Engines | Quality Used & Remanufactured Engines </title>
+                <Head>
+                    <title>Vander Engines | Quality Used & Remanufactured Engines </title>
+                    <link rel="canonical" href={canonicalUrl} />
+                </Head>
                 <div className="engine-upper d-flex flex-column">
                     <div className="engine-hero "></div>
                 </div>
@@ -541,9 +576,9 @@ export default function Model({
                                                         {" "}
                                                         {make}{" "}
                                                         {model}{" "}
-                                                        {year} , 
+                                                        {year} ,
                                                     </span>
-                                                     we have the perfect match for your vehicle.
+                                                    we have the perfect match for your vehicle.
                                                 </p>
                                             </div>
                                             <Link href="/engine">
@@ -577,6 +612,7 @@ export default function Model({
         )
     }
     else if (category === "transmission") {
+
         const handleAddToCart = (item) => {
             const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
             const existingProduct = cartItems.find(cartItem => cartItem.id === item.Stock);
@@ -603,9 +639,12 @@ export default function Model({
         return (
             <>
                 <div>
-                    <title>
-                        Vander Engines | Quality Used & Remanufactured Transmissions
-                    </title>
+                    <Head>
+                        <title>
+                            Vander Engines | Quality Used & Remanufactured Transmissions
+                        </title>
+                        <link rel="canonical" href={canonicalUrl} />
+                    </Head>
                     <div className="transmission-upper d-flex flex-column">
                         <div className="transmission-hero"></div>
                     </div>
@@ -814,27 +853,23 @@ export default function Model({
                                                             {year} {make}{" "}
                                                             {model} Transmission{" "}
                                                         </span>
-                                                        AT Vander Engines we have top quality used{" "}
+                                                        At VanderEngines, we specialize in offering used{" "}
                                                         <span className="text-black fw-bold">
                                                             {" "}
                                                             {make} {model}{" "}
                                                             transmission for {year} variants
                                                         </span>{" "}
-                                                        All the used transmissions that we sell are highly tested
-                                                        and inspected before we deliver it to you. At Vander
-                                                        Engines we also offer you 1 year warranty at
-                                                        no extra cost. Vander Engines team offer you
-                                                        24x7 support. We make sure to provide you with high
-                                                        performing transmissions for
+                                                        that are thoroughly inspected and tested for durability. Our transmission for sale options include automatic and manual transmissions for
                                                         <span className="text-black fw-bold">
                                                             {" "}
+                                                            {" "}
                                                             {make} {model}{" "}
-                                                            {year} .
+                                                            {year} , {" "}
                                                         </span>
-                                                        We take pride in improving your online buying experience
-                                                        at Vander Engines.
+                                                        we have a solution tailored to your needs.
                                                     </p>
                                                 </div>
+
                                                 <Link href="/engine">
                                                     <button className="btn theme-btn my-3">
                                                         Discover More &#8594;
@@ -859,6 +894,7 @@ export default function Model({
                         </h3>
                         <TransmissionList />
                     </div>
+                    <OrderTransmission />
                 </div>
             </>
         )

@@ -515,6 +515,7 @@ export default function EngineForm({
                 <div className="row align-items-center">
                   <div className="col-lg-6">
                     <div className="find-engine__content">
+
                       <p>
                         Find high quality
                         <span className="text-black fw-bold">
@@ -523,29 +524,24 @@ export default function EngineForm({
                           {displayedProducts[0].make}{" "}
                           {displayedProducts[0].model} Engine{" "}
                         </span>
-                        At VanderEngines we have top quality used{" "}
+                        At VanderEngines, we specialize in offering used{" "}
                         <span className="text-black fw-bold">
                           {" "}
                           {displayedProducts[0].make}{" "}
                           {displayedProducts[0].model} Engine for{" "}
                           {displayedProducts[0].year} variants
                         </span>{" "}
-                        All the used engines that we sell are highly tested and
-                        inspected before we deliver it to you. At Vander Engines
-                        we also offer you 1 year warranty at no
-                        extra cost. Vander Engines team offer you
-                        24x7 support. We make sure to provide you with high
-                        performing engines for
+                        that are thoroughly inspected and tested for reliability. Our engine motors for sale come from trusted sources, ensuring high performance and longevity. We provide engines for
                         <span className="text-black fw-bold">
                           {" "}
                           {displayedProducts[0].make}{" "}
                           {displayedProducts[0].model}{" "}
-                          {displayedProducts[0].year} .
+                          {displayedProducts[0].year} ,
                         </span>
-                        We take pride in improving your online buying experience
-                        at Vander Engines.
+                        we have the perfect match for your vehicle.
                       </p>
                     </div>
+
                     <Link href="/engine">
                       <button className="btn theme-btn my-3">
                         Discover More &#8594;

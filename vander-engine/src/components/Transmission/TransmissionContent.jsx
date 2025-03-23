@@ -3,15 +3,16 @@ import ReadMore from './ReadMore';
 
 export default function TransmissionContent() {
     const content1 =
-            "Looking for a top-notch car transmission without breaking the bank? You've come to the right place. The transmission is crucial—second only to the engine itself— and with our reliable options, you can avoid the hassle and expense of a brand-new one. A brand-new transmission might be expensive, but we have cost-effective alternative: high-quality used transmissions from trusted dealers across the country.";
+            "Buying a new transmission can be expensive, but our cheap used transmissions near me provide a cost-effective alternative. Each used transmission for sale undergoes rigorous testing to ensure reliability and efficiency.";
         const content2 =
-            "At Vander Engines, we make it easy for you to find the perfect transmission with our custom inventory. As a leading online resource for used transmissions, Vander Engines is dedicated to providing you with top-quality products at unbeatable prices. Trust us to help you keep your vehicle running smoothly without overspending.";
+            "We provide transmissions for sale for all makes and models. Whether you drive a sedan, truck, SUV, or luxury vehicle, we have the right used transmission for sale to fit your needs.";
         const content3 =
-            "At Vander Engines, finding the perfect used transmission has been easier with our mechanical team. Simply provide details about your vehicle—such as the brand, model, and year—and let our tool do the rest. Whether you’re looking for a transmission for a BMW, Honda, Chevy, or any other vehicle, Vander Engines has you covered. We offer both standard and automatic transmissions, ensuring you find the best deals on high-grade parts. With our user-friendly search tool, finding a reliable, affordable transmission takes just minutes.";
+            "All our used transmissions with warranty offer peace of mind. We ensure that every transmission for sale meets industry standards for performance and longevity.";
         const content4 =
-            "Here’s how it works: Enter Your Vehicle Details: Fill out the fields with your car’s information and hit the search button. Get Results: Receive a curated list of high-quality transmission options from Vander Engines. Order with Ease: Select the transmission that fits your needs and budget, then provide your contact details. Our dealers will reach out to you within 24 hours to finalize your purchase.";
+            "Looking for used transmissions for sale near me? We provide quick and secure shipping across the U.S., ensuring you receive your cheap transmission without delays.";
   return (
     <div>
+
          <div className="transmission-content">
                 <div className="container h-100 d-flex align-items-center justify-content-center">
                     <h5>
@@ -23,23 +24,28 @@ export default function TransmissionContent() {
             <div className="transmission-para mt-5">
                 <div className="container-fluid">
                     <div className="row">
+                    <h3 className='fs-1 fw-bold text-center mb-4'>Why Choose Vander Engines ?</h3>
                         <div className="col-lg-3 mb-3">
                             <div className="card p-3">
+                            <h5 className='text-center fw-bold'>Affordable & High-Quality Used Transmissions</h5>
                                 <ReadMore text={content1} />
                             </div>
                         </div>
                         <div className="col-lg-3 mb-3">
-                            <div className="card p-3">
+                            <div className="card p-3 h-100">
+                            <h5 className='text-center fw-bold'>Extensive Inventory for Every Vehicle</h5>
                                 <ReadMore text={content2} />
                             </div>
                         </div>
                         <div className="col-lg-3 mb-3">
-                            <div className="card p-3">
+                            <div className="card p-3 h-100">
+                            <h5 className='text-center fw-bold'>Warranty & Quality Assurance</h5>
                                 <ReadMore text={content3} />
                             </div>
                         </div>
                         <div className="col-lg-3 mb-3">
-                            <div className="card p-3">
+                            <div className="card p-3 h-100">
+                            <h5 className='text-center fw-bold'>Fast & Reliable Nationwide Shipping</h5>
                                 <ReadMore text={content4} />
                             </div>
                         </div>
