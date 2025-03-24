@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './transmission.css'
+// import './transmission.css'
+import styles from './transmission.module.css';
 const ReadMore = ({ text, wordLimit = 30 }) => {
   const [showFullText, setShowFullText] = useState(false);
 
@@ -20,7 +21,7 @@ const ReadMore = ({ text, wordLimit = 30 }) => {
         {showFullText ? text : truncatedText}
       </div>
       <button 
-        className="btn btn-link read-btn" 
+        className={`${styles.read_btn} btn btn-link`} 
         onClick={handleToggleText}
         style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
       >

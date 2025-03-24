@@ -1,7 +1,5 @@
-:root {
-  --primary-color: #1eb7c6;
-}
-.engine-hero {
+
+.engine_hero {
   background-image: url(/assets/engine-banner-web.jpg);
   height: 250px;
   background-position: center;
@@ -10,7 +8,7 @@
   z-index: 1;
   /* margin-bottom: 100px; */
 }
-.engine-hero::before {
+.engine_hero::before {
   content: "";
   position: absolute;
   top: 0;
@@ -27,12 +25,11 @@
 }
 /*--------------------------------responsive----------------------*/
 @media (max-width: 576px) {
-  .transmission-form {
+  .transmission_form {
     order: 1;
-
     margin-bottom: 20px;
   }
-  .engine-hero {
+  .engine_hero {
     order: 2;
   }
 }

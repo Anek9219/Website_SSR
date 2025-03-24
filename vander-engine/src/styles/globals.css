@@ -4,6 +4,9 @@
   box-sizing: border-box;
   font-family: text-font;
 }
+:root {
+  --primary-color: #1eb7c6;
+}
 .form-select:focus,
 .form-control:focus {
   box-shadow: none !important;

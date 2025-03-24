@@ -1,6 +1,4 @@
-:root {
-    --primary-color: #1eb7c6;
-  }
+
   @font-face {
     font-family: text-font;
     src: url(/DM_Sans/DMSans-VariableFont_opsz,wght.ttf);
@@ -93,28 +91,7 @@
     border: 2px dotted var(--primary-color);
     background-color: #fff;
   }
-  
-  /* Submit Button Pulse Effect */
-  /* .btn-block {
-    background-color: var(--primary-color);
-    color: #fff;
-    animation: pulse 1.5s infinite ease-in-out;
-  }
-  
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    50% {
-      transform: scale(1.05);
-      opacity: 0.8;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-  } */
+
   .main-form .form-select,
   .main-form .form-control {
     border: none;
@@ -158,7 +135,6 @@
   }
   /*----------------------------------CardSecion1--------------------------------*/
   .cardPro {
-    /* border: 1px solid var(--primary-color); */
     border-radius: 0;
     box-shadow: 0px 2px 2px;
     padding: 10px;

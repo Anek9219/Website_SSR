@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import FindTransmission2 from "./FindTransmission2";
 import AchievementTransmission from "../Contact/AchievementTransmission";
-import "./TransmissionForm.css"
+// import "./TransmissionForm.css"
+import styles from "./transmission.module.css";
 import FindTransission from "./FindTransission";
 export default function Transmissionform({
   handleAddToCart,
@@ -199,7 +200,7 @@ export default function Transmissionform({
 
   const submitForm = async () => {
     const formData = {
-      part: "MyformEngine",
+      part: "MyformTransmission",
       year: selectedYear,
       make: selectedMake,
       model: selectedModel,
@@ -259,7 +260,7 @@ export default function Transmissionform({
 
   return (
     <div className="container">
-      <div className="transmission-form text-white container mb-5 mt-4" id="trans-form">
+      <div className={`${styles.transmission_form} text-white container mb-5 mt-4`} id="trans-form">
         <div className="row">
           <div className="col-lg-6">
             <span className="me-3">Search Your Transmission Here</span>
@@ -270,7 +271,7 @@ export default function Transmissionform({
             {/* Form Inputs */}
             <div className="col-md-3 col-6 mb-3">
               <select
-                className="form-select"
+                className={styles.form_select}
                 value={selectedYear}
                 onChange={handleYearChange} // Use the new handler here
                 required
@@ -287,7 +288,7 @@ export default function Transmissionform({
             </div>
             <div className="col-md-3 col-6 mb-3">
               <select
-                className="form-select"
+                className={styles.form_select}
                 value={selectedMake}
                 onChange={(e) => setSelectedMake(e.target.value)}
                 required
@@ -304,7 +305,7 @@ export default function Transmissionform({
             </div>
             <div className="col-md-3 col-6 mb-3">
               <select
-                className="form-select"
+                className={styles.form_select}
                 value={selectedModel}
                 onChange={(e) => setSelectedModel(e.target.value)}
                 required
@@ -321,7 +322,7 @@ export default function Transmissionform({
             </div>
             <div className="col-md-3 col-6 mb-3">
               <select
-                className="form-select"
+                className={styles.form_select}
                 value={selectedVariant}
                 onChange={(e) => setSelectedVariant(e.target.value)}
                 required
@@ -511,7 +512,7 @@ export default function Transmissionform({
                     At VanderEngines, we specialize in offering used transmissions that are thoroughly inspected and tested for durability. Our transmission for sale options include automatic and manual transmissions for all major brands, including Ford, Chevrolet, Honda, Toyota, BMW, Mercedes, and more. Whether you need a car transmission for sale or transmission sales near me, we have a solution tailored to your needs.
                   </div>
                   <Link href="/transmission">
-                    <button className="btn theme-btn my-3">
+                    <button className={`${styles.theme_btn} btn my-3`}>
                       Discover More &#8594;
                     </button>
                   </Link>

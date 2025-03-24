@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import UsedTransmissionSlider from './UsedTransmissionSlider'
+import style from "./transmission.module.css"
 
 export default function UsedTransmission() {
     return (
@@ -32,7 +33,7 @@ export default function UsedTransmission() {
                                     more.
                                 </div>
                                 <Link href="/transmission">
-                                    <button className="btn theme-btn my-3">
+                                    <button className={`${style.theme_btn} btn my-3`}>
                                         Discover More &#8594;
                                     </button>
                                 </Link>

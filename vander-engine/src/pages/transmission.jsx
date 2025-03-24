@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "@/components/Transmission/transmission.css";
+// import "@/components/Transmission/transmission.css";
+import styles from "@/components/Transmission/transmission.module.css";
 import "@/components/Transmission/Transmissionform";
 import AOS from "aos";
 import TransmissionList from "@/components/Home/TransmissionList";
@@ -75,14 +76,14 @@ export default function Transmission({ handleAddToCart, showproduct }) {
     return (
         <>
             <Head>
-                <title>
-                    Vander Engines | Quality Used & Remanufactured Transmissions
-                </title>
+                <title>Vander Engines | Quality Used & Remanufactured Transmissions</title>
+                <meta name="description" content="Discover high-quality used and remanufactured transmissions at Vander Engines. Durable, performance-tested solutions for all vehicle types. Shop now!" />
                 <link rel="canonical" href={canonicalUrl} />
             </Head>
+
             <main>
                 <div className="transmission-upper d-flex flex-column">
-                    <div className="transmission-hero"></div>
+                    <div className={styles.transmission_hero}></div>
                 </div>
                 {/*-------------------------Transmission- Hero-----------------------*/}
                 <div className="d-flex flex-column h-100 justify-content-end ">

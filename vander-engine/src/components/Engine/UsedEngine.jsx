@@ -1,5 +1,6 @@
 import React from 'react'
 import UsedEngineSlide from './UsedEngineSlide'
+import style from "@/components/Transmission/transmission.module.css"
 import Link from 'next/link'
 
 export default function UsedEngine() {
@@ -20,7 +21,7 @@ export default function UsedEngine() {
                                     </p>
                                 </div>
                                 <Link href="/engine">
-                                    <button className="btn theme-btn my-3">
+                                    <button className={`${style.theme_btn} btn my-3`}>
                                         Discover More &#8594;
                                     </button>
                                 </Link>

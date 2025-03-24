@@ -460,11 +460,11 @@ export default function Policies() {
     return (
         <>
             <Head>
-                <title>
-                    Vander Engines |Privacy Policies
-                </title>
+                <title>Vander Engines | Privacy Policies</title>
+                <meta name="description" content="Read Vander Engines' Privacy Policies to understand how we collect, use, and protect your personal information. Your privacy matters to us." />
                 <link rel="canonical" href={canonicalUrl} />
             </Head>
+
             <main>
                 {data.map((item, index) => (
                     <div className="shipping my-4" key={index}>

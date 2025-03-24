@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "@/components/Home/home.css"
+// import "@/components/Home/home.css"
+import styles from "@/components/Home/home.module.css"
 import { useRouter } from "next/router";
 import Shipping from "@/components/Home/Shipping";
 import AboutUs from "@/components/Home/AboutUs";
@@ -17,6 +18,7 @@ import Sale from "@/components/Home/Sale";
 import Cardsection1 from "@/components/Home/Cardsection1";
 import axios from "axios";
 import Head from "next/head";
+import Image from "next/image";
 // import { Helmet } from "react-helmet";
 export default function Home() {
   const router = useRouter();
@@ -229,7 +231,7 @@ export default function Home() {
         formData
       );
       console.log(response.data);
-router.push("/thankyou")
+      router.push("/thankyou")
       // setSubmissionMessage2("Form submitted successfully! Thank you.");
       setFormData({
         part: "",
@@ -261,17 +263,12 @@ router.push("/thankyou")
 
   return (
     <>
-      {/* <Helmet> */}
-      {/* <meta name="description" content="This is a description of my page." /> */}
-      {/* </Helmet> */}
-
       <Head>
         <title>Vander Engines | High-Performance Engines & Transmissions</title>
+        <meta name="description" content="Explore Vander Engines for premium high-performance engines and transmissions. Precision-engineered for power, durability, and efficiency. Shop now!" />
         <link rel="canonical" href={canonicalUrl} />
       </Head>
       <main>
-
-
         <div className="home pt-2 pb-4">
           <div className="container-fluid">
             <div className="home-upper d-flex align-items-center justify-content-around">
@@ -282,14 +279,7 @@ router.push("/thankyou")
                 class="text-line"
                 width="71%"
               >
-                {/* <text
-                x="50%"
-                dominant-baseline="middle"
-                text-anchor="middle"
-                y="50%"
-              >
-                Finance Option Available
-              </text> */}
+             
               </svg>
               <button
                 className="btn  custom-btn btn-9"
@@ -458,12 +448,13 @@ router.push("/thankyou")
                 </div>
               </div>
               <div className="col-lg-8 car-area">
-<img
-  src="/assets/car-hero-min.webp"
-  alt=""
-  className="img-fluid"
-/>
-
+                <Image
+                  src="/assets/car-hero-min.webp"
+                  alt=""
+                  width={800}
+                  height={300}
+                  className="img-fluid"
+                />
               </div>
             </div>
           </div>
@@ -773,7 +764,7 @@ router.push("/thankyou")
                 </button>
               </div>
             </form>
-        </div>
+          </div>
         </div>
         <Faq />
         <Brands />

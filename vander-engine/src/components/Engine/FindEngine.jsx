@@ -1,11 +1,12 @@
 import React from 'react'
 import FindTransmission2 from '../Transmission/FindTransmission2'
+import styles from "@/components/Transmission/transmission.module.css"
 
 export default function FindEngine() {
     return (
         <div>
 
-            <div className="find-transmission">
+            <div className={styles.find_transmission}>
                 <div className="container">
                     <div className="row align-items-center">
                         <h4 className="text-center">
@@ -29,7 +30,7 @@ export default function FindEngine() {
                                 style={{ width: "75%" }}
                             />
                             <div className="col-lg-12">
-                                <div className="card">
+                                <div className={`${styles.transmission_card} border rounded`}>
                                     <a
                                         href="tel:+18448931760"
                                         target="_self"

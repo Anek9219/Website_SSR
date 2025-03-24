@@ -1,5 +1,6 @@
 import React from 'react'
 import ReadMore from '../Transmission/ReadMore';
+import styles from "@/components/Transmission/transmission.module.css"
 
 export default function EngineContent() {
     const content1 =
@@ -11,13 +12,14 @@ export default function EngineContent() {
     const content4 =
         "Looking for engines for sale near me? We provide quick and secure shipping across the U.S., ensuring you receive your auto engine for sale without delays.";
     return (
-        <div>                <div className="transmission-content mt-5">
-            <div className="container h-100 d-flex align-items-center justify-content-center">
-                <h5>
-                    Used Engines for Sale: Your Go-To Source for Quality Auto Parts
-                </h5>
+        <div>
+            <div className={`${styles.transmission_content} mt-5`} >
+                <div className="container h-100 d-flex align-items-center justify-content-center">
+                    <h5>
+                        Used Engines for Sale: Your Go-To Source for Quality Auto Parts
+                    </h5>
+                </div>
             </div>
-        </div>
             <div className="transmission-para my-5">
                 <div className="container-fluid">
                     <div className="row">
@@ -30,19 +32,19 @@ export default function EngineContent() {
                         </div>
                         <div className="col-lg-3 mb-3">
                             <div className="card p-3 h-100">
-                            <h5 className='text-center fw-bold'>Extensive Inventory for Every Vehicle</h5>
+                                <h5 className='text-center fw-bold'>Extensive Inventory for Every Vehicle</h5>
                                 <ReadMore text={content2} />
                             </div>
                         </div>
                         <div className="col-lg-3 mb-3">
                             <div className="card p-3 h-100">
-                            <h5 className='text-center fw-bold'>Warranty & Quality Assurance</h5>
+                                <h5 className='text-center fw-bold'>Warranty & Quality Assurance</h5>
                                 <ReadMore text={content3} />
                             </div>
                         </div>
                         <div className="col-lg-3 mb-3">
                             <div className="card p-3 h-100">
-                            <h5 className='text-center fw-bold'>Fast & Reliable Nationwide Shipping</h5>
+                                <h5 className='text-center fw-bold'>Fast & Reliable Nationwide Shipping</h5>
                                 <ReadMore text={content4} />
                             </div>
                         </div>

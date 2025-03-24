@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import "../Transmission/transmission.css"
-import FindTransmission2 from "../Transmission/FindTransmission2";
+import styles from "@/components/Transmission/transmission.module.css";
 import Achievement from "../Contact/Achievement";
 import UsedEngine from "./UsedEngine";
 import FindEngine from "@/components/Engine/FindEngine";
@@ -261,7 +260,7 @@ export default function EngineForm({
   return (
     <>
       <div className="container">
-        <div className="transmission-form text-white container mt-4" id="engine-form">
+        <div className={`${styles.transmission_form} text-white container mt-4`} id="engine-form">
           <div className="row">
             <div className="col-lg-6">
               <span className="me-3">Search Your Engine Here</span>
@@ -271,7 +270,7 @@ export default function EngineForm({
             <div className="row">
               <div className="col-md-3 col-6 mb-3">
                 <select
-                  className="form-select"
+                  className={styles.form_select}
                   value={selectedYear}
                   onChange={handleYearChange}
                   required
@@ -288,7 +287,7 @@ export default function EngineForm({
               </div>
               <div className="col-md-3 col-6 mb-3">
                 <select
-                  className="form-select"
+                  className={styles.form_select}
                   value={selectedMake}
                   onChange={(e) => setSelectedMake(e.target.value)}
                   required
@@ -305,7 +304,7 @@ export default function EngineForm({
               </div>
               <div className="col-md-3 col-6 mb-3">
                 <select
-                  className="form-select"
+                  className={styles.form_select}
                   value={selectedModel}
                   onChange={(e) => setSelectedModel(e.target.value)}
                   required
@@ -322,7 +321,7 @@ export default function EngineForm({
               </div>
               <div className="col-md-3 col-6 mb-3">
                 <select
-                  className="form-select "
+                  className={styles.form_select}
                   value={selectedVariant}
                   onChange={(e) => setSelectedVariant(e.target.value)}
                   required

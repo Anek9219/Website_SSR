@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "../components/Engine/Engine.css"
+// import "../components/Engine/Engine.css"
+import styles from "../components/Engine/Engine.module.css"
 import axios from "axios";
 import AOS from "aos";
 import { useRouter } from "next/router";
 import EngineForm from "@/components/Engine/EngineForm";
-import ReadMore from "@/components/Transmission/ReadMore";
 import EngineList from "@/components/Home/EngineList";
 import EngineContent from "@/components/Engine/EngineContent";
 import Head from "next/head";
 import OrderEngine from "@/components/Engine/OrderEngine";
+
 export default function Engine({ handleAddToCart, showproduct }) {
   const [years, setYears] = useState([]);
   const [makes, setMakes] = useState([]);
@@ -76,12 +77,14 @@ export default function Engine({ handleAddToCart, showproduct }) {
   return (
     <>
       <Head>
-        <title>Vander Engines | Quality Used & Remanufactured Engines </title>
+        <title>Vander Engines | Quality Used & Remanufactured Engines</title>
+        <meta name="description" content="Find top-quality used and remanufactured engines at Vander Engines. Reliable, high-performance solutions for all vehicle types. Shop with confidence!" />
         <link rel="canonical" href={canonicalUrl} />
       </Head>
+
       <main>
         <div className="engine-upper d-flex flex-column">
-          <div className="engine-hero "></div>
+          <div className={styles.engine_hero}></div>
         </div>
         {/*-------------------------Engine Hero Section-----------------------*/}
 

@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import Head from "next/head";
 import axios from "axios";
+import Image from "next/image";
+// import styles from "@/components/Engine/Engine.module.css"
 
 export async function getServerSideProps({ params }) {
     const { category, year, make, model } = params;
@@ -29,12 +31,14 @@ export async function getServerSideProps({ params }) {
 
 
 import { useEffect, useState } from "react";
-import "@/components/Engine/Engine.css"
+// import "@/components/Engine/Engine.css"
 import Achievement from '@/components/Contact/Achievement';
 import Link from 'next/link';
 // import { useRouter } from "next/router";
 // import axios from "axios";
 import "@/components/Engine/EngineForm.css"
+import styles from "@/components/Engine/Engine.module.css";
+import style from "@/components/Transmission/transmission.module.css";
 import EngineList from "@/components/Home/EngineList";
 import TransmissionList from "@/components/Home/TransmissionList";
 import EngineContent from "@/components/Engine/EngineContent";
@@ -287,8 +291,9 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
 
 
     const submitForm = async () => {
+        if (category !== "engine" && category !== "transmission") return;
         const formData = {
-            part: "MyformEngine",
+            part: category === "engine" ? "MyformEngine" : "MyformTransmission",
             year: selectedYear,
             make: selectedMake,
             model: selectedModel,
@@ -353,14 +358,16 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
         return (
             <div>
                 <Head>
-                    <title>Vander Engines | Quality Used & Remanufactured Engines </title>
+                    <title>Vander Engines | Quality Used & Remanufactured Engines</title>
+                    <meta name="description" content="Find top-quality used and remanufactured engines at Vander Engines. Reliable, high-performance solutions for all vehicle types. Shop with confidence!" />
                     <link rel="canonical" href={canonicalUrl} />
                 </Head>
+
                 <div className="engine-upper d-flex flex-column">
-                    <div className="engine-hero "></div>
+                    <div className={styles.engine_hero}></div>
                 </div>
                 <div className="container">
-                    <div className="transmission-form text-white container mt-4" id="engine-form">
+                    <div className={`${style.transmission_form} text-white container mt-4`} id="engine-form">
                         <div className="row">
                             <div className="col-lg-6">
                                 <span className="me-3">Search Your Engine Here</span>
@@ -370,7 +377,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                             <div className="row">
                                 <div className="col-md-3 col-6 mb-3">
                                     <select
-                                        className="form-select"
+                                        className={style.form_select}
                                         value={selectedYear}
                                         onChange={handleYearChange}
                                         required
@@ -387,7 +394,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                                 </div>
                                 <div className="col-md-3 col-6 mb-3">
                                     <select
-                                        className="form-select"
+                                        className={style.form_select}
                                         value={selectedMake}
                                         onChange={(e) => setSelectedMake(e.target.value)}
                                         required
@@ -404,7 +411,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                                 </div>
                                 <div className="col-md-3 col-6 mb-3">
                                     <select
-                                        className="form-select"
+                                        className={style.form_select}
                                         value={selectedModel}
                                         onChange={(e) => setSelectedModel(e.target.value)}
                                         required
@@ -421,7 +428,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                                 </div>
                                 <div className="col-md-3 col-6 mb-3">
                                     <select
-                                        className="form-select "
+                                        className={style.form_select}
                                         value={selectedVariant}
                                         onChange={(e) => setSelectedVariant(e.target.value)}
                                         required
@@ -481,11 +488,15 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                             {product.map((item) => (
                                 <div className="col-lg-3 mb-4" key={item.Stock}>
                                     <div className="card product-card mx-2 h-100">
-                                        <img
+                                        <Image
                                             src={item.image || "assets/img/default.jpg"}
                                             alt="Product"
                                             className="img-fluid"
-                                            style={{ height: "200px" }}
+                                            width={200}
+                                            height={200}
+                                            priority
+                                        // style={{ height: "200px" }}
+
                                         />
                                         <div className="card-info">
                                             <h4>
@@ -544,12 +555,11 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                             <UsedEngine />
                         </>
                     ) : (
-                        <div className="find-transmission mt-3">
+                        <div className={`${style.find_transmission} mt-3`} >
                             <h4 className="text-center">
                                 About Our Used {year}{" "}
                                 {make} <span>Engine</span>
                             </h4>
-
                             <div className="find-engine">
                                 <div className="container">
                                     <div className="row align-items-center">
@@ -582,7 +592,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                                                 </p>
                                             </div>
                                             <Link href="/engine">
-                                                <button className="btn theme-btn my-3">
+                                                <button className={`${style.theme_btn} btn my-3`}>
                                                     Discover More &#8594;
                                                 </button>
                                             </Link>
@@ -640,16 +650,16 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
             <>
                 <div>
                     <Head>
-                        <title>
-                            Vander Engines | Quality Used & Remanufactured Transmissions
-                        </title>
+                        <title>Vander Engines | Quality Used & Remanufactured Transmissions</title>
+                        <meta name="description" content="Discover high-quality used and remanufactured transmissions at Vander Engines. Durable, performance-tested solutions for all vehicle types. Shop now!" />
                         <link rel="canonical" href={canonicalUrl} />
                     </Head>
+
                     <div className="transmission-upper d-flex flex-column">
-                        <div className="transmission-hero"></div>
+                        <div className={style.transmission_hero}></div>
                     </div>
                     <div className="container">
-                        <div className="transmission-form text-white container mb-5 mt-4" id="trans-form">
+                        <div className={`${style.transmission_form} text-white container mb-5 mt-4`}  id="trans-form">
                             <div className="row">
                                 <div className="col-lg-6">
                                     <span className="me-3">Search Your Transmission Here</span>
@@ -660,7 +670,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                                     {/* Form Inputs */}
                                     <div className="col-md-3 col-6 mb-3">
                                         <select
-                                            className="form-select"
+                                            className={style.form_select}
                                             value={selectedYear}
                                             onChange={handleYearChange} // Use the new handler here
                                             required
@@ -677,7 +687,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                                     </div>
                                     <div className="col-md-3 col-6 mb-3">
                                         <select
-                                            className="form-select"
+                                            className={style.form_select}
                                             value={selectedMake}
                                             onChange={(e) => setSelectedMake(e.target.value)}
                                             required
@@ -694,7 +704,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                                     </div>
                                     <div className="col-md-3 col-6 mb-3">
                                         <select
-                                            className="form-select"
+                                            className={style.form_select}
                                             value={selectedModel}
                                             onChange={(e) => setSelectedModel(e.target.value)}
                                             required
@@ -711,7 +721,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                                     </div>
                                     <div className="col-md-3 col-6 mb-3">
                                         <select
-                                            className="form-select"
+                                            className={style.form_select}
                                             value={selectedVariant}
                                             onChange={(e) => setSelectedVariant(e.target.value)}
                                             required
@@ -770,11 +780,14 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                                 {product.map((item) => (
                                     <div className="col-lg-3 mb-4" key={item.Stock}>
                                         <div className="card product-card mx-2">
-                                            <img
+                                            <Image
                                                 src={item.image || "assets/img/default.jpg"}
                                                 alt="Product"
                                                 className="img-fluid"
-                                                style={{ height: "200px" }}
+                                                width={200}
+                                                height={250}
+                                                priority
+                                            // style={{ height: "200px" }}
                                             />
                                             <div className="card-info">
                                                 <h4>
@@ -870,8 +883,8 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                                                     </p>
                                                 </div>
 
-                                                <Link href="/engine">
-                                                    <button className="btn theme-btn my-3">
+                                                <Link href="/transmission">
+                                                    <button className={`${style.theme_btn} btn my-3`}>
                                                         Discover More &#8594;
                                                     </button>
                                                 </Link>

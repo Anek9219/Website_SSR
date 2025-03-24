@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./home.css";
+// import "./home.css";
+import styles from "./home.module.css";
 import Link from "next/link";
 
 export default function AboutUs() {
@@ -35,7 +36,7 @@ export default function AboutUs() {
   }, []);
 
   return (
-    <div className="aboutus">
+    <div className={styles.aboutus}>
       <div className={`container-fluid head1 ${isAnimated ? "animate" : ""}`}>
         <h3 className="about-head fw-bold text-center ">
           About <span>Us</span>

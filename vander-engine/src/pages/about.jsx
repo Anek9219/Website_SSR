@@ -1,5 +1,6 @@
 import React from "react";
-import "@/components/AboutUs/about.css"
+// import "@/components/AboutUs/about.css"
+import styles from "@/components/AboutUs/about.module.css";
 import WhyChoose from "@/components/Home/WhyChoose";
 import Brands from "@/components/Home/Brands";
 import { useRouter } from "next/router";
@@ -15,15 +16,17 @@ export default function About() {
       {/* </Helmet> */}
       <Head>
         <title>Vander Engines | About Us</title>
+        <meta name="description" content="Learn about Vander Engines, your trusted source for quality used and remanufactured engines and transmissions. Our commitment to reliability and performance sets us apart." />
         <link rel="canonical" href={canonicalUrl} />
       </Head>
+
       <main>
-        <div className="about-hero d-flex align-items-center justify-content-center mb-5">
+        <div className={`${styles.about_hero} d-flex align-items-center justify-content-center mb-5`}  >
           <div className="container">
-            <h1 className="about-head-1 text-center">About Us</h1>
+            <h1 className={`${styles.about_head_1} text-center`}>About Us</h1>
           </div>
         </div>
-        <div className="about-content mb-5">
+        <div className={ `${styles.about_content} mb-5`} >
           <div className="container">
             <h3 className="my-3">About Us</h3>
             <h4>ALL TYPE OF CAR PARTS DELIVERED</h4>

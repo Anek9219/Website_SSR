@@ -1,5 +1,6 @@
 import React from 'react'
 import ReadMore from './ReadMore';
+import styles from "./transmission.module.css"
 
 export default function TransmissionContent() {
     const content1 =
@@ -13,7 +14,7 @@ export default function TransmissionContent() {
   return (
     <div>
 
-         <div className="transmission-content">
+         <div className={styles.transmission_content}>
                 <div className="container h-100 d-flex align-items-center justify-content-center">
                     <h5>
                         Discover Affordable, High-Quality Car Transmissions with Vander

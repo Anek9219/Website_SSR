@@ -1,7 +1,5 @@
-:root {
-  --primary-color: #1eb7c6;
-}
-.transmission-hero {
+
+.transmission_hero {
   background-image: url(/assets/transmission_1.webp);
   height: 250px;
   background-position: center;
@@ -10,7 +8,7 @@
   z-index: 1;
   /* margin-bottom: 100px; */
 }
-.transmission-hero::before {
+.transmission_hero::before {
   content: "";
   position: absolute;
   top: 0;
@@ -21,7 +19,7 @@
   opacity: 0.3;
   z-index: -1;
 }
-.transmission-form {
+.transmission_form {
   background: var(--primary-color);
   border: 1px solid var(--primary-color);
   padding: 20px 50px 50px 50px;
@@ -29,16 +27,18 @@
   /* margin-bottom: -50px; */
 }
 
-.transmission-form .form-select,.transmission-form .form-control {
+.transmission_form .form_select,.transmission_form .form-control {
   border: none;
   border-radius: 0;
   border-bottom: 1px solid #cccdd1;
   outline: none;
   height: 100%;
+  width: 100%;
+  padding-top: 10px;
   box-shadow: none;
   --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%231eb7c6' stroke-linecap='round' stroke-linejoin='round' stroke-width='4' d='m2 5 6 6 6-6'/%3e%3c/svg%3e ");
 }
-.transmission-form form {
+.transmission_form form {
   background-color: #fff;
   padding: 10px;
   border-radius: 10px;
@@ -46,17 +46,17 @@
 .transmission-btn {
   background-color: #000;
 }
-.find-transmission{
+.find_transmission{
   margin-top: 3rem;
 }
-.find-transmission h4{
+.find_transmission h4{
   font-size: 2em;
   font-weight: bold;
 }
-.find-transmission h4 span{
+.find_transmission h4 span{
   color: var(--primary-color);
 }
-.find-transmission .col-lg-6 .card {
+.transmission_card{
   background-color: var(--primary-color);
   color: #fff;
   display: flex;
@@ -65,14 +65,14 @@
   padding: 10px 0;
   border: none;
 }
-.find-transmission .col-lg-6 .card i {
+.transmission_card i {
   font-size: 24px;
   background-color: #fff;
   padding: 10px;
   border-radius: 50%;
   color: var(--primary-color);
 }
-.transmission-content {
+.transmission_content {
   background: url(/assets/engine.jpg);
   background-position: center;
   background-size: cover;
@@ -80,7 +80,7 @@
   z-index: 1;
   position: relative;
 }
-.transmission-content::before {
+.transmission_content::before {
   content: "";
   position: absolute;
   top: 0;
@@ -91,7 +91,7 @@
   opacity: 0.3;
   z-index: -1;
 }
-.transmission-content h5 {
+.transmission_content h5 {
   font-size: 2.9em;
   text-align: center;
   font-weight: bold;
@@ -104,10 +104,14 @@
 .transmission-para .card:hover {
   box-shadow: 5px 5px 10px;
 }
-.read-btn {
+.read_btn {
   color: var(--primary-color);
 }
-
+.theme_btn {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 0;
+}
 /*--------------Responsive---------------------------*/
 @media (max-width: 768px) {
   .col {
@@ -118,27 +122,25 @@
     border: none;
     margin-top: 10px;
   }
-  /* .transmission-form .form-select {
-    border: none;
-  } */
-  /* .transmission-form {
-    margin-bottom: -150px;
-  } */
-  .find-transmission{
+
+  .find_transmission{
     margin-top: 20px;
   }
-  .transmission-content h5 {
+  .transmission_content h5 {
     font-size: 2em;
   }
-  .transmission-form {
+  .transmission_form {
     padding: 15px;
   }
-  /* .transmission-hero {
-    margin-bottom: 170px;
-    } */
+
 }
 @media (max-width: 576px){
-  .transmission-hero {
+  .transmission_form {
+    order: 1;
+
+    margin-bottom: 20px;
+  }
+  .transmission_hero {
     order:2;
   }
 }
