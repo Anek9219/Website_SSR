@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // output: "export",
   images: {
-    domains: ["res.cloudinary.com"], // Allow images from Cloudinary
+    unoptimized: true, // Disable Next.js Image Optimization
+    domains: ["res.cloudinary.com"], // Allow external images from Cloudinary
   },
 };
 
 export default nextConfig;
+

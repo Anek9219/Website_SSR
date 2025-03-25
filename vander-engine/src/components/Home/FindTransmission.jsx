@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
-import Script from "next/script";
+import styles from "./home.module.css";
 
 export default function FindTransmission() {
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function FindTransmission() {
                 Honda, Kia, Jeep, Bentley, and many more.
               </div>
               <Link href="/transmission">
-                <button className="btn theme-btn my-3">
+                <button className={`${styles.theme_btn} my-3 btn`}>
                   Discover More &#8594;
                 </button>
               </Link>

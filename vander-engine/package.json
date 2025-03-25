@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "export": "next build && next export",
     "start": "next start",
     "lint": "next lint"
   },
@@ -22,6 +23,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-helmet": "^6.1.0",
+    "react-owl-carousel": "^2.3.3",
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1",
     "stripe": "^17.7.0"

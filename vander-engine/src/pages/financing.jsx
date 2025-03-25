@@ -1,5 +1,5 @@
 import React from "react";
-import './Financing/financing.css'
+import styles from "@/pages/Financing/financing.module.css"
 import FinancingCard from "./Financing/FinancingCard";
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -15,12 +15,12 @@ export default function Financing() {
         <link rel="canonical" href={canonicalUrl} />
       </Head>
       <main>
-        <div className="finance d-flex align-items-center justify-content-center mb-5">
+        <div className={`${styles.finance} d-flex align-items-center justify-content-center mb-5`}>
           <div className="container">
-            <h1 className="about-head-1 text-center text-white">Financing</h1>
+            <h1 className={`${styles.about_head_1} text-center text-white fs-1`}>Financing</h1>
           </div>
         </div>
-        <div className="financing"> 
+        <div className={styles.financing}>
           <div className="container about-content">
             <h3>Vander Financing</h3>
             <p>Vander Financing
@@ -28,7 +28,7 @@ export default function Financing() {
             <p>PLEASE NOTE: Our sales and finance team will assist you throughout the financing application procedure. Once your application is accepted, the financing company will make the payment to Vander Engines. If you choose to cancel the transaction after the payment has been processed by the financing company, a Transaction Cancellation Fee will be incurred.</p>
           </div>
         </div>
-        <FinancingCard /> 
+        <FinancingCard />
       </main>
     </>
   );

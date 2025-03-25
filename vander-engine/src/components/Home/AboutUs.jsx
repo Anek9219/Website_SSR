@@ -67,7 +67,7 @@ export default function AboutUs() {
               </li>
             </ul>
             <Link href="/about">
-              <button className="theme-btn btn mt-2" type="submit">
+              <button className={`${styles.theme_btn} btn mt-2`} type="submit">
                 Discover More &#8594;
               </button>
             </Link>

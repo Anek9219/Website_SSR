@@ -269,39 +269,37 @@ export default function Home() {
         <link rel="canonical" href={canonicalUrl} />
       </Head>
       <main>
-        <div className="home pt-2 pb-4">
+        <div className={`${styles.home} pt-2 pb-4`}>
           <div className="container-fluid">
             <div className="home-upper d-flex align-items-center justify-content-around">
               <svg
                 height="90"
                 stroke="#1eb7c6"
                 stroke-width="1.2"
-                class="text-line"
+                class={styles.text_line}
                 width="71%"
-              >
-             
+              >             
               </svg>
               <button
-                className="btn  custom-btn btn-9"
+                className={`${styles.custom_btn} btn ${styles.btn_9}`} 
                 style={{ height: "40px" }}
               >
                 <a
                   href="tel:+18448931760"
-                  className="text-decoration-none text-white "
+                  className="text-decoration-none text-white"
                 >
                   Call Now
                 </a>
               </button>
             </div>
-
             <div className="row align-items-center">
               <div className="col-lg-4 form-area">
-                <div className="main-form p-3 py-5">
+                <div className={`${styles.main_form} p-3 py-5`} >
                   <form onSubmit={handleSubmit}>
                     <div className="row mb-3">
                       <div className="col-6">
                         <select
-                          className="form-select"
+                          className={styles.form_select}
                           name="part"
                           value={formData.part}
                           onChange={handleChange}
@@ -320,7 +318,7 @@ export default function Home() {
                       </div>
                       <div className="col-6">
                         <select
-                          className="form-select"
+                          className={styles.form_select}
                           name="year"
                           value={formData.year}
                           onChange={handleChange}
@@ -341,7 +339,7 @@ export default function Home() {
                     <div className="row mb-3">
                       <div className="col-6">
                         <select
-                          className="form-select"
+                          className={styles.form_select}
                           name="make"
                           value={formData.make}
                           onChange={handleChange}
@@ -360,7 +358,7 @@ export default function Home() {
                       </div>
                       <div className="col-6">
                         <select
-                          className="form-select"
+                          className={styles.form_select}
                           name="model"
                           value={formData.model}
                           onChange={handleChange}
@@ -382,7 +380,7 @@ export default function Home() {
                       <div className="col-6">
                         <input
                           type="text"
-                          className="form-control"
+                          className={styles.form_control}
                           id="name"
                           name="name"
                           value={formData.name}
@@ -394,7 +392,7 @@ export default function Home() {
                       <div className="col-6">
                         <input
                           type="tel"
-                          className={`form-control ${phoneError ? "is-invalid" : ""
+                          className={`${styles.form_control} ${phoneError ? "is-invalid" : ""
                             }`}
                           id="mobile"
                           name="phone"
@@ -413,7 +411,7 @@ export default function Home() {
                       <div className="col-12">
                         <input
                           type="email"
-                          className="form-control"
+                          className={styles.form_control}
                           id="email"
                           name="email"
                           value={formData.email}
@@ -426,7 +424,7 @@ export default function Home() {
                     <div className="d-grid">
                       <button
                         type="submit"
-                        className="btn btn-block"
+                        className={`${styles.btn_block} btn`} 
                         disabled={loading}
                         onClick={Homeform1}
                       >
@@ -447,7 +445,7 @@ export default function Home() {
                   </form>
                 </div>
               </div>
-              <div className="col-lg-8 car-area">
+              <div className={`col-lg-8 ${styles.car_area}`}>
                 <Image
                   src="/assets/car-hero-min.webp"
                   alt=""

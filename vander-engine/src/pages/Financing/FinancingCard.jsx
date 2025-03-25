@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./financing.module.css"
 
 export default function FinancingCard() {
   const Card = [
@@ -23,7 +24,7 @@ export default function FinancingCard() {
   ];
   return (
     <>
-      <div className="financing-card my-5">
+      <div className={`${styles.financing_card} my-5`} >
         <div className="container">
           <div className="row">
             {Card.map((item, index) => (
@@ -43,7 +44,7 @@ export default function FinancingCard() {
           </div>
         </div>
       </div>
-      <div className="pay p-4 about-content d-flex flex-column align-items-center my-5">
+      <div className={`${styles.pay} p-4 about-content d-flex flex-column align-items-center my-5`} >
         <img
           src="/assets/paypal.webp"
           alt=""
@@ -54,14 +55,14 @@ export default function FinancingCard() {
         <p>Pay at your own pace with your PAY PAL account</p>
         <div className="d-grid">
           <a href="https://www.paypal.com/us/digital-wallet/ways-to-pay/credit-services/paypal-credit">
-            <button type="button" className="btn click-btn">
+            <button type="button" className={`${styles.click_btn} btn`} >
               Click Here
             </button>
           </a>
         </div>
       </div>
 
-      <div className="finance-content">
+      <div className={styles.finance_content}>
         <div className="container">
           <p>
             We’re thrilled to announce that we now offer PayPal as a payment
@@ -72,7 +73,7 @@ export default function FinancingCard() {
         </div>
       </div>
 
-      <div className="finance-plan process my-5">
+      <div className={`${styles.finance_plan} process my-5`}>
         <div className="container">
           <h3>VANDER ENGINE PRICE FREEZE PLAN</h3>
           <div className="row align-items-center">
@@ -107,7 +108,7 @@ export default function FinancingCard() {
         </div>
       </div>
 
-      <div className="finance-content mb-5">
+      <div className={`${styles.finance_content} mb-5`}>
         <div className="container">
           <p>
             If the product has NOT been shipped, a fee is $250 is assessed. Fees

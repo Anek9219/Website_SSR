@@ -6,14 +6,14 @@
   .home {
     background-color: rgb(238, 238, 238);
   }
-  .text-line {
+  .text_line {
     stroke-dasharray: 500;
     stroke-dashoffset: 500;
     animation: dash 5s linear infinite, filling 5s ease-in infinite;
     font-size: 6vw;
   }
   
-  .text-line text {
+  .text_line text {
     font-family: Helvetica, Arial, sans-serif;
     font-weight: normal;
     font-style: normal;
@@ -36,12 +36,9 @@
       fill-opacity: 1;
     }
   }
-  .custom-btn {
-    /* width: 130px; */
-    /* height: 40px; */
+  .custom_btn {
     color: #fff;
     border-radius: 5px;
-    /* padding: 10px 25px; */
     font-family: "Lato", sans-serif;
     font-weight: 500;
     background: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
@@ -53,13 +50,12 @@
       7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
     outline: none;
   }
-  /* 9 */
-  .btn-9 {
+  .btn_9 {
     border: none;
     transition: all 0.3s ease;
     overflow: hidden;
   }
-  .btn-9:after {
+  .btn_9:after {
     position: absolute;
     content: " ";
     z-index: -1;
@@ -71,7 +67,7 @@
     background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
     transition: all 0.3s ease;
   }
-  .btn-9:hover {
+  .btn_9:hover {
     background: #1fd1f9;
     box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5),
       -4px -4px 6px 0 rgba(116, 125, 136, 0.2),
@@ -79,7 +75,7 @@
       inset 4px 4px 6px 0 rgba(116, 125, 136, 0.3);
     color: #fff;
   }
-  .btn-9:hover:after {
+  .btn_9:hover:after {
     -webkit-transform: scale(2) rotate(180deg);
     transform: scale(2) rotate(180deg);
     box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5),
@@ -87,32 +83,39 @@
       inset -4px -4px 6px 0 rgba(255, 255, 255, 0.5),
       inset 4px 4px 6px 0 rgba(116, 125, 136, 0.3);
   }
-  .main-form {
+  .main_form {
     border: 2px dotted var(--primary-color);
     background-color: #fff;
   }
 
-  .main-form .form-select,
-  .main-form .form-control {
+  .main_form .form_select,
+  .main_form .form_control {
     border: none;
+    width: 100%;
     border-bottom: 1px solid var(--primary-color);
     border-radius: 0;
-    /* padding: 0; */
+    padding: 8px 0px;
   }
-  
-  .form-control::placeholder {
+  .form_select:focus, .form_control:focus {
+    outline: none;
+  }
+  .form_select:disabled {
+    background-color: #e9ecef;
+    color: #212529;
+}
+  .form_control::placeholder {
     color: #212529;
   }
-  .btn-block {
+  .btn_block {
     background-color: var(--primary-color);
     color: #fff;
   }
-  .btn-block:hover {
+  .btn_block:hover {
     background-color: #312f2f;
     color: #fff;
   }
   /* Hover effect for car image */
-  .car-area img {
+  .car_area img {
     animation: car-move 3s ease-in-out infinite;
     transition: transform 0.3s ease-in-out;
   }
@@ -146,7 +149,7 @@
   .cardPro p {
     margin-bottom: 0.5rem;
   }
-  .theme-btn {
+  .theme_btn {
     background-color: var(--primary-color);
     color: #fff;
     border-radius: 0;
@@ -155,7 +158,7 @@
     position: absolute;
     bottom: 10px;
   }
-  .theme-btn:hover {
+  .theme_btn:hover {
     background-color: #312f2f;
     color: #fff;
   }

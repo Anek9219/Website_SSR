@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import { useRouter } from "next/navigation";
 import "slick-carousel/slick/slick-theme.css";
+import styles from "./home.module.css"
 
 
 export default function Cardsection1() {
@@ -114,7 +115,7 @@ export default function Cardsection1() {
         <Slider {...settings}>
           {products.slice(0, loadedProducts).map((product) => (
             <div key={product.id}>
-              <div className="card cardPro mx-2 " style={{ height: "27em" }}>
+              <div className={`${styles.cardPro} card mx-2`}  style={{ height: "27em" }}>
                 <img
                   src={product.image}
                   className="d-block img-fluid"
@@ -122,21 +123,21 @@ export default function Cardsection1() {
                   style={{ width: "100%", height: "150px", objectFit: "cover" }}
                 />
                 <div className="card-body">
-                  <p id="HeadPro" className="fw-bold">
+                  <p id={styles.HeadPro} className="fw-bold">
                     {product.year} <span> </span>
                     {product.name} {/* Display cleaned model name */}
                   </p>
-                  <p id="variant">Variant: {product.variant}</p>
+                  <p id={styles.variant}>Variant: {product.variant}</p>
                   <p id="pricePro">{product.price}</p>
                   <p id="stock">Stock: {product.stock}</p>
-                  <div className="starArea">
+                  <div className={styles.starArea}>
                     {[...Array(5)].map((_, index) => (
                       <i key={index} className="fa-solid fa-star"></i>
                     ))}
                   </div>
                   <div className="btnPrice">
                     <button
-                      className="add-to-cart-btn btn theme-btn"
+                      className={`${styles.theme_btn} add-to-cart-btn btn`}
                       onClick={() => {
                         handleAddToCart(product); // Change item to product
                         router.push("/addtocart");
