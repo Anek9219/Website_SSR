@@ -555,7 +555,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                             <UsedEngine />
                         </>
                     ) : (
-                        <div className={`${style.find_transmission} mt-3`} >
+                        <div className={`${style.find_transmission} mt-3 head1`} >
                             <h4 className="text-center">
                                 About Our Used {year}{" "}
                                 {make} <span>Engine</span>
@@ -837,9 +837,6 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                         ) : (
                             <p>Transmission details not found.</p>
                         )}
-
-
-
                         {/*-------------------------Engine Transmission------------------------*/}
                         <FindTransission />
                         {/*-------------------------Achievements------------------------*/}
@@ -849,7 +846,7 @@ export default function Model({ origin, canonicalUrl, category, year, make, mode
                         {product === 0 ? (
                             <UsedTransmission />
                         ) : (
-                            <div className="find-transmission mt-3">
+                            <div className={`${style.find_transmission} mt-3 head1`}>
                                 <h4 className="text-center">
                                     About Our Used {year}{" "}
                                     {make} <span> Transmission</span>

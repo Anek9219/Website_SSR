@@ -533,7 +533,7 @@ export default function Transmissionform({
           </div>
         </div>
       ) : (
-        <div className="find-transmission mt-3">
+        <div className="find-transmission mt-3 head1">
           <h4 className="text-center">
             About Our Used {displayedProducts[0].year}{" "}
             {displayedProducts[0].make} <span> Transmission</span>
